@@ -1,4 +1,4 @@
-import { LEFT, RIGHT } from "./consts";
+import { LEFT, RIGHT, DOWN } from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -14,12 +14,17 @@ const getLeftPoint = matrix =>
 const getRightPoint = matrix =>
   Math.max(...matrix.map(row => lastNonzero(row)));
 
+const getBottomPoint = matrix =>
+  Math.max(
+    ...matrix.map((row, i) => row.reduce((acc, val) => (val ? i : acc), 0))
+  );
+
 export const rotate = matrix => {
   flipMatrix(matrix.reverse());
 };
 
 export const canMove = ({ shape, position, direction }) => {
-  const [x] = position;
+  const [x, y] = position;
   switch (direction) {
     case LEFT:
       const leftPoint = getLeftPoint(shape);
@@ -27,6 +32,9 @@ export const canMove = ({ shape, position, direction }) => {
     case RIGHT:
       const rightPoint = getRightPoint(shape);
       return x + rightPoint < 9;
+    case DOWN:
+      const bottomPoint = getBottomPoint(shape);
+      return y + bottomPoint < 19;
     default:
       return false;
   }

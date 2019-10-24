@@ -1,25 +1,16 @@
-import { useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 
-export default function useKey(targetKey) {
-  const [pressed, setPressed] = useState(false);
-
+export default function useKey(targetKey, callback) {
   const onDown = ({ key }) => {
-    if (key === targetKey) setPressed(true);
+    if (key === targetKey) callback();
   };
-
-  const onUp = ({ key }) => {
-    if (key === targetKey) setPressed(false);
-  };
-
-  // Bind and unbind events
   useEffect(() => {
     window.addEventListener("keydown", onDown);
-    window.addEventListener("keyup", onUp);
     return () => {
       window.removeEventListener("keydown", onDown);
-      window.removeEventListener("keyup", onUp);
     };
   }, [targetKey]);
 
-  return pressed;
+  return;
 }

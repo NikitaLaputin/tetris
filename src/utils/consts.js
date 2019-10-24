@@ -10,3 +10,5 @@ export const shapes = {
 export const shapesList = "IJLOSTZ";
 export const RIGHT = "RIGHT";
 export const LEFT = "LEFT";
+export const DOWN = "DOWN";
+export const DEFAULT_POSITION = [3, 0];
