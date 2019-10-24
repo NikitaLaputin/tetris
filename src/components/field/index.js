@@ -1,37 +1,57 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import useDrawBall from "../ball";
+import useDrawBlock from "../block";
+import { shapes } from "../../utils/consts";
+import { useSelector } from "react-redux";
+import { blockSelector } from "../../redux/selectors";
+
+const calcHeight = (side, shape) => {
+  switch (shape) {
+    default:
+      return 4 * side;
+  }
+};
 
 export default function Field() {
-  const canvasWidth = 480;
-  const canvasHeigth = 320;
-  const radius = 10;
-  const [coords, setCoords] = useState([{ x: 0, y: 0 }]);
+  const speed = 1;
+  const canvasWidth = 200;
+  const canvasHeigth = 400;
+  const side = 20;
+  const [coords, setCoords] = useState([
+    { x: 0, y: 0, shape: shapes[0], active: true }
+  ]);
   const pushCoords = newCoords =>
     setCoords(oldCoords => oldCoords.concat(newCoords));
   const canvasRef = useRef(null);
-  useDrawBall({
-    coords,
+  const block = useSelector(state => blockSelector(state));
+  useDrawBlock({
+    block,
     canvasHeigth,
     canvasWidth,
     canvasRef,
-    radius
+    side
   });
+  const addBlock = () =>
+    pushCoords({ x: 0, y: 0, shape: shapes[0], active: true });
+  const update = () => {
+    requestAnimationFrame(function animate() {
+      setCoords(old =>
+        old.map(old => {
+          if (old.active && old.y + calcHeight(side, old.shape) < canvasHeigth)
+            return { ...old, y: old.y + speed };
+          addBlock();
+          return { ...old, y: canvasHeigth - calcHeight(side, old.shape) };
+        })
+      );
+      requestAnimationFrame(animate);
+    });
+  };
   useEffect(() => {
-    const interval = setInterval(
-      () =>
-        setCoords(old =>
-          old.map(old =>
-            old.y + radius < canvasHeigth ? { ...old, y: old.y + 1 } : old
-          )
-        ),
-      10
-    );
-    return () => {
-      clearInterval(interval);
-    };
+    // const requestedId = requestAnimationFrame(() => update());
+    // return () => cancelAnimationFrame(requestedId);
   }, []);
   const onClick = e => {
-    pushCoords({ x: e.clientX, y: e.clientY });
+    pushCoords({ x: e.clientX, y: e.clientY, shape: shapes[0], active: true });
   };
   return (
     <canvas

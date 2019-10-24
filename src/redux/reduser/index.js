@@ -1,5 +1,4 @@
-import { combineReduser } from 'react-redux'
+import { combineReducers } from "redux";
+import activeBlock from "../ducks/active-block";
 
-export default combineReduser(
-  
-)
+export default combineReducers({ activeBlock });
