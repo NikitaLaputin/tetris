@@ -8,3 +8,5 @@ export const shapes = {
   Z: [[7, 7, 0], [0, 7, 7], [0, 0, 0]]
 };
 export const shapesList = "IJLOSTZ";
+export const RIGHT = "RIGHT";
+export const LEFT = "LEFT";

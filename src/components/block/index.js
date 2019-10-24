@@ -20,7 +20,7 @@ export default function useDrawTetramino({
         if (!col) return;
         ctx.beginPath();
         ctx.fillStyle = "#FF0000";
-        ctx.rect(x + ci * side, y + ri * side, side, side);
+        ctx.rect(x * side + ci * side, y * side + ri * side, side, side);
         ctx.fill();
         ctx.closePath();
       })
