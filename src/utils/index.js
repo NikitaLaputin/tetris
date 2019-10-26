@@ -1,5 +1,3 @@
-import { LEFT, RIGHT, DOWN } from "./consts";
-
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
 
@@ -20,22 +18,64 @@ const getBottomPoint = matrix =>
   );
 
 export const rotate = matrix => {
-  flipMatrix(matrix.reverse());
+  return flipMatrix(matrix.reverse());
 };
 
-export const canMove = ({ shape, position, direction }) => {
+export const canMoveLeft = (field, block) => {
+  const { shape, position } = block;
   const [x, y] = position;
-  switch (direction) {
-    case LEFT:
-      const leftPoint = getLeftPoint(shape);
-      return x + leftPoint > 0;
-    case RIGHT:
-      const rightPoint = getRightPoint(shape);
-      return x + rightPoint < 9;
-    case DOWN:
-      const bottomPoint = getBottomPoint(shape);
-      return y + bottomPoint < 19;
-    default:
-      return false;
-  }
+  for (let row = 0; row < shape.length; row++)
+    for (let cell = 0; cell < shape[row].length; cell++)
+      if (
+        shape[row][cell] &&
+        (x + getLeftPoint(shape) === 0 ||
+          (field[row + y] && field[row + y][cell + x - 1]))
+      )
+        return false;
+  return true;
 };
+
+export const canMoveRight = (field, block) => {
+  const { shape, position } = block;
+  const [x, y] = position;
+  for (let row = 0; row < shape.length; row++)
+    for (let cell = 0; cell < shape[row].length; cell++)
+      if (
+        shape[row][cell] &&
+        (x + getRightPoint(shape) === 9 ||
+          (field[row + y] && field[row + y][cell + x + 1]))
+      )
+        return false;
+  return true;
+};
+
+export const canMoveDown = (field, block) => {
+  const { shape, position } = block;
+  const [x, y] = position;
+  for (let row = 0; row < shape.length; row++)
+    for (let cell = 0; cell < shape[row].length; cell++)
+      if (
+        shape[row][cell] &&
+        (y + getBottomPoint(shape) === 19 ||
+          (field[row + y + 1] && field[row + y + 1][cell + x]))
+      )
+        return false;
+  return true;
+};
+
+const between = (value, start, finish) => value > start && value < finish;
+
+export const mergeMatrix = (target, matrix, position) =>
+  target.map((row, ri) =>
+    row.map((cell, ci) =>
+      between(ri, position[1] - 1, position[1] + matrix.length) &&
+      between(
+        ci,
+        position[0] - 1,
+        position[0] + matrix[ri - position[1]].length
+      ) &&
+      matrix[ri - position[1]][ci - position[0]]
+        ? matrix[ri - position[1]][ci - position[0]]
+        : cell
+    )
+  );

@@ -1,16 +1,9 @@
-import {
-  shapes,
-  shapesList,
-  LEFT,
-  RIGHT,
-  DOWN,
-  DEFAULT_POSITION
-} from "../../utils/consts";
-import { rotate, canMove } from "../../utils";
+import { shapes, shapesList, DEFAULT_POSITION } from "../../utils/consts";
+import { rotate } from "../../utils";
 
 const ROTATE = "ROTATE";
-const MOVE_RIGHT = "MOVE_RIGHT";
-const MOVE_LEFT = "MOVE_LEFT";
+export const MOVE_RIGHT = "MOVE_RIGHT";
+export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_DOWN = "MOVE_DOWN";
 export const SET_NEW_TETRAMINO = "SET_NEW_TETRAMINO";
 
@@ -20,22 +13,16 @@ const defaultState = {
 };
 export default (state = defaultState, action) => {
   const { type, payload } = action;
-  const { shape, position } = state;
+  const { shape } = state;
   switch (type) {
     case ROTATE:
-      return { ...state, shape: rotate(state.shape) };
+      return { ...state, shape: rotate(shape) };
     case MOVE_LEFT:
-      return canMove({ shape, position, direction: LEFT })
-        ? { ...state, position: [state.position[0] - 1, state.position[1]] }
-        : state;
+      return { ...state, position: [state.position[0] - 1, state.position[1]] };
     case MOVE_RIGHT:
-      return canMove({ shape, position, direction: RIGHT })
-        ? { ...state, position: [state.position[0] + 1, state.position[1]] }
-        : state;
+      return { ...state, position: [state.position[0] + 1, state.position[1]] };
     case MOVE_DOWN:
-      return canMove({ shape, position, direction: DOWN })
-        ? { ...state, position: [state.position[0], state.position[1] + 1] }
-        : state;
+      return { ...state, position: [state.position[0], state.position[1] + 1] };
     case SET_NEW_TETRAMINO:
       return payload;
     default:
@@ -53,4 +40,8 @@ export const moveLeft = () => ({
 
 export const moveDown = () => ({
   type: MOVE_DOWN
+});
+
+export const rotateTetramino = () => ({
+  type: ROTATE
 });
