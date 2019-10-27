@@ -1,10 +1,16 @@
-import { canMoveLeft, canMoveDown, canMoveRight } from "../../utils";
+import {
+  canMoveLeft,
+  canMoveDown,
+  canMoveRight,
+  rotateTetramino
+} from "../../utils";
 import { DEFAULT_POSITION } from "../../utils/consts";
 import {
   MOVE_DOWN,
   SET_NEW_TETRAMINO,
   MOVE_LEFT,
-  MOVE_RIGHT
+  MOVE_RIGHT,
+  ROTATE
 } from "../ducks/active-block";
 import { MERGE } from "../ducks/field";
 
@@ -15,17 +21,14 @@ export default store => next => action => {
   switch (type) {
     case MOVE_LEFT:
       const isMovingLeft = canMoveLeft(field, block);
-      console.log("CAN MOVE LEFT", isMovingLeft);
       if (isMovingLeft) return next(action);
       break;
     case MOVE_RIGHT:
       const isMovingRight = canMoveRight(field, block);
-      console.log("CAN MOVE RIGHTMOVE_RIGHT", isMovingRight);
       if (isMovingRight) return next(action);
       break;
     case MOVE_DOWN:
       const isMovingDown = canMoveDown(field, block);
-      console.log("CAN MOVE DOWN", isMovingDown);
       if (isMovingDown) return next(action);
       else {
         store.dispatch({
@@ -41,6 +44,11 @@ export default store => next => action => {
         });
       }
       break;
+    case ROTATE:
+      return next({
+        type: ROTATE,
+        payload: rotateTetramino(field, block)
+      });
     default:
       return next(action);
   }

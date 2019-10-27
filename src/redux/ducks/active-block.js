@@ -1,7 +1,6 @@
 import { shapes, shapesList, DEFAULT_POSITION } from "../../utils/consts";
-import { rotate } from "../../utils";
 
-const ROTATE = "ROTATE";
+export const ROTATE = "ROTATE";
 export const MOVE_RIGHT = "MOVE_RIGHT";
 export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_DOWN = "MOVE_DOWN";
@@ -13,10 +12,10 @@ const defaultState = {
 };
 export default (state = defaultState, action) => {
   const { type, payload } = action;
-  const { shape } = state;
   switch (type) {
     case ROTATE:
-      return { ...state, shape: rotate(shape) };
+      if (payload) return payload;
+      return state;
     case MOVE_LEFT:
       return { ...state, position: [state.position[0] - 1, state.position[1]] };
     case MOVE_RIGHT:
@@ -42,6 +41,7 @@ export const moveDown = () => ({
   type: MOVE_DOWN
 });
 
-export const rotateTetramino = () => ({
-  type: ROTATE
+export const rotateTetramino = payload => ({
+  type: ROTATE,
+  payload
 });

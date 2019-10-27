@@ -18,7 +18,7 @@ const getBottomPoint = matrix =>
   );
 
 export const rotate = matrix => {
-  return flipMatrix(matrix.reverse());
+  return flipMatrix(matrix.slice().reverse());
 };
 
 export const canMoveLeft = (field, block) => {
@@ -28,7 +28,7 @@ export const canMoveLeft = (field, block) => {
     for (let cell = 0; cell < shape[row].length; cell++)
       if (
         shape[row][cell] &&
-        (x + getLeftPoint(shape) === 0 ||
+        (x + getLeftPoint(shape) <= 0 ||
           (field[row + y] && field[row + y][cell + x - 1]))
       )
         return false;
@@ -42,7 +42,7 @@ export const canMoveRight = (field, block) => {
     for (let cell = 0; cell < shape[row].length; cell++)
       if (
         shape[row][cell] &&
-        (x + getRightPoint(shape) === 9 ||
+        (x + getRightPoint(shape) >= 9 ||
           (field[row + y] && field[row + y][cell + x + 1]))
       )
         return false;
@@ -56,7 +56,7 @@ export const canMoveDown = (field, block) => {
     for (let cell = 0; cell < shape[row].length; cell++)
       if (
         shape[row][cell] &&
-        (y + getBottomPoint(shape) === 19 ||
+        (y + getBottomPoint(shape) >= 19 ||
           (field[row + y + 1] && field[row + y + 1][cell + x]))
       )
         return false;
@@ -79,3 +79,42 @@ export const mergeMatrix = (target, matrix, position) =>
         : cell
     )
   );
+
+const collide = (field, block) => {
+  const { shape, position } = block;
+  const [x, y] = position;
+  for (let row = 0; row < shape.length; row++)
+    for (let cell = 0; cell < shape[row].length; cell++)
+      if (
+        shape[row][cell] &&
+        (x + getLeftPoint(shape) < 0 ||
+          x + getRightPoint(shape) > 9 ||
+          y + getBottomPoint(shape) >= 19 ||
+          (field[row + y] && field[row + y][cell + x]))
+      )
+        return true;
+  return false;
+};
+
+export const rotateTetramino = (field, tetramino) => {
+  const { shape, position } = tetramino;
+  let rotated = { shape: rotate(shape), position };
+  const maxDelta = Math.floor(shape.length / 2);
+  if (!collide(field, rotated)) {
+    return rotated;
+  }
+  for (let deg = Math.PI / 2; deg <= Math.PI * 2; deg *= 2) {
+    const delta = Math.floor(Math.cos(deg));
+    for (let dx = delta; dx !== 0 && Math.abs(dx) <= maxDelta; dx += delta) {
+      console.log("DX", dx, maxDelta);
+      rotated = {
+        ...rotated,
+        position: [position[0] + dx, position[1]]
+      };
+      if (!collide(field, rotated)) {
+        return rotated;
+      }
+    }
+  }
+  return tetramino;
+};
