@@ -8,7 +8,7 @@ import {
   moveRight,
   moveLeft,
   moveDown,
-  rotateTetramino
+  rotate
 } from "../../redux/ducks/active-block";
 import useDrawField from "../../hooks/use-draw-field";
 
@@ -24,7 +24,7 @@ export default function Field() {
   const right = () => dispatch(moveRight());
   const left = () => dispatch(moveLeft());
   const down = () => dispatch(moveDown());
-  const rotate = () => dispatch(rotateTetramino());
+  const rotateTetramino = () => dispatch(rotate());
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -44,7 +44,7 @@ export default function Field() {
   useKey("ArrowRight", right);
   useKey("ArrowLeft", left);
   useKey("ArrowDown", down);
-  useKey("ArrowUp", rotate);
+  useKey("ArrowUp", rotateTetramino);
   useEffect(() => {
     const intervalId = setInterval(() => down(), speed);
     return () => clearInterval(intervalId);

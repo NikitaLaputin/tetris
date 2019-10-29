@@ -4,20 +4,21 @@ import {
   canMoveRight,
   rotateTetramino
 } from "../../utils";
-import { DEFAULT_POSITION } from "../../utils/consts";
 import {
   MOVE_DOWN,
-  SET_NEW_TETRAMINO,
   MOVE_LEFT,
   MOVE_RIGHT,
-  ROTATE
+  ROTATE,
+  setNewTetramino,
+  rotate
 } from "../ducks/active-block";
-import { MERGE } from "../ducks/field";
+import { mergeField } from "../ducks/field";
 
 export default store => next => action => {
   const { type } = action;
   const block = store.getState().activeBlock;
   const field = store.getState().field;
+  const nextBlock = store.getState().nextBlock;
   switch (type) {
     case MOVE_LEFT:
       const isMovingLeft = canMoveLeft(field, block);
@@ -31,24 +32,12 @@ export default store => next => action => {
       const isMovingDown = canMoveDown(field, block);
       if (isMovingDown) return next(action);
       else {
-        store.dispatch({
-          type: MERGE,
-          payload: store.getState().activeBlock
-        });
-        store.dispatch({
-          type: SET_NEW_TETRAMINO,
-          payload: {
-            shape: store.getState().nextBlock,
-            position: DEFAULT_POSITION
-          }
-        });
+        next(mergeField(block));
+        next(setNewTetramino(nextBlock));
       }
       break;
     case ROTATE:
-      return next({
-        type: ROTATE,
-        payload: rotateTetramino(field, block)
-      });
+      return next(rotate(rotateTetramino(field, block)));
     default:
       return next(action);
   }

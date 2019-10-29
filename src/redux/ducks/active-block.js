@@ -11,11 +11,10 @@ const defaultState = {
   position: DEFAULT_POSITION
 };
 export default (state = defaultState, action) => {
-  const { type, payload } = action;
+  const { type, payload, shape } = action;
   switch (type) {
     case ROTATE:
-      if (payload) return payload;
-      return state;
+      return payload ? payload : state;
     case MOVE_LEFT:
       return { ...state, position: [state.position[0] - 1, state.position[1]] };
     case MOVE_RIGHT:
@@ -23,7 +22,7 @@ export default (state = defaultState, action) => {
     case MOVE_DOWN:
       return { ...state, position: [state.position[0], state.position[1] + 1] };
     case SET_NEW_TETRAMINO:
-      return payload;
+      return { shape, position: DEFAULT_POSITION };
     default:
       return state;
   }
@@ -41,7 +40,12 @@ export const moveDown = () => ({
   type: MOVE_DOWN
 });
 
-export const rotateTetramino = payload => ({
+export const rotate = payload => ({
   type: ROTATE,
   payload
+});
+
+export const setNewTetramino = shape => ({
+  type: SET_NEW_TETRAMINO,
+  shape
 });

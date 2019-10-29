@@ -106,7 +106,6 @@ export const rotateTetramino = (field, tetramino) => {
   for (let deg = Math.PI / 2; deg <= Math.PI * 2; deg *= 2) {
     const delta = Math.floor(Math.cos(deg));
     for (let dx = delta; dx !== 0 && Math.abs(dx) <= maxDelta; dx += delta) {
-      console.log("DX", dx, maxDelta);
       rotated = {
         ...rotated,
         position: [position[0] + dx, position[1]]
@@ -118,3 +117,14 @@ export const rotateTetramino = (field, tetramino) => {
   }
   return tetramino;
 };
+
+const isFullRow = arr => arr && arr.length === arr.filter(val => val).length;
+
+const isNullRow = arr => !arr.filter(val => val).length;
+
+export const destroyFullRows = matrix =>
+  matrix
+    .map((row, i) =>
+      isFullRow(row) ? new Array(matrix[i].length).fill(0) : row
+    )
+    .sort(row => (isNullRow(row) ? -1 : 0));
