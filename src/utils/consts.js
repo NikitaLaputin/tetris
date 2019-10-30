@@ -12,3 +12,15 @@ export const RIGHT = "RIGHT";
 export const LEFT = "LEFT";
 export const DOWN = "DOWN";
 export const DEFAULT_POSITION = [3, 0];
+export const colors = [
+  "#fff",
+  "#00f3ff",
+  "#005aff",
+  "#ff7600",
+  "#fff700",
+  "#00ff66",
+  "#8500ff",
+  "#ff0000"
+];
+export const IN_PROGRESS = "Running";
+export const GAME_OVER = "GAME OVER";

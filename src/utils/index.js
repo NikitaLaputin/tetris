@@ -128,3 +128,6 @@ export const destroyFullRows = matrix =>
       isFullRow(row) ? new Array(matrix[i].length).fill(0) : row
     )
     .sort(row => (isNullRow(row) ? -1 : 0));
+
+export const getFiledHeight = field =>
+  field.reduce((acc, row) => (row.filter(val => val).length ? ++acc : acc), 0);

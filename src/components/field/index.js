@@ -2,7 +2,11 @@
 import React, { useRef, useEffect } from "react";
 import useDrawTetramino from "../../hooks/use-draw-tetramino";
 import { useSelector, useDispatch } from "react-redux";
-import { blockSelector, fieldSelector } from "../../redux/selectors";
+import {
+  blockSelector,
+  fieldSelector,
+  gameStatusSelector
+} from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
 import {
   moveRight,
@@ -11,6 +15,7 @@ import {
   rotate
 } from "../../redux/ducks/active-block";
 import useDrawField from "../../hooks/use-draw-field";
+import { GAME_OVER } from "../../utils/consts";
 
 export default function Field() {
   const canvasWidth = 200;
@@ -20,6 +25,7 @@ export default function Field() {
   const canvasRef = useRef(null);
   const block = useSelector(state => blockSelector(state));
   const field = useSelector(state => fieldSelector(state));
+  const gameStatus = useSelector(state => gameStatusSelector(state));
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
   const left = () => dispatch(moveLeft());
@@ -41,14 +47,16 @@ export default function Field() {
     side,
     refresh: block
   });
-  useKey("ArrowRight", right);
-  useKey("ArrowLeft", left);
-  useKey("ArrowDown", down);
-  useKey("ArrowUp", rotateTetramino);
+  const shouldTrack = gameStatus !== GAME_OVER;
+  useKey("ArrowRight", right, shouldTrack);
+  useKey("ArrowLeft", left, shouldTrack);
+  useKey("ArrowDown", down, shouldTrack);
+  useKey("ArrowUp", rotateTetramino, shouldTrack);
   useEffect(() => {
     const intervalId = setInterval(() => down(), speed);
+    if (gameStatus === GAME_OVER) clearInterval(intervalId);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [gameStatus]);
 
   return (
     <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth}></canvas>

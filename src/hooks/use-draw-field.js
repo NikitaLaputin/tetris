@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
+import { colors } from "../utils/consts";
 
 export default function useDrawField({ field, canvasRef, side, refresh }) {
   useEffect(() => {
@@ -9,7 +10,7 @@ export default function useDrawField({ field, canvasRef, side, refresh }) {
       row.forEach((col, ci) => {
         if (!col) return;
         ctx.beginPath();
-        ctx.fillStyle = "#FF0000";
+        ctx.fillStyle = colors[field[ri][ci]];
         ctx.rect(ci * side, ri * side, side, side);
         ctx.fill();
         ctx.closePath();

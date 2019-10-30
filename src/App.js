@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import Field from "./components/field";
+import Game from "./components/game";
 
 function App() {
-  return <Field />;
+  return <Game />;
 }
 
 export default App;
