@@ -1,3 +1,6 @@
+import { scoreSelector } from "../redux/selectors";
+import { INVISIBLE_ROWS } from "./consts";
+
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
 
@@ -56,7 +59,7 @@ export const canMoveDown = (field, block) => {
     for (let cell = 0; cell < shape[row].length; cell++)
       if (
         shape[row][cell] &&
-        (y + getBottomPoint(shape) >= 19 ||
+        (y + getBottomPoint(shape) >= 19 + INVISIBLE_ROWS ||
           (field[row + y + 1] && field[row + y + 1][cell + x]))
       )
         return false;
@@ -131,3 +134,18 @@ export const destroyFullRows = matrix =>
 
 export const getFiledHeight = field =>
   field.reduce((acc, row) => (row.filter(val => val).length ? ++acc : acc), 0);
+
+export const calcNewScore = ({ score, level, lines }) => {
+  switch (lines) {
+    case 1:
+      return score + 40 * (level + 1);
+    case 2:
+      return score + 100 * (level + 1);
+    case 3:
+      return score + 300 * (level + 1);
+    case 4:
+      return score + 1200 * (level + 1);
+    default:
+      return score;
+  }
+};
