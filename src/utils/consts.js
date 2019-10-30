@@ -24,3 +24,4 @@ export const colors = [
 ];
 export const IN_PROGRESS = "Running";
 export const GAME_OVER = "GAME OVER";
+export const INVISIBLE_ROWS = 4;

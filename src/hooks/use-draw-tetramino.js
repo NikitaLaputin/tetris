@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-import { colors } from "../utils/consts";
+import { colors, INVISIBLE_ROWS } from "../utils/consts";
 
 export default function useDrawTetramino({ block, canvasRef, side }) {
   useEffect(() => {
@@ -14,7 +14,12 @@ export default function useDrawTetramino({ block, canvasRef, side }) {
         if (!col) return;
         ctx.beginPath();
         ctx.fillStyle = colors[shape[ri][ci]];
-        ctx.rect(x * side + ci * side, y * side + ri * side, side, side);
+        ctx.rect(
+          x * side + ci * side,
+          y * side + (ri - INVISIBLE_ROWS) * side,
+          side,
+          side
+        );
         ctx.fill();
         ctx.closePath();
       })
