@@ -1,4 +1,4 @@
-import { mergeMatrix, destroyFullRows } from "../../utils";
+import { mergeMatrix } from "../../utils";
 
 export const MERGE = "MERGE";
 export const DESTROY_ROW = "DESTROY_ROW";
@@ -36,7 +36,7 @@ export default (state = defaultState, action) => {
       const { shape, position } = payload;
       return mergeMatrix(state, shape, position);
     case DESTROY_ROW:
-      return destroyFullRows(state);
+      return payload;
     default:
       return state;
   }
@@ -47,6 +47,7 @@ export const mergeField = payload => ({
   payload
 });
 
-export const destroyRow = () => ({
-  type: DESTROY_ROW
+export const destroyRow = payload => ({
+  type: DESTROY_ROW,
+  payload
 });

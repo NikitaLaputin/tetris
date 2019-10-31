@@ -124,12 +124,20 @@ const isFullRow = arr => arr && arr.length === arr.filter(val => val).length;
 
 const isNullRow = arr => !arr.filter(val => val).length;
 
-export const destroyFullRows = matrix =>
-  matrix
+export const destroyFullRows = matrix => {
+  const heightBefore = getFiledHeight(matrix);
+  matrix = matrix
     .map((row, i) =>
       isFullRow(row) ? new Array(matrix[i].length).fill(0) : row
     )
     .sort(row => (isNullRow(row) ? -1 : 0));
+  const heightAfter = getFiledHeight(matrix);
+  const rows = heightBefore - heightAfter;
+  return {
+    matrix,
+    rows
+  };
+};
 
 export const getFiledHeight = field =>
   field.reduce((acc, row) => (row.filter(val => val).length ? ++acc : acc), 0);
