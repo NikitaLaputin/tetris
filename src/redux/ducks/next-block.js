@@ -1,11 +1,18 @@
-import { shapes, shapesList } from "../../utils/consts";
+import { SHAPES, SHAPES_LIST, SHAPE_POSITION } from "../../utils/consts";
 import { SET_NEW_TETRAMINO } from "./active-block";
 
-const defaultState =
-  shapes[shapesList[Math.floor(Math.random() * shapesList.length)]];
+const firstShape = Math.floor(Math.random() * SHAPES_LIST.length);
+const defaultState = {
+  shape: SHAPES[SHAPES_LIST[firstShape]],
+  position: SHAPE_POSITION[SHAPES_LIST[firstShape]]
+};
 
-const getNewTetramino = () =>
-  shapes[shapesList[Math.floor(Math.random() * shapesList.length)]];
+const getNewTetramino = () => {
+  const letter = Math.floor(Math.random() * SHAPES_LIST.length);
+  const shape = SHAPES[SHAPES_LIST[letter]];
+  const position = SHAPE_POSITION[SHAPES_LIST[letter]];
+  return { shape, position };
+};
 
 export default (state = defaultState, action) => {
   const { type } = action;

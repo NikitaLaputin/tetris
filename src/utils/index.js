@@ -82,7 +82,7 @@ export const mergeMatrix = (target, matrix, position) =>
     )
   );
 
-const collide = (field, block) => {
+export const collide = (field, block) => {
   const { shape, position } = block;
   const [x, y] = position;
   for (let row = 0; row < shape.length; row++)

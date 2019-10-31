@@ -1,6 +1,7 @@
 import { MERGE, destroyRow } from "../ducks/field";
-import { getFiledHeight, destroyFullRows } from "../../utils";
-import { gameOver, rowsDestroyed } from "../ducks/game-state";
+import { destroyFullRows, collide } from "../../utils";
+import { rowsDestroyed, gameOver } from "../ducks/game-state";
+import { SET_NEW_TETRAMINO } from "../ducks/active-block";
 
 export default store => next => action => {
   const { type } = action;
@@ -10,12 +11,14 @@ export default store => next => action => {
       const field = store.getState().field;
       const { matrix, rows } = destroyFullRows(field);
       next(destroyRow(matrix));
-      const heightAfter = getFiledHeight(store.getState().field);
-      if (heightAfter >= 20) {
-        next(gameOver());
-      } else if (rows > 0) {
+      if (rows > 0) {
         next(rowsDestroyed(rows));
       }
+      break;
+    case SET_NEW_TETRAMINO:
+      if (collide(store.getState().field, store.getState().nextBlock))
+        return next(gameOver());
+      next(action);
       break;
     default:
       return next(action);

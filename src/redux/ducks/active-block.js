@@ -1,4 +1,4 @@
-import { shapes, shapesList, DEFAULT_POSITION } from "../../utils/consts";
+import { SHAPES, SHAPES_LIST, SHAPE_POSITION } from "../../utils/consts";
 
 export const ROTATE = "ROTATE";
 export const MOVE_RIGHT = "MOVE_RIGHT";
@@ -6,12 +6,14 @@ export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_DOWN = "MOVE_DOWN";
 export const SET_NEW_TETRAMINO = "SET_NEW_TETRAMINO";
 
+const firstLetter = Math.floor(Math.random() * SHAPES_LIST.length);
 const defaultState = {
-  shape: shapes[shapesList[Math.floor(Math.random() * shapesList.length)]],
-  position: DEFAULT_POSITION
+  shape: SHAPES[SHAPES_LIST[firstLetter]],
+  position: SHAPE_POSITION[SHAPES_LIST[firstLetter]]
 };
+
 export default (state = defaultState, action) => {
-  const { type, payload, shape } = action;
+  const { type, payload } = action;
   switch (type) {
     case ROTATE:
       return payload ? payload : state;
@@ -22,7 +24,7 @@ export default (state = defaultState, action) => {
     case MOVE_DOWN:
       return { ...state, position: [state.position[0], state.position[1] + 1] };
     case SET_NEW_TETRAMINO:
-      return { shape, position: DEFAULT_POSITION };
+      return payload;
     default:
       return state;
   }
@@ -45,7 +47,7 @@ export const rotate = payload => ({
   payload
 });
 
-export const setNewTetramino = shape => ({
+export const setNewTetramino = payload => ({
   type: SET_NEW_TETRAMINO,
-  shape
+  payload
 });
