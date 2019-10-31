@@ -26,12 +26,13 @@ export const IN_PROGRESS = "Running";
 export const GAME_OVER = "GAME OVER";
 export const INVISIBLE_ROWS = 4;
 export const SHAPE_POSITION = {
-  I: [4, INVISIBLE_ROWS - 1],
-  J: [3, INVISIBLE_ROWS],
-  L: [3, INVISIBLE_ROWS],
-  O: [4, INVISIBLE_ROWS],
-  S: [3, INVISIBLE_ROWS],
-  T: [3, INVISIBLE_ROWS],
-  Z: [3, INVISIBLE_ROWS]
+  I: [4, INVISIBLE_ROWS - 4],
+  J: [3, INVISIBLE_ROWS - 3],
+  L: [3, INVISIBLE_ROWS - 3],
+  O: [4, INVISIBLE_ROWS - 2],
+  S: [3, INVISIBLE_ROWS - 3],
+  T: [3, INVISIBLE_ROWS - 3],
+  Z: [3, INVISIBLE_ROWS - 3]
 };
 export const MAX_LEVELS = 15;
+export const GAME_PAUSED = "GAME_PAUSED";

@@ -48,11 +48,11 @@ export default function Field() {
     side,
     refresh: block
   });
-  const shouldTrack = gameStatus !== GAME_OVER;
-  useKey("ArrowRight", right, shouldTrack);
-  useKey("ArrowLeft", left, shouldTrack);
-  useKey("ArrowDown", down, shouldTrack);
-  useKey("ArrowUp", rotateTetramino, shouldTrack);
+  // const shouldTrack = gameStatus !== GAME_OVER;
+  useKey("ArrowRight", right);
+  useKey("ArrowLeft", left);
+  useKey("ArrowDown", down);
+  useKey("ArrowUp", rotateTetramino);
   useEffect(() => {
     const intervalId = setInterval(() => down(), speed);
     if (gameStatus === GAME_OVER) clearInterval(intervalId);
