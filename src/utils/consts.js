@@ -34,3 +34,4 @@ export const SHAPE_POSITION = {
   T: [3, INVISIBLE_ROWS],
   Z: [3, INVISIBLE_ROWS]
 };
+export const MAX_LEVELS = 15;

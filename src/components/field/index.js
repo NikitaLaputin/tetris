@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   blockSelector,
   fieldSelector,
-  gameStatusSelector
+  gameStatusSelector,
+  speedSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
 import {
@@ -20,12 +21,12 @@ import { GAME_OVER } from "../../utils/consts";
 export default function Field() {
   const canvasWidth = 200;
   const canvasHeigth = 400;
-  const speed = 1000;
   const side = 20;
   const canvasRef = useRef(null);
   const block = useSelector(state => blockSelector(state));
   const field = useSelector(state => fieldSelector(state));
   const gameStatus = useSelector(state => gameStatusSelector(state));
+  const speed = useSelector(state => speedSelector(state));
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
   const left = () => dispatch(moveLeft());
@@ -56,7 +57,7 @@ export default function Field() {
     const intervalId = setInterval(() => down(), speed);
     if (gameStatus === GAME_OVER) clearInterval(intervalId);
     return () => clearInterval(intervalId);
-  }, [gameStatus]);
+  }, [gameStatus, speed]);
 
   return (
     <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth}></canvas>

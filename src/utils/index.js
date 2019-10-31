@@ -91,7 +91,7 @@ export const collide = (field, block) => {
         shape[row][cell] &&
         (x + getLeftPoint(shape) < 0 ||
           x + getRightPoint(shape) > 9 ||
-          y + getBottomPoint(shape) >= 19 ||
+          y + getBottomPoint(shape) >= 20 + INVISIBLE_ROWS ||
           (field[row + y] && field[row + y][cell + x]))
       )
         return true;
