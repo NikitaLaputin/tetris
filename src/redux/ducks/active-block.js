@@ -1,4 +1,5 @@
-import { SHAPES, SHAPES_LIST, SHAPE_POSITION } from "../../utils/consts";
+import { getNewTetramino } from "../../utils";
+import { RESET } from "./game-state";
 
 export const ROTATE = "ROTATE";
 export const MOVE_RIGHT = "MOVE_RIGHT";
@@ -6,13 +7,7 @@ export const MOVE_LEFT = "MOVE_LEFT";
 export const MOVE_DOWN = "MOVE_DOWN";
 export const SET_NEW_TETRAMINO = "SET_NEW_TETRAMINO";
 
-const firstLetter = Math.floor(Math.random() * SHAPES_LIST.length);
-const defaultState = {
-  shape: SHAPES[SHAPES_LIST[firstLetter]],
-  position: SHAPE_POSITION[SHAPES_LIST[firstLetter]]
-};
-
-export default (state = defaultState, action) => {
+export default (state = getNewTetramino(), action) => {
   const { type, payload } = action;
   switch (type) {
     case ROTATE:
@@ -25,6 +20,8 @@ export default (state = defaultState, action) => {
       return { ...state, position: [state.position[0], state.position[1] + 1] };
     case SET_NEW_TETRAMINO:
       return payload;
+    case RESET:
+      return getNewTetramino();
     default:
       return state;
   }

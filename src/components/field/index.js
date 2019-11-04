@@ -17,6 +17,7 @@ import {
 } from "../../redux/ducks/active-block";
 import useDrawField from "../../hooks/use-draw-field";
 import { GAME_OVER } from "../../utils/consts";
+import { togglePause } from "../../redux/ducks/game-state";
 
 export default function Field() {
   const canvasWidth = 200;
@@ -32,6 +33,7 @@ export default function Field() {
   const left = () => dispatch(moveLeft());
   const down = () => dispatch(moveDown());
   const rotateTetramino = () => dispatch(rotate());
+  const togglePauseGame = () => dispatch(togglePause());
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -48,11 +50,11 @@ export default function Field() {
     side,
     refresh: block
   });
-  // const shouldTrack = gameStatus !== GAME_OVER;
   useKey("ArrowRight", right);
   useKey("ArrowLeft", left);
   useKey("ArrowDown", down);
   useKey("ArrowUp", rotateTetramino);
+  useKey("p", togglePauseGame);
   useEffect(() => {
     const intervalId = setInterval(() => down(), speed);
     if (gameStatus === GAME_OVER) clearInterval(intervalId);

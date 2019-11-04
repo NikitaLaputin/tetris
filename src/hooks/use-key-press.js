@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 export default function useKey(targetKey, callback, shouldTrack = true) {
   const onDown = ({ key }) => {
-    if (key === targetKey) callback();
+    if (key.toLowerCase() === targetKey.toLowerCase()) callback();
   };
   useEffect(() => {
     if (!shouldTrack) return;

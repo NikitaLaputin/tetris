@@ -1,4 +1,4 @@
-import { INVISIBLE_ROWS } from "./consts";
+import { INVISIBLE_ROWS, SHAPES_LIST, SHAPES, SHAPE_POSITION } from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -155,4 +155,11 @@ export const calcNewScore = ({ score, level, lines }) => {
     default:
       return score;
   }
+};
+
+export const getNewTetramino = () => {
+  const letter = Math.floor(Math.random() * SHAPES_LIST.length);
+  const shape = SHAPES[SHAPES_LIST[letter]];
+  const position = SHAPE_POSITION[SHAPES_LIST[letter]];
+  return { shape, position };
 };

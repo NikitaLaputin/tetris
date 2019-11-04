@@ -1,9 +1,18 @@
-import { IN_PROGRESS, GAME_OVER, MAX_LEVELS } from "../../utils/consts";
+import {
+  IN_PROGRESS,
+  GAME_OVER,
+  MAX_LEVELS,
+  GAME_PAUSED
+} from "../../utils/consts";
 import { MERGE } from "./field";
 import { calcNewScore } from "../../utils";
 
-export const LOST = "LOST";
+export const DEFEAT = "DEFEAT";
 export const ROWS_DESTROYED = "ROWS_DESTROYED";
+export const PAUSE = "PAUSE";
+export const RESUME = "RESUME";
+export const RESET = "RESET";
+export const TOGGLE_PAUSE = "TOGGLE_PAUSE";
 
 const defaultState = {
   status: IN_PROGRESS,
@@ -18,7 +27,7 @@ export default (state = defaultState, action) => {
   switch (type) {
     case MERGE:
       return { ...state, score: state.score + 10 };
-    case LOST:
+    case DEFEAT:
       return { ...state, status: GAME_OVER };
     case ROWS_DESTROYED:
       const newLevel = Math.min(
@@ -36,16 +45,33 @@ export default (state = defaultState, action) => {
         level: newLevel,
         speed: newSpeed
       };
+    case TOGGLE_PAUSE:
+      return {
+        ...state,
+        status: state.status === GAME_PAUSED ? IN_PROGRESS : GAME_PAUSED
+      };
+    case RESUME:
+      return { ...state, status: IN_PROGRESS };
+    case RESET:
+      return defaultState;
     default:
       return state;
   }
 };
 
 export const gameOver = () => ({
-  type: LOST
+  type: DEFEAT
 });
 
 export const rowsDestroyed = lines => ({
   type: ROWS_DESTROYED,
   lines
+});
+
+export const togglePause = () => ({
+  type: TOGGLE_PAUSE
+});
+
+export const reset = () => ({
+  type: RESET
 });
