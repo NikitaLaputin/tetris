@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   blockSelector,
   fieldSelector,
-  gameStatusSelector,
   speedSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
@@ -16,7 +15,6 @@ import {
   rotate
 } from "../../redux/ducks/active-block";
 import useDrawField from "../../hooks/use-draw-field";
-import { GAME_OVER } from "../../utils/consts";
 import { togglePause } from "../../redux/ducks/game-state";
 
 export default function Field() {
@@ -26,7 +24,6 @@ export default function Field() {
   const canvasRef = useRef(null);
   const block = useSelector(state => blockSelector(state));
   const field = useSelector(state => fieldSelector(state));
-  const gameStatus = useSelector(state => gameStatusSelector(state));
   const speed = useSelector(state => speedSelector(state));
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
@@ -56,10 +53,11 @@ export default function Field() {
   useKey("ArrowUp", rotateTetramino);
   useKey("p", togglePauseGame);
   useEffect(() => {
-    const intervalId = setInterval(() => down(), speed);
-    if (gameStatus === GAME_OVER) clearInterval(intervalId);
+    const intervalId = setInterval(() => {
+      down();
+    }, speed);
     return () => clearInterval(intervalId);
-  }, [gameStatus, speed]);
+  }, [speed]);
 
   return (
     <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth}></canvas>
