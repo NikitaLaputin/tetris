@@ -7,6 +7,7 @@ import {
 } from "../../redux/selectors";
 import PauseButton from "../buttons/pause";
 import ResetButton from "../buttons/reset";
+import StartButton from "../buttons/start";
 
 export default function Info() {
   const level = useSelector(state => levelSelector(state));
@@ -19,6 +20,7 @@ export default function Info() {
         <div>{`Score: ${score}`}</div>
         <div>{`Lines: ${lines}`}</div>
       </div>
+      <StartButton />
       <PauseButton />
       <ResetButton />
     </>

@@ -36,3 +36,4 @@ export const SHAPE_POSITION = {
 };
 export const MAX_LEVELS = 15;
 export const GAME_PAUSED = "GAME_PAUSED";
+export const NOT_STARTED = "NOT_STARTED";
