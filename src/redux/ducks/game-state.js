@@ -1,11 +1,6 @@
-import {
-  IN_PROGRESS,
-  GAME_OVER,
-  MAX_LEVELS,
-  GAME_PAUSED
-} from "../../utils/consts";
+import { IN_PROGRESS, GAME_OVER, GAME_PAUSED } from "../../utils/consts";
 import { MERGE } from "./field";
-import { calcNewScore } from "../../utils";
+import { calcNewScore, calcLevel, calcSpeed } from "../../utils";
 
 export const DEFEAT = "DEFEAT";
 export const ROWS_DESTROYED = "ROWS_DESTROYED";
@@ -30,14 +25,8 @@ export default (state = defaultState, action) => {
     case DEFEAT:
       return { ...state, status: GAME_OVER };
     case ROWS_DESTROYED:
-      const newLevel = Math.min(
-        Math.ceil((state.lines + lines) / 10),
-        MAX_LEVELS
-      );
-      const newSpeed =
-        Math.round(
-          Math.pow(0.8 - (newLevel - 1) * 0.007, newLevel - 1) * 1000 * 100000
-        ) / 100000;
+      const newLevel = calcLevel(state.lines + lines);
+      const newSpeed = calcSpeed(newLevel);
       return {
         ...state,
         lines: state.lines + lines,
@@ -46,6 +35,7 @@ export default (state = defaultState, action) => {
         speed: newSpeed
       };
     case TOGGLE_PAUSE:
+      if (state.status === GAME_OVER) return state;
       return {
         ...state,
         status: state.status === GAME_PAUSED ? IN_PROGRESS : GAME_PAUSED

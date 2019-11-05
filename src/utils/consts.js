@@ -26,7 +26,7 @@ export const IN_PROGRESS = "Running";
 export const GAME_OVER = "GAME OVER";
 export const INVISIBLE_ROWS = 4;
 export const SHAPE_POSITION = {
-  I: [4, INVISIBLE_ROWS - 4],
+  I: [3, INVISIBLE_ROWS - 4],
   J: [3, INVISIBLE_ROWS - 3],
   L: [3, INVISIBLE_ROWS - 3],
   O: [4, INVISIBLE_ROWS - 2],

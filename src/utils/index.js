@@ -1,4 +1,10 @@
-import { INVISIBLE_ROWS, SHAPES_LIST, SHAPES, SHAPE_POSITION } from "./consts";
+import {
+  INVISIBLE_ROWS,
+  SHAPES_LIST,
+  SHAPES,
+  SHAPE_POSITION,
+  MAX_LEVELS
+} from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -163,3 +169,9 @@ export const getNewTetramino = () => {
   const position = SHAPE_POSITION[SHAPES_LIST[letter]];
   return { shape, position };
 };
+
+export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
+
+export const calcSpeed = level =>
+  Math.round(Math.pow(0.8 - (level - 1) * 0.007, level - 1) * 1000 * 100000) /
+  100000;
