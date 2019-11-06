@@ -1,16 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function useKey(targetKey, callback) {
+export default function useKey(
+  targetKey,
+  callback,
+  continious = false,
+  frequency = 100
+) {
+  const [pressed, setPressed] = useState(false);
+
   const onDown = ({ key }) => {
-    if (key.toLowerCase() === targetKey.toLowerCase()) callback();
+    if (key.toLowerCase() === targetKey.toLowerCase()) {
+      setPressed(true);
+    }
   };
+  const onUp = ({ key }) => {
+    if (key.toLowerCase() === targetKey.toLowerCase()) {
+      setPressed(false);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("keydown", onDown);
+    window.addEventListener("keyup", onUp);
     return () => {
       window.removeEventListener("keydown", onDown);
+      window.removeEventListener("keydup", onUp);
     };
   }, [targetKey]);
 
-  return;
+  useEffect(() => {
+    if (pressed) callback();
+    const interval = setInterval(() => {
+      if (pressed && continious) {
+        callback();
+      }
+    }, frequency);
+    return () => clearInterval(interval);
+  }, [pressed, continious]);
+
+  return pressed;
 }

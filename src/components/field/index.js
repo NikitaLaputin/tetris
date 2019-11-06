@@ -47,17 +47,17 @@ export default function Field() {
     side,
     refresh: block
   });
-  useKey("ArrowRight", right);
-  useKey("ArrowLeft", left);
-  useKey("ArrowDown", down);
+  useKey("ArrowRight", right, true);
+  useKey("ArrowLeft", left, true);
+  const pressedDown = useKey("ArrowDown", down, true);
   useKey("ArrowUp", rotateTetramino);
   useKey("p", togglePauseGame);
   useEffect(() => {
     const intervalId = setInterval(() => {
-      down();
+      if (!pressedDown) down();
     }, speed);
     return () => clearInterval(intervalId);
-  }, [speed]);
+  }, [speed, pressedDown]);
 
   return (
     <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth}></canvas>

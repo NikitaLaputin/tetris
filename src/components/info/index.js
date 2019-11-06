@@ -17,13 +17,11 @@ export default function Info() {
   const timer = useSelector(state => timerSelector(state));
   const { start, stop, current, running } = timer;
   const startTime = Math.floor((stop - start + current) / 1000);
-  console.log("START TIME", startTime);
   const [time, setTime] = useState(startTime);
-  console.log("TIME", time);
   useEffect(() => {
     setTime(startTime);
     const interval = setInterval(() => {
-      if (running) setTime(time => (time += 1));
+      if (running) setTime(time => time + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [running, startTime, start]);
