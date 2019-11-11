@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect } from "react";
-import useDrawTetramino from "../../hooks/use-draw-tetramino";
+import drawTetramino from "../helpers/use-draw-tetramino";
 import { useSelector, useDispatch } from "react-redux";
 import {
   blockSelector,
@@ -14,7 +14,7 @@ import {
   moveDown,
   rotate
 } from "../../redux/ducks/active-block";
-import useDrawField from "../../hooks/use-draw-field";
+import drawField from "../helpers/draw-field";
 import { togglePause } from "../../redux/ducks/game-state";
 
 export default function Field() {
@@ -35,18 +35,13 @@ export default function Field() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
+    drawField({ field, ctx, side });
+    drawTetramino({
+      block,
+      canvasRef,
+      side
+    });
   }, [block, field]);
-  useDrawTetramino({
-    block,
-    canvasRef,
-    side
-  });
-  useDrawField({
-    field,
-    canvasRef,
-    side,
-    refresh: block
-  });
   useKey("ArrowRight", right, true);
   useKey("ArrowLeft", left, true);
   const pressedDown = useKey("ArrowDown", down, true);
