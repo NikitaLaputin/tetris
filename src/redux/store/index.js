@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware } from "redux";
 import reducer from "../reduser";
-import collisionCheck from "../middlwares/collision-check";
-import destroyRow from "../middlwares/destroy-row";
-import gameStateChecker from "../middlwares/game-state-checker";
-import blockLocker from "../middlwares/block-locker";
+import collisionCheck from "../middlewares/collision-check";
+import destroyRow from "../middlewares/destroy-row";
+import gameStateChecker from "../middlewares/game-state-checker";
+import blockLocker from "../middlewares/block-locker";
 
 const middlewares = applyMiddleware(
   gameStateChecker,
