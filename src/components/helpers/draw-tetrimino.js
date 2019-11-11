@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { colors, INVISIBLE_ROWS } from "../../utils/consts";
 
-export default function drawTetramino({ block, canvasRef, side }) {
+export default function drawTetrimino({
+  block,
+  ctx,
+  side,
+  startingRow = INVISIBLE_ROWS,
+  offset = [0, 0]
+}) {
   if (!block) return;
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
   const { position, shape, locked } = block;
   const [x, y] = position;
   shape.forEach((row, ri) =>
@@ -13,8 +17,8 @@ export default function drawTetramino({ block, canvasRef, side }) {
       ctx.beginPath();
       ctx.fillStyle = locked ? "#000" : colors[shape[ri][ci]];
       ctx.rect(
-        x * side + ci * side,
-        y * side + (ri - INVISIBLE_ROWS) * side,
+        x * side + ci * side + offset[0],
+        y * side + (ri - startingRow) * side + offset[1],
         side,
         side
       );

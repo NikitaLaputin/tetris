@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect } from "react";
-import drawTetramino from "../helpers/use-draw-tetramino";
+import drawTetrimino from "../helpers/draw-tetrimino";
 import { useSelector, useDispatch } from "react-redux";
 import {
   blockSelector,
@@ -22,30 +22,32 @@ export default function Field() {
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const block = useSelector(state => blockSelector(state));
-  const field = useSelector(state => fieldSelector(state));
-  const speed = useSelector(state => speedSelector(state));
+  const { block, field, speed } = useSelector(state => ({
+    block: blockSelector(state),
+    field: fieldSelector(state),
+    speed: speedSelector(state)
+  }));
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
   const left = () => dispatch(moveLeft());
   const down = () => dispatch(moveDown());
-  const rotateTetramino = () => dispatch(rotate());
+  const rotateTetrimino = () => dispatch(rotate());
   const togglePauseGame = () => dispatch(togglePause());
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
     drawField({ field, ctx, side });
-    drawTetramino({
+    drawTetrimino({
       block,
-      canvasRef,
+      ctx,
       side
     });
   }, [block, field]);
   useKey("ArrowRight", right, true);
   useKey("ArrowLeft", left, true);
   const pressedDown = useKey("ArrowDown", down, true);
-  useKey("ArrowUp", rotateTetramino);
+  useKey("ArrowUp", rotateTetrimino);
   useKey("p", togglePauseGame);
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -54,7 +56,5 @@ export default function Field() {
     return () => clearInterval(intervalId);
   }, [speed, pressedDown]);
 
-  return (
-    <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth}></canvas>
-  );
+  return <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />;
 }

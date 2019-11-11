@@ -2,8 +2,8 @@ import { MERGE, destroyRow, mergeField } from "../ducks/field";
 import { destroyFullRows, collide, canMoveDown, Timeout } from "../../utils";
 import { rowsDestroyed, gameOver } from "../ducks/game-state";
 import {
-  SET_NEW_TETRAMINO,
-  setNewTetramino,
+  SET_NEW_Tetrimino,
+  setNewTetrimino,
   unlock,
   LOCK,
   UNLOCK
@@ -37,8 +37,8 @@ export default store => next => action => {
       if (rows > 0) {
         next(rowsDestroyed(rows));
       }
-      return store.dispatch(setNewTetramino(nextBlock));
-    case SET_NEW_TETRAMINO:
+      return store.dispatch(setNewTetrimino(nextBlock));
+    case SET_NEW_Tetrimino:
       if (collide(store.getState().field, store.getState().nextBlock))
         return next(gameOver());
       next(action);

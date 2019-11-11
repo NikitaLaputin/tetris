@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { togglePause } from "../../redux/ducks/game-state";
 import { gameStatusSelector } from "../../redux/selectors";
 import { IN_PROGRESS, GAME_PAUSED } from "../../utils/consts";
 
-export default function PauseButton() {
+function PauseButton() {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
   const gameStatus = useSelector(state => gameStatusSelector(state));
@@ -14,3 +14,5 @@ export default function PauseButton() {
     return <button onClick={togglePauseGame}>Resume</button>;
   return null;
 }
+
+export default memo(PauseButton);

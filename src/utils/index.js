@@ -104,8 +104,8 @@ export const collide = (field, block) => {
   return false;
 };
 
-export const rotateTetramino = (field, tetramino) => {
-  const { shape, position, locked } = tetramino;
+export const rotateTetrimino = (field, tetrimino) => {
+  const { shape, position, locked } = tetrimino;
   let rotated = { shape: rotate(shape), position, locked };
   const maxDelta = Math.floor(shape.length / 2);
   if (!collide(field, rotated)) {
@@ -123,7 +123,7 @@ export const rotateTetramino = (field, tetramino) => {
       }
     }
   }
-  return tetramino;
+  return tetrimino;
 };
 
 const isFullRow = arr => arr && arr.length === arr.filter(val => val).length;
@@ -163,7 +163,7 @@ export const calcNewScore = ({ score, level, lines }) => {
   }
 };
 
-export const getNewTetramino = () => {
+export const getNewTetrimino = () => {
   const letter = Math.floor(Math.random() * SHAPES_LIST.length);
   const shape = SHAPES[SHAPES_LIST[letter]];
   const position = SHAPE_POSITION[SHAPES_LIST[letter]];

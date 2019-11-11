@@ -9,6 +9,7 @@ import {
 import PauseButton from "../buttons/pause";
 import ResetButton from "../buttons/reset";
 import StartButton from "../buttons/start";
+import NextBlock from "../next-block";
 
 export default function Info() {
   const level = useSelector(state => levelSelector(state));
@@ -33,6 +34,7 @@ export default function Info() {
         <div>{`Lines: ${lines}`}</div>
         <div>{`Time: ${time}`}</div>
       </div>
+      <NextBlock />
       <StartButton />
       <PauseButton />
       <ResetButton />

@@ -1,14 +1,14 @@
-import { SET_NEW_TETRAMINO } from "./active-block";
+import { SET_NEW_Tetrimino } from "./active-block";
 import { RESET } from "./game-state";
-import { getNewTetramino } from "../../utils";
+import { getNewTetrimino } from "../../utils";
 
-export default (state = getNewTetramino(), action) => {
+export default (state = getNewTetrimino(), action) => {
   const { type } = action;
   switch (type) {
-    case SET_NEW_TETRAMINO:
-      return getNewTetramino();
+    case SET_NEW_Tetrimino:
+      return getNewTetrimino();
     case RESET:
-      return getNewTetramino();
+      return getNewTetrimino();
     default:
       return state;
   }
