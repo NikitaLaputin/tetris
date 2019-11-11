@@ -1,20 +1,43 @@
-import { MERGE, destroyRow } from "../ducks/field";
-import { destroyFullRows, collide } from "../../utils";
+import { MERGE, destroyRow, mergeField } from "../ducks/field";
+import { destroyFullRows, collide, canMoveDown, Timeout } from "../../utils";
 import { rowsDestroyed, gameOver } from "../ducks/game-state";
-import { SET_NEW_TETRAMINO } from "../ducks/active-block";
+import {
+  SET_NEW_TETRAMINO,
+  setNewTetramino,
+  unlock,
+  LOCK,
+  UNLOCK
+} from "../ducks/active-block";
+import { LOCK_DELAY } from "../../utils/consts";
 
 export default store => next => action => {
   const { type } = action;
+  const block = store.getState().activeBlock;
+  const nextBlock = store.getState().nextBlock;
+  const dispatchMerge = () => {
+    store.dispatch(mergeField(store.getState().activeBlock));
+  };
   switch (type) {
+    case LOCK:
+      Timeout.set(dispatchMerge, LOCK_DELAY);
+      return next(action);
+    case UNLOCK:
+      Timeout.clear(dispatchMerge);
+      return next(action);
     case MERGE:
-      next(action);
       const field = store.getState().field;
-      const { matrix, rows } = destroyFullRows(field);
+      const isMovingDown = canMoveDown(field, block);
+      if (isMovingDown) {
+        return next(unlock());
+      }
+      next(action);
+      const mergedField = store.getState().field;
+      const { matrix, rows } = destroyFullRows(mergedField);
       next(destroyRow(matrix));
       if (rows > 0) {
         next(rowsDestroyed(rows));
       }
-      break;
+      return store.dispatch(setNewTetramino(nextBlock));
     case SET_NEW_TETRAMINO:
       if (collide(store.getState().field, store.getState().nextBlock))
         return next(gameOver());

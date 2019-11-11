@@ -1,11 +1,13 @@
 import { getNewTetramino } from "../../utils";
 import { RESET } from "./game-state";
 
-export const ROTATE = "ROTATE";
-export const MOVE_RIGHT = "MOVE_RIGHT";
-export const MOVE_LEFT = "MOVE_LEFT";
-export const MOVE_DOWN = "MOVE_DOWN";
-export const SET_NEW_TETRAMINO = "SET_NEW_TETRAMINO";
+export const ROTATE = "active-block/ROTATE";
+export const MOVE_RIGHT = "active-block/MOVE_RIGHT";
+export const MOVE_LEFT = "active-block/MOVE_LEFT";
+export const MOVE_DOWN = "active-block/MOVE_DOWN";
+export const SET_NEW_TETRAMINO = "active-block/SET_NEW_TETRAMINO";
+export const LOCK = "active-block/LOCK";
+export const UNLOCK = "active-block/UNLOCK";
 
 export default (state = getNewTetramino(), action) => {
   const { type, payload } = action;
@@ -22,6 +24,10 @@ export default (state = getNewTetramino(), action) => {
       return payload;
     case RESET:
       return getNewTetramino();
+    case LOCK:
+      return { ...state, locked: true };
+    case UNLOCK:
+      return { ...state, locked: false };
     default:
       return state;
   }
@@ -47,4 +53,12 @@ export const rotate = payload => ({
 export const setNewTetramino = payload => ({
   type: SET_NEW_TETRAMINO,
   payload
+});
+
+export const lock = () => ({
+  type: LOCK
+});
+
+export const unlock = () => ({
+  type: UNLOCK
 });

@@ -9,35 +9,66 @@ import {
   MOVE_LEFT,
   MOVE_RIGHT,
   ROTATE,
-  setNewTetramino,
-  rotate
+  rotate,
+  lock,
+  unlock
 } from "../ducks/active-block";
-import { mergeField } from "../ducks/field";
 
 export default store => next => action => {
   const { type } = action;
-  const block = store.getState().activeBlock;
-  const field = store.getState().field;
-  const nextBlock = store.getState().nextBlock;
+  const getBlock = () => store.getState().activeBlock;
+  const getField = () => store.getState().field;
+  let block, locked, field, isMovingDown;
   switch (type) {
     case MOVE_LEFT:
-      const isMovingLeft = canMoveLeft(field, block);
-      if (isMovingLeft) return next(action);
-      break;
-    case MOVE_RIGHT:
-      const isMovingRight = canMoveRight(field, block);
-      if (isMovingRight) return next(action);
-      break;
-    case MOVE_DOWN:
-      const isMovingDown = canMoveDown(field, block);
-      if (isMovingDown) return next(action);
-      else {
-        next(mergeField(block));
-        next(setNewTetramino(nextBlock));
+      const isMovingLeft = canMoveLeft(getField(), getBlock());
+      if (isMovingLeft) {
+        next(action);
+        block = getBlock();
+        locked = block.locked;
+        field = getField();
+        isMovingDown = canMoveDown(field, block);
+        if (locked && isMovingDown) {
+          next(unlock());
+        }
+        if (!locked && !isMovingDown) next(lock());
       }
       break;
+    case MOVE_RIGHT:
+      const isMovingRight = canMoveRight(getField(), getBlock());
+      if (isMovingRight) {
+        next(action);
+        block = getBlock();
+        locked = block.locked;
+        field = getField();
+        isMovingDown = canMoveDown(field, block);
+        if (locked && isMovingDown) {
+          next(unlock());
+        }
+        if (!locked && !isMovingDown) next(lock());
+      }
+      break;
+    case MOVE_DOWN:
+      field = getField();
+      block = getBlock();
+      locked = block.locked;
+      if (locked) return;
+      isMovingDown = canMoveDown(field, block);
+      if (isMovingDown) {
+        if (locked) next(unlock());
+        next(action);
+      }
+      field = getField();
+      block = getBlock();
+      locked = block.locked;
+      isMovingDown = canMoveDown(field, block);
+      if (!isMovingDown)
+        if (!locked) {
+          next(lock());
+        }
+      break;
     case ROTATE:
-      return next(rotate(rotateTetramino(field, block)));
+      return next(rotate(rotateTetramino(getField(), getBlock())));
     default:
       return next(action);
   }

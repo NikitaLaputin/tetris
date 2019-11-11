@@ -105,8 +105,8 @@ export const collide = (field, block) => {
 };
 
 export const rotateTetramino = (field, tetramino) => {
-  const { shape, position } = tetramino;
-  let rotated = { shape: rotate(shape), position };
+  const { shape, position, locked } = tetramino;
+  let rotated = { shape: rotate(shape), position, locked };
   const maxDelta = Math.floor(shape.length / 2);
   if (!collide(field, rotated)) {
     return rotated;
@@ -167,7 +167,7 @@ export const getNewTetramino = () => {
   const letter = Math.floor(Math.random() * SHAPES_LIST.length);
   const shape = SHAPES[SHAPES_LIST[letter]];
   const position = SHAPE_POSITION[SHAPES_LIST[letter]];
-  return { shape, position };
+  return { shape, position, locked: false };
 };
 
 export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
@@ -175,3 +175,23 @@ export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
 export const calcSpeed = level =>
   Math.round(Math.pow(0.8 - (level - 1) * 0.007, level - 1) * 1000 * 100000) /
   100000;
+
+export const Timeout = (() => {
+  const keys = {};
+  const set = (callback, wait) => {
+    const key = callback;
+    clear(key);
+    keys[key] = setTimeout(callback, wait);
+  };
+
+  const clear = key => {
+    if (keys[key]) {
+      clearTimeout(keys[key]);
+    }
+  };
+
+  return {
+    set,
+    clear
+  };
+})();

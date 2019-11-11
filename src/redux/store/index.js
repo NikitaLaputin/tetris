@@ -5,9 +5,9 @@ import destroyRow from "../middlwares/destroy-row";
 import gameStateChecker from "../middlwares/game-state-checker";
 
 const middlewares = applyMiddleware(
+  gameStateChecker,
   collisionCheck,
-  destroyRow,
-  gameStateChecker
+  destroyRow
 );
 const store = createStore(reducer, middlewares);
 

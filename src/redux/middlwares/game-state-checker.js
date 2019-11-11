@@ -11,7 +11,8 @@ export default store => next => action => {
     status === GAME_OVER ||
     status === NOT_STARTED ||
     (status === GAME_PAUSED && type !== TOGGLE_PAUSE)
-  )
+  ) {
     return;
+  }
   return next(action);
 };
