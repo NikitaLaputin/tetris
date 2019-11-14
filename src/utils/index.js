@@ -3,7 +3,8 @@ import {
   SHAPES_LIST,
   SHAPES,
   SHAPE_POSITION,
-  MAX_LEVELS
+  MAX_LEVELS,
+  colors
 } from "./consts";
 
 const flipMatrix = matrix =>
@@ -195,3 +196,12 @@ export const Timeout = (() => {
     clear
   };
 })();
+
+export const getShapeColor = shape =>
+  colors[
+    shape.reduce(
+      (acc, row) =>
+        acc ? acc : row.reduce((acc, cell) => (cell ? cell : acc), 0),
+      0
+    )
+  ];

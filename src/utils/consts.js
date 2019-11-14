@@ -13,14 +13,14 @@ export const LEFT = "LEFT";
 export const DOWN = "DOWN";
 export const DEFAULT_POSITION = [3, 0];
 export const colors = [
-  "#fff",
-  "#00f3ff",
-  "#005aff",
-  "#ff7600",
-  "#fff700",
-  "#00ff66",
-  "#8500ff",
-  "#ff0000"
+  "rgba(255, 255, 255, 1)",
+  "rgba(0, 243, 255, 1)",
+  "rgba(0, 90, 255, 1)",
+  "rgba(255, 118, 0, 1)",
+  "rgba(255, 247, 0, 1)",
+  "rgba(0, 255, 102, 1)",
+  "rgba(133, 0, 255, 1)",
+  "rgba(255, 0, 0, 1)"
 ];
 export const IN_PROGRESS = "Running";
 export const GAME_OVER = "GAME OVER";
@@ -37,4 +37,4 @@ export const SHAPE_POSITION = {
 export const MAX_LEVELS = 15;
 export const GAME_PAUSED = "GAME_PAUSED";
 export const NOT_STARTED = "NOT_STARTED";
-export const LOCK_DELAY = 500;
+export const LOCK_DELAY = 1500;
