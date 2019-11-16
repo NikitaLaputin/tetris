@@ -27,18 +27,21 @@ export default function useInterval(callback, ms) {
       setStartTime(now());
     }
   };
+  const reset = () => {
+    setPaused(false);
+    setRemaining(0);
+    setStartTime(0);
+  };
 
   useEffect(() => {
-    const interval =
-      paused ||
-      setInterval(
-        () => {
-          savedCallback.current();
-          setRemaining(0);
-          setStartTime(now());
-        },
-        remaining ? remaining : ms
-      );
+    const interval = setInterval(
+      () => {
+        savedCallback.current();
+        setRemaining(0);
+        setStartTime(now());
+      },
+      remaining ? remaining : ms
+    );
     if (paused) {
       clearInterval(interval);
     }
@@ -50,6 +53,7 @@ export default function useInterval(callback, ms) {
   return {
     start,
     pause,
-    resume
+    resume,
+    reset
   };
 }

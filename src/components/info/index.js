@@ -1,31 +1,48 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useCallback, memo } from "react";
 import { useSelector } from "react-redux";
 import {
   levelSelector,
   scoreSelector,
   linesSelector,
-  timerSelector
+  gameLastActionSelector
 } from "../../redux/selectors";
 import PauseButton from "../buttons/pause";
 import ResetButton from "../buttons/reset";
 import StartButton from "../buttons/start";
 import NextBlock from "../next-block";
+import useInterval from "../../hooks/use-interval";
+import { START, RESET, PAUSE, RESUME } from "../../redux/ducks/game-state";
 
-export default function Info() {
-  const level = useSelector(state => levelSelector(state));
-  const score = useSelector(state => scoreSelector(state));
-  const lines = useSelector(state => linesSelector(state));
-  const timer = useSelector(state => timerSelector(state));
-  const { start, stop, current, running } = timer;
-  const startTime = Math.floor((stop - start + current) / 1000);
-  const [time, setTime] = useState(startTime);
+function Info() {
+  const { level, score, lines, lastAction } = useSelector(state => ({
+    level: levelSelector(state),
+    score: scoreSelector(state),
+    lines: linesSelector(state),
+    lastAction: gameLastActionSelector(state)
+  }));
+  const [time, setTime] = useState(0);
+  const incrementTime = useCallback(() => {
+    setTime(time => time + 1);
+  }, []);
+  const { start, pause, resume, reset } = useInterval(incrementTime, 1000);
+
   useEffect(() => {
-    setTime(startTime);
-    const interval = setInterval(() => {
-      if (running) setTime(time => time + 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [running, startTime, start]);
+    if (lastAction === START) {
+      start();
+    }
+    if (lastAction === RESET) {
+      reset();
+      setTime(0);
+    }
+    if (lastAction === PAUSE) {
+      pause();
+    }
+    if (lastAction === RESUME) {
+      resume();
+    }
+  }, [lastAction]);
+
   return (
     <>
       <div>
@@ -41,3 +58,5 @@ export default function Info() {
     </>
   );
 }
+
+export default memo(Info);

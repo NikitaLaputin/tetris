@@ -6,7 +6,8 @@ import {
   blockSelector,
   fieldSelector,
   speedSelector,
-  gameStatusSelector
+  gameStatusSelector,
+  gameLastActionSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
 import {
@@ -16,7 +17,13 @@ import {
   rotate
 } from "../../redux/ducks/active-block";
 import drawField from "../helpers/draw-field";
-import { togglePause } from "../../redux/ducks/game-state";
+import {
+  togglePause,
+  RESET,
+  START,
+  PAUSE,
+  RESUME
+} from "../../redux/ducks/game-state";
 import useInterval from "../../hooks/use-interval";
 import { GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
 
@@ -25,11 +32,11 @@ export default function Field() {
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const { block, field, speed, status } = useSelector(state => ({
+  const { block, field, speed, lastAction } = useSelector(state => ({
     block: blockSelector(state),
     field: fieldSelector(state),
     speed: speedSelector(state),
-    status: gameStatusSelector(state)
+    lastAction: gameLastActionSelector(state)
   }));
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
@@ -37,7 +44,7 @@ export default function Field() {
   const down = () => dispatch(moveDown());
   const rotateTetrimino = () => dispatch(rotate());
   const togglePauseGame = () => dispatch(togglePause());
-  const { start, pause, resume } = useInterval(down, speed);
+  const { start, pause, resume, reset } = useInterval(down, speed);
   useKey("ArrowRight", right, true);
   useKey("ArrowLeft", left, true);
   const pressedDown = useKey("ArrowDown", down, true);
@@ -57,18 +64,24 @@ export default function Field() {
   }, [block, field]);
 
   useEffect(() => {
-    if (status === IN_PROGRESS) {
+    if (lastAction === START) {
       start();
     }
-  }, [status]);
-
-  useEffect(() => {
-    if (status === GAME_PAUSED || pressedDown) {
+    if (lastAction === RESET) {
+      reset();
+    }
+    if (lastAction === PAUSE) {
       pause();
-    } else if (status === IN_PROGRESS && !pressedDown) {
+    }
+    if (lastAction === RESUME) {
       resume();
     }
-  }, [status, pressedDown]);
+  }, [lastAction]);
+
+  useEffect(() => {
+    if (pressedDown) pause();
+    else resume();
+  }, [pressedDown]);
 
   return <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />;
 }

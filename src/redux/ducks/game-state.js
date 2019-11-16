@@ -17,6 +17,7 @@ export const TOGGLE_PAUSE = "TOGGLE_PAUSE";
 
 const defaultState = {
   status: NOT_STARTED,
+  lastAction: null,
   level: 1,
   score: 0,
   lines: 0,
@@ -27,11 +28,11 @@ export default (state = defaultState, action) => {
   const { type, lines } = action;
   switch (type) {
     case START:
-      return { ...defaultState, status: IN_PROGRESS };
+      return { ...defaultState, status: IN_PROGRESS, lastAction: START };
     case MERGE:
-      return { ...state, score: state.score + 10 };
+      return { ...state, score: state.score + 10, lastAction: MERGE };
     case DEFEAT:
-      return { ...state, status: GAME_OVER };
+      return { ...state, status: GAME_OVER, lastAction: DEFEAT };
     case ROWS_DESTROYED:
       const newLevel = calcLevel(state.lines + lines);
       const newSpeed = calcSpeed(newLevel);
@@ -40,18 +41,20 @@ export default (state = defaultState, action) => {
         lines: state.lines + lines,
         score: calcNewScore({ ...state, lines }),
         level: newLevel,
-        speed: newSpeed
+        speed: newSpeed,
+        lastAction: ROWS_DESTROYED
       };
     case TOGGLE_PAUSE:
       if (state.status === GAME_OVER) return state;
       return {
         ...state,
-        status: state.status === GAME_PAUSED ? IN_PROGRESS : GAME_PAUSED
+        status: state.status === GAME_PAUSED ? IN_PROGRESS : GAME_PAUSED,
+        lastAction: GAME_PAUSED ? PAUSE : RESUME
       };
     case RESUME:
-      return { ...state, status: IN_PROGRESS };
+      return { ...state, status: IN_PROGRESS, lastAction: RESUME };
     case RESET:
-      return { ...defaultState, status: IN_PROGRESS };
+      return { ...defaultState, status: IN_PROGRESS, lastAction: RESET };
     default:
       return state;
   }
