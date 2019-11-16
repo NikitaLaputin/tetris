@@ -6,7 +6,6 @@ import {
   blockSelector,
   fieldSelector,
   speedSelector,
-  gameStatusSelector,
   gameLastActionSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
@@ -25,7 +24,6 @@ import {
   RESUME
 } from "../../redux/ducks/game-state";
 import useInterval from "../../hooks/use-interval";
-import { GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
 
 export default function Field() {
   const canvasWidth = 200;

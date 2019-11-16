@@ -205,3 +205,46 @@ export const getShapeColor = shape =>
       0
     )
   ];
+
+export const darkenColor = (color, percent) =>
+  color
+    .split("(")
+    .map((val, i) =>
+      i
+        ? val
+            .split(", ")
+            .map((val, i, arr) =>
+              i < arr.length - 1
+                ? Math.max(
+                    Math.min(255, Math.floor((val * (100 - percent)) / 100)),
+                    0
+                  )
+                : val
+            )
+            .join(", ")
+        : val
+    )
+    .join("(");
+
+export const lightenColor = (color, percent) =>
+  color
+    .split("(")
+    .map((val, i) =>
+      i
+        ? val
+            .split(", ")
+            .map((val, i, arr) =>
+              i < arr.length - 1
+                ? Math.max(
+                    Math.min(
+                      255,
+                      Math.floor(((255 - val) * percent) / 100 + +val)
+                    ),
+                    0
+                  )
+                : val
+            )
+            .join(", ")
+        : val
+    )
+    .join("(");
