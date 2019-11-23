@@ -50,6 +50,16 @@ body {
   margin: 5px 0;
 }
 
+.button-container {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.button-container > span {
+  margin-left: 7px;
+  text-align: center;
+}
+
 .tetris-button {
   border-radius: 50%;
   width: 50px;
@@ -59,6 +69,18 @@ body {
   box-shadow: 1px 1px 0px 0px #171717, 2px 2px 0px 0px #171717,
     3px 3px 0px 0px #171717, 4px 4px 0px 0px #171717, 5px 5px 0px 0px #171717;
   margin: 10px 1px 10px 0px;
+}
+
+.tetris-button:focus {
+  outline: 0;
+}
+
+.tetris-button:active {
+  box-shadow: -3px -3px 0px 0px #171717, -2px -2px 0px 0px #171717,
+    -1px -1px 0px 0px #171717, inset -1px -1px 0px 0px #242834,
+    inset -2px -2px 0px 0px #242834, inset -3px -3px 0px 0px #242834;
+  margin: 18px -7px 2px 8px;
+  background-color: #002e92;
 }
 
 code {

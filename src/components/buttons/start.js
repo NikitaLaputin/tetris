@@ -10,9 +10,10 @@ function StartButton() {
   const gameStatus = useSelector(state => gameStatusSelector(state));
   if (gameStatus === NOT_STARTED)
     return (
-      <button className="tetris-button" onClick={startGame}>
-        Start
-      </button>
+      <div className="button-container">
+        <button className="tetris-button" onClick={startGame}></button>
+        <span>Start</span>
+      </div>
     );
   return null;
 }

@@ -3,8 +3,10 @@ export const fieldSelector = state => state.field;
 export const levelSelector = state => state.gameState.level;
 export const scoreSelector = state => state.gameState.score;
 export const linesSelector = state => state.gameState.lines;
-export const gameStatusSelector = state => state.gameState.status;
-export const gameLastActionSelector = state => state.gameState.lastAction;
-export const speedSelector = state => state.gameState.speed;
+export const gameStateSelector = state => state.gameState;
+export const gameStatusSelector = state => gameStateSelector(state).status;
+export const gameLastActionSelector = state =>
+  gameStateSelector(state).lastAction;
+export const speedSelector = state => gameStateSelector(state).speed;
 export const timerSelector = state => state.timer;
 export const nextBlockSelector = state => state.nextBlock;

@@ -6,7 +6,7 @@ import {
   blockSelector,
   fieldSelector,
   speedSelector,
-  gameLastActionSelector
+  gameStateSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
 import {
@@ -30,12 +30,13 @@ export default function Field() {
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const { block, field, speed, lastAction } = useSelector(state => ({
+  const { block, field, speed, gameState } = useSelector(state => ({
     block: blockSelector(state),
     field: fieldSelector(state),
     speed: speedSelector(state),
-    lastAction: gameLastActionSelector(state)
+    gameState: gameStateSelector(state)
   }));
+  const { lastAction } = gameState;
   const dispatch = useDispatch();
   const right = () => dispatch(moveRight());
   const left = () => dispatch(moveLeft());
@@ -74,7 +75,7 @@ export default function Field() {
     if (lastAction === RESUME) {
       resume();
     }
-  }, [lastAction]);
+  }, [gameState]);
 
   useEffect(() => {
     if (pressedDown) pause();

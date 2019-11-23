@@ -29,8 +29,8 @@ export default function useInterval(callback, ms) {
   };
   const reset = () => {
     setPaused(false);
-    setRemaining(0);
-    setStartTime(0);
+    setRemaining(ms);
+    setStartTime(now());
   };
 
   useEffect(() => {

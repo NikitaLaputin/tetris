@@ -6,9 +6,10 @@ function ResetButton() {
   const dispatch = useDispatch();
   const resetGame = () => dispatch(reset());
   return (
-    <button className="tetris-button" onClick={resetGame}>
-      Reset
-    </button>
+    <div className="button-container">
+      <button className="tetris-button" onClick={resetGame}></button>
+      <span>Reset</span>
+    </div>
   );
 }
 

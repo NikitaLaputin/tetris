@@ -5,7 +5,7 @@ import {
   levelSelector,
   scoreSelector,
   linesSelector,
-  gameLastActionSelector
+  gameStateSelector
 } from "../../redux/selectors";
 import PauseButton from "../buttons/pause";
 import ResetButton from "../buttons/reset";
@@ -15,12 +15,13 @@ import useInterval from "../../hooks/use-interval";
 import { START, RESET, PAUSE, RESUME } from "../../redux/ducks/game-state";
 
 function Info() {
-  const { level, score, lines, lastAction } = useSelector(state => ({
+  const { level, score, lines, gameState } = useSelector(state => ({
     level: levelSelector(state),
     score: scoreSelector(state),
     lines: linesSelector(state),
-    lastAction: gameLastActionSelector(state)
+    gameState: gameStateSelector(state)
   }));
+  const { lastAction } = gameState;
   const [time, setTime] = useState(0);
   const incrementTime = useCallback(() => {
     setTime(time => time + 1);
@@ -41,7 +42,7 @@ function Info() {
     if (lastAction === RESUME) {
       resume();
     }
-  }, [lastAction]);
+  }, [gameState]);
 
   return (
     <div>
@@ -52,9 +53,16 @@ function Info() {
         <div>{`Time: ${time}`}</div>
       </div>
       <NextBlock />
-      <StartButton />
-      <PauseButton />
-      <ResetButton />
+      <div
+        style={{
+          display: "flex",
+          gridTemplateColumns: "1fr 1fr"
+        }}
+      >
+        <StartButton />
+        <PauseButton />
+        <ResetButton />
+      </div>
     </div>
   );
 }

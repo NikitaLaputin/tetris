@@ -8,19 +8,13 @@ function PauseButton() {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
   const gameStatus = useSelector(state => gameStatusSelector(state));
-  if (gameStatus === IN_PROGRESS)
-    return (
-      <button className="tetris-button" onClick={togglePauseGame}>
-        Pause
-      </button>
-    );
-  if (gameStatus === GAME_PAUSED)
-    return (
-      <button className="tetris-button" onClick={togglePauseGame}>
-        Resume
-      </button>
-    );
-  return null;
+  if (gameStatus !== IN_PROGRESS && gameStatus !== GAME_PAUSED) return null;
+  return (
+    <div className="button-container">
+      <button className="tetris-button" onClick={togglePauseGame}></button>
+      <span>{gameStatus === IN_PROGRESS ? "Pause" : "Resume"}</span>
+    </div>
+  );
 }
 
 export default memo(PauseButton);
