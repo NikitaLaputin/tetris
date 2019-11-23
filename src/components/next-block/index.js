@@ -22,6 +22,10 @@ function NextBlock() {
     drawBlock({ block, ctx, side, startingRow: 0, offset });
   }, [block, offset]);
 
-  return <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />;
+  return (
+    <div className="canvas-container">
+      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
+    </div>
+  );
 }
 export default memo(NextBlock);

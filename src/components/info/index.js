@@ -44,8 +44,8 @@ function Info() {
   }, [lastAction]);
 
   return (
-    <>
-      <div>
+    <div>
+      <div className="canvas-container info-container">
         <div>{`Level: ${level}`}</div>
         <div>{`Score: ${score}`}</div>
         <div>{`Lines: ${lines}`}</div>
@@ -55,7 +55,7 @@ function Info() {
       <StartButton />
       <PauseButton />
       <ResetButton />
-    </>
+    </div>
   );
 }
 

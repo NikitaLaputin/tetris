@@ -81,5 +81,9 @@ export default function Field() {
     else resume();
   }, [pressedDown]);
 
-  return <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />;
+  return (
+    <div className="canvas-container" style={{ maxHeight: 400 }}>
+      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
+    </div>
+  );
 }

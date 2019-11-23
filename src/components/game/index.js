@@ -4,7 +4,7 @@ import Info from "../info";
 
 export default function Game() {
   return (
-    <div>
+    <div className="tetris-container">
       <Field />
       <Info />
     </div>

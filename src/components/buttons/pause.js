@@ -9,9 +9,17 @@ function PauseButton() {
   const togglePauseGame = () => dispatch(togglePause());
   const gameStatus = useSelector(state => gameStatusSelector(state));
   if (gameStatus === IN_PROGRESS)
-    return <button onClick={togglePauseGame}>Pause</button>;
+    return (
+      <button className="tetris-button" onClick={togglePauseGame}>
+        Pause
+      </button>
+    );
   if (gameStatus === GAME_PAUSED)
-    return <button onClick={togglePauseGame}>Resume</button>;
+    return (
+      <button className="tetris-button" onClick={togglePauseGame}>
+        Resume
+      </button>
+    );
   return null;
 }
 
