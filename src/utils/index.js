@@ -179,21 +179,45 @@ export const calcSpeed = level =>
 
 export const Timeout = (() => {
   const keys = {};
-  const set = (callback, wait) => {
-    const key = callback;
+  const keyData = {};
+  const set = (key, wait) => {
     clear(key);
-    keys[key] = setTimeout(callback, wait);
+    keys[key] = setTimeout(key, wait);
+    keyData[key] = { start: new Date().getTime(), paused: false, wait };
   };
 
   const clear = key => {
     if (keys[key]) {
       clearTimeout(keys[key]);
+      delete keys[key];
+      delete keyData[key];
     }
+  };
+
+  const paused = key => keys[key] && keyData[key] && keyData[key].paused;
+
+  const pause = key => {
+    if (!keys[key]) return;
+    if (paused(key)) return;
+    clearTimeout(keys[key]);
+    const start = new Date().getTime();
+    const wait = keyData[key].wait - (start - keyData[key].start);
+
+    keyData[key] = { start, wait, paused: true };
+  };
+
+  const resume = key => {
+    if (!keys[key]) return;
+    if (!paused(key)) return;
+
+    set(key, keyData[key].wait);
   };
 
   return {
     set,
-    clear
+    clear,
+    pause,
+    resume
   };
 })();
 

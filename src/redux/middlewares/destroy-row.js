@@ -1,6 +1,12 @@
 import { MERGE, destroyRow, mergeField } from "../ducks/field";
 import { destroyFullRows, collide, canMoveDown, Timeout } from "../../utils";
-import { rowsDestroyed, gameOver } from "../ducks/game-state";
+import {
+  rowsDestroyed,
+  gameOver,
+  PAUSE,
+  RESUME,
+  TOGGLE_PAUSE
+} from "../ducks/game-state";
 import {
   SET_NEW_Tetrimino,
   setNewTetrimino,
@@ -8,7 +14,7 @@ import {
   LOCK,
   UNLOCK
 } from "../ducks/active-block";
-import { LOCK_DELAY } from "../../utils/consts";
+import { LOCK_DELAY, GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
 
 export default store => next => action => {
   const { type } = action;
@@ -23,6 +29,21 @@ export default store => next => action => {
       return next(action);
     case UNLOCK:
       Timeout.clear(dispatchMerge);
+      return next(action);
+    case TOGGLE_PAUSE:
+      const isPaused = store.getState().gameState.status === GAME_PAUSED;
+      if (isPaused) {
+        Timeout.resume(dispatchMerge);
+      } else {
+        const isRunning = store.getState().gameState.status === IN_PROGRESS;
+        if (isRunning) Timeout.pause(dispatchMerge);
+      }
+      return next(action);
+    case PAUSE:
+      Timeout.pause(dispatchMerge);
+      return next(action);
+    case RESUME:
+      Timeout.resume(dispatchMerge);
       return next(action);
     case MERGE:
       const field = store.getState().field;

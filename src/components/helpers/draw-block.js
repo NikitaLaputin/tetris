@@ -9,12 +9,14 @@ export default function drawBlock({
 }) {
   const [x, y] = position;
   const lingrad = ctx.createLinearGradient(x, y, x + side, y + side);
-  const darkColor = darkenColor(color, 25);
-  const lightColor = lightenColor(color, 50);
-  lingrad.addColorStop(0, locked ? lightColor : color);
-  lingrad.addColorStop(0.5, locked ? lightColor : color);
-  lingrad.addColorStop(0.5, locked ? color : darkColor);
-  lingrad.addColorStop(1, locked ? color : darkColor);
+  const colorGradStart = locked ? lightenColor(color, 75) : color;
+  const colorGradEnd = locked
+    ? lightenColor(color, 25)
+    : darkenColor(color, 35);
+  lingrad.addColorStop(0, colorGradStart);
+  lingrad.addColorStop(0.5, colorGradStart);
+  lingrad.addColorStop(0.5, colorGradEnd);
+  lingrad.addColorStop(1, colorGradEnd);
   ctx.beginPath();
   ctx.lineWidth = 10;
   ctx.lineJoin = "round";

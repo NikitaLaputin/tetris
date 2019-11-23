@@ -44,13 +44,8 @@ export default (state = defaultState, action) => {
         speed: newSpeed,
         lastAction: ROWS_DESTROYED
       };
-    case TOGGLE_PAUSE:
-      if (state.status === GAME_OVER) return state;
-      return {
-        ...state,
-        status: state.status === GAME_PAUSED ? IN_PROGRESS : GAME_PAUSED,
-        lastAction: GAME_PAUSED ? PAUSE : RESUME
-      };
+    case PAUSE:
+      return { ...state, status: GAME_PAUSED, lastAction: PAUSE };
     case RESUME:
       return { ...state, status: IN_PROGRESS, lastAction: RESUME };
     case RESET:
@@ -79,4 +74,12 @@ export const togglePause = () => ({
 
 export const reset = () => ({
   type: RESET
+});
+
+export const pause = () => ({
+  type: PAUSE
+});
+
+export const resume = () => ({
+  type: RESUME
 });

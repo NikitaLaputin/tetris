@@ -4,12 +4,14 @@ import collisionCheck from "../middlewares/collision-check";
 import destroyRow from "../middlewares/destroy-row";
 import gameStateChecker from "../middlewares/game-state-checker";
 import blockLocker from "../middlewares/block-locker";
+import pauseToggle from "../middlewares/pause-toggle";
 
 const middlewares = applyMiddleware(
   gameStateChecker,
   collisionCheck,
   blockLocker,
-  destroyRow
+  destroyRow,
+  pauseToggle
 );
 const store = createStore(reducer, middlewares);
 
