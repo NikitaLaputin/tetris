@@ -1,3 +1,20 @@
+.buttons-container {
+  padding-left: 10px;
+}
+
+.buttons-container-top {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.buttons-container-bottom {
+  display: grid;
+  grid-template-areas:
+    ". a ."
+    "b c d";
+  grid-template-columns: 60px 60px 60px;
+}
+
 .button-container {
   display: inline-flex;
   flex-direction: column;
@@ -13,7 +30,16 @@
   width: 50px;
   height: 50px;
   border: none;
-  margin: 10px 1px 10px 0px;
+  margin: 10px 1px 10px 5px;
+}
+
+.tetris-button:focus {
+  outline: 0;
+}
+
+.tetris-button:active,
+.tetris-button__active {
+  margin: 15px -4px 5px 10px;
 }
 
 .tetris-button__dark {
@@ -25,20 +51,15 @@
     4px 4px 0px 0px var(--shadow-color-d), 5px 5px 0px 0px var(--shadow-color-d);
 }
 
-.tetris-button:focus {
-  outline: 0;
-}
-
-.tetris-button__dark:active {
+.tetris-button__dark:active,
+.tetris-button__dark__active {
   --bg-color-d: #002e92;
   --shadow-color-d: #171717;
-  --shadow-color-d-inset: #242834;
   box-shadow: -3px -3px 0px 0px var(--shadow-color-d),
     -2px -2px 0px 0px var(--shadow-color-d),
     -1px -1px 0px 0px var(--shadow-color-d),
-    inset -1px -1px 0px 0px var(--shadow-color-d-inset),
-    inset -2px -2px 0px 0px var(--shadow-color-d-inset),
-    inset -3px -3px 0px 0px var(--shadow-color-d-inset);
-  margin: 18px -7px 2px 8px;
+    inset -1px -1px 0px 0px var(--tetris-bg-colot-d),
+    inset -2px -2px 0px 0px var(--tetris-bg-colot-d),
+    inset -3px -3px 0px 0px var(--tetris-bg-colot-d);
   background-color: var(--bg-color-d);
 }

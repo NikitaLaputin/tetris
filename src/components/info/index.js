@@ -7,12 +7,15 @@ import {
   linesSelector,
   gameStateSelector
 } from "../../redux/selectors";
-import PauseButton from "../buttons/pause";
-import ResetButton from "../buttons/reset";
-import StartButton from "../buttons/start";
 import NextBlock from "../next-block";
 import useInterval from "../../hooks/use-interval";
-import { START, RESET, PAUSE, RESUME } from "../../redux/ducks/game-state";
+import {
+  START,
+  RESET,
+  PAUSE,
+  RESUME,
+  DEFEAT
+} from "../../redux/ducks/game-state";
 import canvasStyles from "../field/field.module.css";
 import styles from "./info.module.css";
 
@@ -38,7 +41,7 @@ function Info() {
       reset();
       setTime(0);
     }
-    if (lastAction === PAUSE) {
+    if (lastAction === PAUSE || lastAction === DEFEAT) {
       pause();
     }
     if (lastAction === RESUME) {
@@ -47,9 +50,9 @@ function Info() {
   }, [gameState]);
 
   return (
-    <div>
+    <div className={styles["info-column"]}>
       <div
-        className={`${canvasStyles.container} ${canvasStyles.container__dark} ${styles.info}`}
+        className={`${canvasStyles["canvas-container"]} ${canvasStyles["canvas-container__dark"]} ${styles.info}`}
       >
         <div>{`Level: ${level}`}</div>
         <div>{`Score: ${score}`}</div>
@@ -57,16 +60,6 @@ function Info() {
         <div>{`Time: ${time}`}</div>
       </div>
       <NextBlock />
-      <div
-        style={{
-          display: "flex",
-          gridTemplateColumns: "1fr 1fr"
-        }}
-      >
-        <StartButton />
-        <PauseButton />
-        <ResetButton />
-      </div>
     </div>
   );
 }

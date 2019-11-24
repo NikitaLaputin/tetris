@@ -1,3 +1,9 @@
+.info-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .info {
   padding: 5px 10px;
   display: flex;

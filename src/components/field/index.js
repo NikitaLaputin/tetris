@@ -9,20 +9,9 @@ import {
   gameStateSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
-import {
-  moveRight,
-  moveLeft,
-  moveDown,
-  rotate
-} from "../../redux/ducks/active-block";
+import { moveDown } from "../../redux/ducks/active-block";
 import drawField from "../helpers/draw-field";
-import {
-  togglePause,
-  RESET,
-  START,
-  PAUSE,
-  RESUME
-} from "../../redux/ducks/game-state";
+import { RESET, START, PAUSE, RESUME } from "../../redux/ducks/game-state";
 import useInterval from "../../hooks/use-interval";
 import styles from "./field.module.css";
 
@@ -39,17 +28,9 @@ export default function Field() {
   }));
   const { lastAction } = gameState;
   const dispatch = useDispatch();
-  const right = () => dispatch(moveRight());
-  const left = () => dispatch(moveLeft());
   const down = () => dispatch(moveDown());
-  const rotateTetrimino = () => dispatch(rotate());
-  const togglePauseGame = () => dispatch(togglePause());
   const { start, pause, resume, reset } = useInterval(down, speed);
-  useKey("ArrowRight", right, true);
-  useKey("ArrowLeft", left, true);
-  const pressedDown = useKey("ArrowDown", down, true);
-  useKey("ArrowUp", rotateTetrimino);
-  useKey("p", togglePauseGame);
+  const pressedDown = useKey("ArrowDown");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -85,7 +66,7 @@ export default function Field() {
 
   return (
     <div
-      className={`${styles.container} ${styles.container__dark}`}
+      className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
       style={{ maxHeight: 400 }}
     >
       <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />

@@ -1,41 +1,34 @@
 .tetris-container {
-  display: flex;
   margin: 20px auto;
-  padding: 0px 15px 10px 5px;
-  padding-bottom: 150px;
+  padding: 0px 25px 20px 0px;
   border-radius: 20px;
-}
-
-.tetris-container__dark {
-  --bg-color-d: rgba(3, 88, 243, 0.07);
-  --shadow-color-d: #171717;
-  display: flex;
-  margin: 20px auto;
-  box-shadow: 1px 1px 0px 0px var(--shadow-color-d),
-    2px 2px 0px 0px var(--shadow-color-d), 3px 3px 0px 0px var(--shadow-color-d),
-    4px 4px 0px 0px var(--shadow-color-d), 5px 5px 0px 0px var(--shadow-color-d),
-    6px 6px 0px 0px var(--shadow-color-d), 7px 7px 0px 0px var(--shadow-color-d),
-    8px 8px 0px 0px var(--shadow-color-d), 9px 9px 0px 0px var(--shadow-color-d),
-    10px 10px 0px 0px var(--shadow-color-d);
-  padding: 0px 15px 10px 5px;
-  padding-bottom: 150px;
-  background-color: var(--bg-color-d);
-  border-radius: 20px;
+  width: 300px;
 }
 
 .tetris-container__light {
-  --bg-color-l: #ea41ec;
-  --shadow-color-l: #820184;
-  display: flex;
-  margin: 20px auto;
-  box-shadow: 1px 1px 0px 0px var(--shadow-color-l),
-    2px 2px 0px 0px var(--shadow-color-l), 3px 3px 0px 0px var(--shadow-color-l),
-    4px 4px 0px 0px var(--shadow-color-l), 5px 5px 0px 0px var(--shadow-color-l),
-    6px 6px 0px 0px var(--shadow-color-l), 7px 7px 0px 0px var(--shadow-color-l),
-    8px 8px 0px 0px var(--shadow-color-l), 9px 9px 0px 0px var(--shadow-color-l),
-    10px 10px 0px 0px var(--shadow-color-l);
-  padding: 0px 15px 10px 5px;
-  padding-bottom: 150px;
-  background-color: var(--bg-color-l);
-  border-radius: 20px;
+  box-shadow: 1px 1px 0px 0px var(--tetris-shadow-color-d),
+    2px 2px 0px 0px var(--tetris-shadow-color-d),
+    3px 3px 0px 0px var(--tetris-shadow-color-d),
+    4px 4px 0px 0px var(--tetris-shadow-color-d),
+    5px 5px 0px 0px var(--tetris-shadow-color-d),
+    6px 6px 0px 0px var(--tetris-shadow-color-d),
+    7px 7px 0px 0px var(--tetris-shadow-color-d),
+    8px 8px 0px 0px var(--tetris-shadow-color-d),
+    9px 9px 0px 0px var(--tetris-shadow-color-d),
+    10px 10px 0px 0px var(--tetris-shadow-color-d);
+  background-color: var(--tetris-bg-color-d);
+}
+
+.tetris-container__dark {
+  box-shadow: 1px 1px 0px 0px var(--tetris-shadow-color-l),
+    2px 2px 0px 0px var(--tetris-shadow-color-l),
+    3px 3px 0px 0px var(--tetris-shadow-color-l),
+    4px 4px 0px 0px var(--tetris-shadow-color-l),
+    5px 5px 0px 0px var(--tetris-shadow-color-l),
+    6px 6px 0px 0px var(--tetris-shadow-color-l),
+    7px 7px 0px 0px var(--tetris-shadow-color-l),
+    8px 8px 0px 0px var(--tetris-shadow-color-l),
+    9px 9px 0px 0px var(--tetris-shadow-color-l),
+    10px 10px 0px 0px var(--tetris-shadow-color-l);
+  background-color: var(--tetris-bg-color-l);
 }

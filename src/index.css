@@ -5,11 +5,10 @@ body {
   font-family: monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  display: flex;
-  min-height: 100vh;
+  --tetris-bg-color-l: #ea41ec;
+  --tetris-shadow-color-l: #820184;
+  --tetris-bg-color-l: #ea41ec;
+  --tetris-shadow-color-l: #820184;
 }
 
 code {

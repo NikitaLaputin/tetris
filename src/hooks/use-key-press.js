@@ -30,6 +30,7 @@ export default function useKey(
   }, [targetKey]);
 
   useEffect(() => {
+    if (!callback) return;
     if (pressed) callback();
     const interval = setInterval(() => {
       if (pressed && continious) {

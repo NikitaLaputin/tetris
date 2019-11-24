@@ -1,26 +1,26 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
-import { reset } from "../../redux/ducks/game-state";
 import styles from "./button.module.css";
 import useKeyPress from "../../hooks/use-key-press";
+import { moveDown } from "../../redux/ducks/active-block";
 
-function StartButton() {
+function DownButton({ style }) {
   const dispatch = useDispatch();
-  const startGame = () => dispatch(reset());
-  const pressed = useKeyPress("s", startGame);
+  const down = () => dispatch(moveDown());
+  const pressed = useKeyPress("ArrowDown", down, true, 75);
   return (
-    <div className={`${styles["button-container"]}`}>
+    <div style={style} className={`${styles["button-container"]}`}>
       <button
         className={`
         ${styles["tetris-button"]} ${styles["tetris-button__dark"]}
         ${pressed && styles["tetris-button__active"]} ${pressed &&
           styles["tetris-button__dark__active"]}
         `}
-        onClick={startGame}
+        onClick={down}
       ></button>
-      <span>Start</span>
+      <span>Down</span>
     </div>
   );
 }
 
-export default memo(StartButton);
+export default memo(DownButton);

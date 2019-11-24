@@ -1,13 +1,13 @@
-.container {
+.canvas-container {
   display: flex;
   border-radius: 10px;
   overflow: hidden;
   padding: 1px 3px;
 }
 
-.container__dark {
+.canvas-container__dark {
   --bg-color-d: #0c0e11;
-  --shadow-color-d: #0c0e11;
+  --shadow-color-d: #2c3440;
   margin: 10px 1px 10px 1px;
   box-shadow: 1px 1px 0px 0px var(--shadow-color-d),
     2px 2px 0px 0px var(--shadow-color-d), 3px 3px 0px 0px var(--shadow-color-d),
@@ -18,7 +18,7 @@
   background-color: var(--bg-color-d);
 }
 
-.container__light {
+.canvas-container__light {
   --bg-color-l: #ea41ec;
   --shadow-color-l: #820184;
   margin: 10px 1px 10px 1px;

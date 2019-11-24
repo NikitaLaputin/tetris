@@ -1,22 +1,24 @@
 import React, { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { togglePause } from "../../redux/ducks/game-state";
-import { gameStatusSelector } from "../../redux/selectors";
-import { IN_PROGRESS, GAME_PAUSED } from "../../utils/consts";
 import styles from "./button.module.css";
+import useKeyPress from "../../hooks/use-key-press";
 
 function PauseButton() {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
-  const gameStatus = useSelector(state => gameStatusSelector(state));
-  if (gameStatus !== IN_PROGRESS && gameStatus !== GAME_PAUSED) return null;
+  const pressed = useKeyPress("p", togglePauseGame);
   return (
     <div className={`${styles["button-container"]}`}>
       <button
-        className={`${styles["tetris-button"]} ${styles["tetris-button__dark"]}`}
+        className={`
+        ${styles["tetris-button"]} ${styles["tetris-button__dark"]}
+        ${pressed && styles["tetris-button__active"]} ${pressed &&
+          styles["tetris-button__dark__active"]}
+        `}
         onClick={togglePauseGame}
       ></button>
-      <span>{gameStatus === IN_PROGRESS ? "Pause" : "Resume"}</span>
+      <span>Pause</span>
     </div>
   );
 }
