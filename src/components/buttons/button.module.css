@@ -10,19 +10,26 @@
 .buttons-container-bottom {
   display: grid;
   grid-template-areas:
-    ". a ."
+    "b a d"
     "b c d";
-  grid-template-columns: 60px 60px 60px;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(2, 110px);
 }
 
 .button-container {
   display: inline-flex;
   flex-direction: column;
+  margin: auto 0;
 }
 
 .button-container > span {
   margin-left: 7px;
   text-align: center;
+}
+
+.tetris-button:focus,
+.tetris-option-button:focus {
+  outline: 0;
 }
 
 .tetris-button {
@@ -33,18 +40,27 @@
   margin: 10px 1px 10px 5px;
 }
 
-.tetris-button:focus {
-  outline: 0;
-}
-
 .tetris-button:active,
 .tetris-button__active {
   margin: 15px -4px 5px 10px;
 }
 
+.tetris-option-button {
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  border: none;
+  margin: 10px 1px 10px 10px;
+}
+
+.tetris-option-button:active,
+.tetris-option-button__active {
+  margin: 15px -4px 5px 15px;
+}
+
 .tetris-button__dark {
   --bg-color-d: #0035ab;
-  --shadow-color-d: #171717;
+  --shadow-color-d: #011a50;
   background-color: var(--bg-color-d);
   box-shadow: 1px 1px 0px 0px var(--shadow-color-d),
     2px 2px 0px 0px var(--shadow-color-d), 3px 3px 0px 0px var(--shadow-color-d),
@@ -54,12 +70,22 @@
 .tetris-button__dark:active,
 .tetris-button__dark__active {
   --bg-color-d: #002e92;
-  --shadow-color-d: #171717;
-  box-shadow: -3px -3px 0px 0px var(--shadow-color-d),
-    -2px -2px 0px 0px var(--shadow-color-d),
-    -1px -1px 0px 0px var(--shadow-color-d),
-    inset -1px -1px 0px 0px var(--tetris-bg-colot-d),
-    inset -2px -2px 0px 0px var(--tetris-bg-colot-d),
-    inset -3px -3px 0px 0px var(--tetris-bg-colot-d);
+  box-shadow: inset 3px 3px 0px 0px var(--tetris-shadow-color-d);
+  background-color: var(--bg-color-d);
+}
+
+.tetris-option-button__dark {
+  --bg-color-d: #cfdc04;
+  --shadow-color-d: #52560c;
+  background-color: var(--bg-color-d);
+  box-shadow: 1px 1px 0px 0px var(--shadow-color-d),
+    2px 2px 0px 0px var(--shadow-color-d), 3px 3px 0px 0px var(--shadow-color-d),
+    4px 4px 0px 0px var(--shadow-color-d), 5px 5px 0px 0px var(--shadow-color-d);
+}
+
+.tetris-option-button__dark:active,
+.tetris-option-button__dark__active {
+  --bg-color-d: #a5af08;
+  box-shadow: inset 3px 3px 0px 0px var(--tetris-shadow-color-d);
   background-color: var(--bg-color-d);
 }

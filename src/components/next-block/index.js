@@ -27,6 +27,7 @@ function NextBlock() {
     <div
       className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
     >
+      <div className={styles.text}>Next block</div>
       <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
     </div>
   );

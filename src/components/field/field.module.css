@@ -1,5 +1,4 @@
 .canvas-container {
-  display: flex;
   border-radius: 10px;
   overflow: hidden;
   padding: 1px 3px;
@@ -29,4 +28,9 @@
     8px 8px 0px 0px var(--shadow-color-l), 9px 9px 0px 0px var(--shadow-color-l),
     10px 10px 0px 0px var(--shadow-color-l);
   background-color: var(--bg-color-l);
+}
+
+.canvas-container > .text {
+  font-size: 18px;
+  text-align: center;
 }

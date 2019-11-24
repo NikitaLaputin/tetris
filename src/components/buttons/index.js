@@ -9,7 +9,7 @@ import Down from "./down";
 
 export default function Buttons() {
   return (
-    <div>
+    <div className={styles["buttons-container"]}>
       <div className={styles["buttons-container-top"]}>
         <Pause />
         <Start />

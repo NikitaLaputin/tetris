@@ -12,9 +12,11 @@ function PauseButton() {
     <div className={`${styles["button-container"]}`}>
       <button
         className={`
-        ${styles["tetris-button"]} ${styles["tetris-button__dark"]}
-        ${pressed && styles["tetris-button__active"]} ${pressed &&
-          styles["tetris-button__dark__active"]}
+        ${styles["tetris-option-button"]} ${
+          styles["tetris-option-button__dark"]
+        }
+        ${pressed && styles["tetris-option-button__active"]} ${pressed &&
+          styles["tetris-option-button__dark__active"]}
         `}
         onClick={togglePauseGame}
       ></button>
