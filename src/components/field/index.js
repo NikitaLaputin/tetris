@@ -24,6 +24,7 @@ import {
   RESUME
 } from "../../redux/ducks/game-state";
 import useInterval from "../../hooks/use-interval";
+import styles from "./field.module.css";
 
 export default function Field() {
   const canvasWidth = 200;
@@ -83,7 +84,10 @@ export default function Field() {
   }, [pressedDown]);
 
   return (
-    <div className="canvas-container" style={{ maxHeight: 400 }}>
+    <div
+      className={`${styles.container} ${styles.container__dark}`}
+      style={{ maxHeight: 400 }}
+    >
       <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
     </div>
   );

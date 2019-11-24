@@ -13,6 +13,8 @@ import StartButton from "../buttons/start";
 import NextBlock from "../next-block";
 import useInterval from "../../hooks/use-interval";
 import { START, RESET, PAUSE, RESUME } from "../../redux/ducks/game-state";
+import canvasStyles from "../field/field.module.css";
+import styles from "./info.module.css";
 
 function Info() {
   const { level, score, lines, gameState } = useSelector(state => ({
@@ -46,7 +48,9 @@ function Info() {
 
   return (
     <div>
-      <div className="canvas-container info-container">
+      <div
+        className={`${canvasStyles.container} ${canvasStyles.container__dark} ${styles.info}`}
+      >
         <div>{`Level: ${level}`}</div>
         <div>{`Score: ${score}`}</div>
         <div>{`Lines: ${lines}`}</div>

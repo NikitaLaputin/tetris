@@ -2,6 +2,7 @@ import React, { useRef, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 import { nextBlockSelector } from "../../redux/selectors";
 import drawBlock from "../helpers/draw-tetrimino";
+import styles from "../field/field.module.css";
 
 function NextBlock() {
   const nextBlock = useSelector(state => nextBlockSelector(state));
@@ -23,7 +24,7 @@ function NextBlock() {
   }, [block, offset]);
 
   return (
-    <div className="canvas-container">
+    <div className={`${styles.container} ${styles.container__dark}`}>
       <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
     </div>
   );

@@ -1,0 +1,44 @@
+.button-container {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.button-container > span {
+  margin-left: 7px;
+  text-align: center;
+}
+
+.tetris-button {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: none;
+  margin: 10px 1px 10px 0px;
+}
+
+.tetris-button__dark {
+  --bg-color-d: #0035ab;
+  --shadow-color-d: #171717;
+  background-color: var(--bg-color-d);
+  box-shadow: 1px 1px 0px 0px var(--shadow-color-d),
+    2px 2px 0px 0px var(--shadow-color-d), 3px 3px 0px 0px var(--shadow-color-d),
+    4px 4px 0px 0px var(--shadow-color-d), 5px 5px 0px 0px var(--shadow-color-d);
+}
+
+.tetris-button:focus {
+  outline: 0;
+}
+
+.tetris-button__dark:active {
+  --bg-color-d: #002e92;
+  --shadow-color-d: #171717;
+  --shadow-color-d-inset: #242834;
+  box-shadow: -3px -3px 0px 0px var(--shadow-color-d),
+    -2px -2px 0px 0px var(--shadow-color-d),
+    -1px -1px 0px 0px var(--shadow-color-d),
+    inset -1px -1px 0px 0px var(--shadow-color-d-inset),
+    inset -2px -2px 0px 0px var(--shadow-color-d-inset),
+    inset -3px -3px 0px 0px var(--shadow-color-d-inset);
+  margin: 18px -7px 2px 8px;
+  background-color: var(--bg-color-d);
+}
