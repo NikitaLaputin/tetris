@@ -7,12 +7,14 @@ export default function useKey(
   continious = false,
   frequency = 100
 ) {
+  let delay = 200;
+  let interval, timeout;
   const [pressed, setPressed] = useState(false);
 
   const onDown = e => {
-    e.preventDefault();
     const { key } = e;
     if (key.toLowerCase() === targetKey.toLowerCase()) {
+      e.preventDefault();
       setPressed(true);
     }
   };
@@ -34,13 +36,22 @@ export default function useKey(
   useEffect(() => {
     if (!callback) return;
     if (pressed) callback();
-    const interval = setInterval(() => {
-      if (pressed && continious) {
-        callback();
-      }
-    }, frequency);
-    return () => clearInterval(interval);
-  }, [pressed, continious]);
+    if (continious) {
+      timeout = setTimeout(
+        () =>
+          (interval = setInterval(() => {
+            if (pressed && continious) {
+              callback();
+            }
+          }, frequency)),
+        delay
+      );
+    }
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [pressed, continious, delay]);
 
   return pressed;
 }

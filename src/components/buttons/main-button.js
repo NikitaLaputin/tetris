@@ -2,11 +2,6 @@ import React, { memo } from "react";
 import styles from "./button.module.css";
 
 function MainButton({ style, onClick, pressed, text }) {
-  const clickHandle = e => {
-    e.target.blur();
-    onClick();
-    console.log(e.target);
-  };
   return (
     <div style={style} className={`${styles["button-container"]}`}>
       <button
@@ -15,7 +10,7 @@ function MainButton({ style, onClick, pressed, text }) {
         ${pressed && styles["tetris-button__active"]} ${pressed &&
           styles["tetris-button__dark__active"]}
         `}
-        onClick={e => clickHandle(e)}
+        onClick={onClick}
         tabIndex="-1"
       ></button>
       <span>{text}</span>
