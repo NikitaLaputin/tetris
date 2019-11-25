@@ -18,7 +18,6 @@ import { LOCK_DELAY, GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
 
 export default store => next => action => {
   const { type } = action;
-  const block = store.getState().activeBlock;
   const nextBlock = store.getState().nextBlock;
   const dispatchMerge = () => {
     store.dispatch(mergeField(store.getState().activeBlock));

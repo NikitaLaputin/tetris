@@ -6,7 +6,8 @@ import {
   blockSelector,
   fieldSelector,
   speedSelector,
-  gameStateSelector
+  gameStateSelector,
+  ghostBlockSelector
 } from "../../redux/selectors";
 import useKey from "../../hooks/use-key-press";
 import { moveDown } from "../../redux/ducks/active-block";
@@ -20,9 +21,10 @@ export default function Field() {
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const { block, field, speed, gameState } = useSelector(state => ({
+  const { block, field, ghostBlock, speed, gameState } = useSelector(state => ({
     block: blockSelector(state),
     field: fieldSelector(state),
+    ghostBlock: ghostBlockSelector(state),
     speed: speedSelector(state),
     gameState: gameStateSelector(state)
   }));
@@ -37,6 +39,12 @@ export default function Field() {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
     drawField({ field, ctx, side });
+    drawTetrimino({
+      block: ghostBlock,
+      ctx,
+      side,
+      ghost: true
+    });
     drawTetrimino({
       block,
       ctx,

@@ -2,7 +2,7 @@ import {
   canMoveLeft,
   canMoveRight,
   rotateTetrimino,
-  canMoveDown
+  getGhostBlock
 } from "../../utils";
 import {
   MOVE_DOWN,
@@ -40,14 +40,8 @@ export default store => next => action => {
     case DROP:
       block = getBlock();
       const field = getField();
-      while (canMoveDown(field, block)) {
-        const { position } = block;
-        block = {
-          ...block,
-          position: [position[0], position[1] + 1]
-        };
-      }
-      return next(mergeField(block));
+      const ghostBlock = getGhostBlock(field, block);
+      return next(mergeField(ghostBlock));
     case ROTATE:
       next(rotate(rotateTetrimino(getField(), getBlock())));
       break;

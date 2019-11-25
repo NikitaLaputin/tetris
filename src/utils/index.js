@@ -285,3 +285,14 @@ export const lightenColor = (color, percent) =>
         : val
     )
     .join("(");
+
+export const getGhostBlock = (field, block) => {
+  while (canMoveDown(field, block)) {
+    const { position } = block;
+    block = {
+      ...block,
+      position: [position[0], position[1] + 1]
+    };
+  }
+  return block;
+};
