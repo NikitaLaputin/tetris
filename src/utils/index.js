@@ -164,12 +164,25 @@ export const calcNewScore = ({ score, level, lines }) => {
   }
 };
 
-export const getNewTetrimino = () => {
-  const letter = Math.floor(Math.random() * SHAPES_LIST.length);
-  const shape = SHAPES[SHAPES_LIST[letter]];
-  const position = SHAPE_POSITION[SHAPES_LIST[letter]];
-  return { shape, position, locked: false };
-};
+const randomizeShapes = () =>
+  [...SHAPES_LIST].sort(() => Math.round(Math.random() * 2 - 1));
+
+export const getNewTetrimino = (() => {
+  let i = 0;
+  let randomArray = randomizeShapes();
+  const getNextShape = () => {
+    const letter = randomArray[i];
+    i++;
+    if (i > 6) {
+      i = 0;
+      randomArray = randomizeShapes();
+    }
+    const shape = SHAPES[letter];
+    const position = SHAPE_POSITION[letter];
+    return { shape, position, locked: false };
+  };
+  return getNextShape;
+})();
 
 export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
 
