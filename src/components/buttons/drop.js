@@ -1,21 +1,21 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
-import { rotate } from "../../redux/ducks/active-block";
+import { drop } from "../../redux/ducks/active-block";
 import MainButton from "./main-button";
 
-function RotateButton({ style }) {
+function DropButton({ style }) {
   const dispatch = useDispatch();
-  const rotateBlock = () => dispatch(rotate());
-  const pressed = useKeyPress("ArrowUp", rotateBlock);
+  const dropBlock = () => dispatch(drop());
+  const pressed = useKeyPress(" ", dropBlock);
   return (
     <MainButton
       style={style}
-      onClick={rotateBlock}
+      onClick={dropBlock}
       pressed={pressed}
-      text="Rotate"
+      text="Drop"
     />
   );
 }
 
-export default memo(RotateButton);
+export default memo(DropButton);

@@ -46,8 +46,9 @@ export default store => next => action => {
       Timeout.resume(dispatchMerge);
       return next(action);
     case MERGE:
+      const { payload } = action;
       const field = store.getState().field;
-      const isMovingDown = canMoveDown(field, block);
+      const isMovingDown = canMoveDown(field, payload);
       if (isMovingDown) {
         return next(unlock());
       }

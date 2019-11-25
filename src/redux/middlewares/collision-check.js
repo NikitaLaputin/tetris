@@ -1,11 +1,18 @@
-import { canMoveLeft, canMoveRight, rotateTetrimino } from "../../utils";
+import {
+  canMoveLeft,
+  canMoveRight,
+  rotateTetrimino,
+  canMoveDown
+} from "../../utils";
 import {
   MOVE_DOWN,
   MOVE_LEFT,
   MOVE_RIGHT,
   ROTATE,
-  rotate
+  rotate,
+  DROP
 } from "../ducks/active-block";
+import { mergeField } from "../ducks/field";
 
 export default store => next => action => {
   const { type } = action;
@@ -30,6 +37,17 @@ export default store => next => action => {
       locked = block.locked;
       if (locked) return;
       return next(action);
+    case DROP:
+      block = getBlock();
+      const field = getField();
+      while (canMoveDown(field, block)) {
+        const { position } = block;
+        block = {
+          ...block,
+          position: [position[0], position[1] + 1]
+        };
+      }
+      return next(mergeField(block));
     case ROTATE:
       next(rotate(rotateTetrimino(getField(), getBlock())));
       break;

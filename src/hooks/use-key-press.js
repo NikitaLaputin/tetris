@@ -9,7 +9,9 @@ export default function useKey(
 ) {
   const [pressed, setPressed] = useState(false);
 
-  const onDown = ({ key }) => {
+  const onDown = e => {
+    e.preventDefault();
+    const { key } = e;
     if (key.toLowerCase() === targetKey.toLowerCase()) {
       setPressed(true);
     }

@@ -6,6 +6,7 @@ import Left from "./left";
 import Right from "./right";
 import Rotate from "./rotate";
 import Down from "./down";
+import Drop from "./drop";
 
 export default function Buttons() {
   return (
@@ -15,10 +16,11 @@ export default function Buttons() {
         <Start />
       </div>
       <div className={styles["buttons-container-bottom"]}>
-        <Rotate style={{ gridArea: "a" }} />
-        <Left style={{ gridArea: "b" }} />
-        <Down style={{ gridArea: "c" }} />
-        <Right style={{ gridArea: "d" }} />
+        <Rotate style={{ gridArea: "rotate" }} />
+        <Left style={{ gridArea: "left" }} />
+        <Down style={{ gridArea: "down" }} />
+        <Right style={{ gridArea: "right" }} />
+        <Drop style={{ gridArea: "drop" }} />
       </div>
     </div>
   );

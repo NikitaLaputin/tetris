@@ -8,6 +8,7 @@ export const MOVE_DOWN = "active-block/MOVE_DOWN";
 export const SET_NEW_Tetrimino = "active-block/SET_NEW_Tetrimino";
 export const LOCK = "active-block/LOCK";
 export const UNLOCK = "active-block/UNLOCK";
+export const DROP = "active-block/DROP";
 
 export default (state = getNewTetrimino(), action) => {
   const { type, payload } = action;
@@ -61,4 +62,8 @@ export const lock = () => ({
 
 export const unlock = () => ({
   type: UNLOCK
+});
+
+export const drop = () => ({
+  type: DROP
 });

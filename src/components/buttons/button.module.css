@@ -10,8 +10,8 @@
 .buttons-container-bottom {
   display: grid;
   grid-template-areas:
-    "b a d"
-    "b c d";
+    "left drop right . rotate"
+    "left down right . rotate";
   grid-template-columns: repeat(3, 60px);
   grid-template-rows: repeat(2, 110px);
 }
