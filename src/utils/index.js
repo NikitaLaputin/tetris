@@ -237,6 +237,7 @@ export const Timeout = (() => {
 export const Interval = (() => {
   const keys = {};
   const keyData = {};
+  const keysTimeouts = {};
   const set = (key, ms) => {
     clear(key);
     keys[key] = setInterval(() => {
@@ -254,6 +255,7 @@ export const Interval = (() => {
   const clear = key => {
     if (keys[key]) {
       clearInterval(keys[key]);
+      clearTimeout(keysTimeouts[key]);
       delete keys[key];
       delete keyData[key];
     }
@@ -265,6 +267,7 @@ export const Interval = (() => {
     if (!keys[key]) return;
     if (paused(key)) return;
     clearInterval(keys[key]);
+    clearTimeout(keysTimeouts[key]);
     const start = new Date().getTime();
     const wait = keyData[key].ms - (start - keyData[key].start);
 
@@ -274,7 +277,7 @@ export const Interval = (() => {
   const resume = key => {
     if (!keys[key]) return;
     if (!paused(key)) return;
-    setTimeout(() => {
+    keysTimeouts[key] = setTimeout(() => {
       key();
       set(key, keyData[key].ms);
     }, keyData[key].wait);

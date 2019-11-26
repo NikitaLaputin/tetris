@@ -10,7 +10,12 @@ import {
 } from "../../redux/selectors";
 import drawField from "../helpers/draw-field";
 import styles from "./field.module.css";
-import { NOT_STARTED, INVISIBLE_ROWS } from "../../utils/consts";
+import {
+  NOT_STARTED,
+  INVISIBLE_ROWS,
+  GAME_PAUSED,
+  GAME_OVER
+} from "../../utils/consts";
 import drawText from "../helpers/draw-text";
 
 export default function Field() {
@@ -29,17 +34,27 @@ export default function Field() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+    const position = [
+      (field[0].length * side) / 2,
+      ((field.length - INVISIBLE_ROWS) / 2) * side
+    ];
     if (status === NOT_STARTED) {
-      const position = [
-        (field[0].length * side) / 2,
-        ((field.length - INVISIBLE_ROWS) / 2) * side
-      ];
+      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
       drawText({
         ctx,
         size: 30,
         position,
         color: "#eaeaea",
         text: "PRESS START"
+      });
+    } else if (status === GAME_PAUSED) {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
+      drawText({
+        ctx,
+        size: 30,
+        position,
+        color: "#eaeaea",
+        text: "PAUSED"
       });
     } else {
       ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
@@ -55,8 +70,17 @@ export default function Field() {
         ctx,
         side
       });
+      if (status === GAME_OVER) {
+        drawText({
+          ctx,
+          size: 30,
+          position,
+          color: "#eaeaea",
+          text: "GAME OVER"
+        });
+      }
     }
-  }, [block, field]);
+  }, [block, field, status]);
 
   return (
     <div

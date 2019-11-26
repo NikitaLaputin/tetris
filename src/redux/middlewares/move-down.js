@@ -33,7 +33,6 @@ export default store => next => action => {
       Interval.set(callback, speed);
       return next(action);
     case ROWS_DESTROYED:
-      console.log("HERE");
       const speedBefore = speedSelector(store.getState());
       next(action);
       const speedAfter = speedSelector(store.getState());
