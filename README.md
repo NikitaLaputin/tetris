@@ -1,1 +1,1 @@
-## Tetris using react and redux
+## Tetris using react, redux and canvas

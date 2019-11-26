@@ -1,25 +1,18 @@
 .buttons-container {
   padding-left: 10px;
-}
-
-.buttons-container-top {
-  display: flex;
-  flex-direction: row-reverse;
-}
-
-.buttons-container-bottom {
   display: grid;
   grid-template-areas:
-    "left drop right . rotate"
-    "left down right . rotate";
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(2, 110px);
+    "left drop right . start pause"
+    "left drop right . rotate rotate"
+    "left down right . rotate rotate"
+    "left down right . rotate rotate";
+  grid-template-rows: 40px 60px 60px 60px;
 }
 
 .button-container {
   display: inline-flex;
   flex-direction: column;
-  margin: auto 0;
+  margin: auto;
 }
 
 .button-container > span {

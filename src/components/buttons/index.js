@@ -11,17 +11,13 @@ import Drop from "./drop";
 export default function Buttons() {
   return (
     <div className={styles["buttons-container"]}>
-      <div className={styles["buttons-container-top"]}>
-        <Pause />
-        <Start />
-      </div>
-      <div className={styles["buttons-container-bottom"]}>
-        <Rotate style={{ gridArea: "rotate" }} />
-        <Left style={{ gridArea: "left" }} />
-        <Down style={{ gridArea: "down" }} />
-        <Right style={{ gridArea: "right" }} />
-        <Drop style={{ gridArea: "drop" }} />
-      </div>
+      <Start style={{ gridArea: "start" }} />
+      <Pause style={{ gridArea: "pause" }} />
+      <Rotate style={{ gridArea: "start / start / rotate / rotate" }} />
+      <Left style={{ gridArea: "left" }} />
+      <Down style={{ gridArea: "down" }} />
+      <Right style={{ gridArea: "right" }} />
+      <Drop style={{ gridArea: "drop" }} />
     </div>
   );
 }

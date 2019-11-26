@@ -1,27 +1,20 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { togglePause } from "../../redux/ducks/game-state";
-import styles from "./button.module.css";
 import useKeyPress from "../../hooks/use-key-press";
+import OptionButton from "./option-button";
 
-function PauseButton() {
+function PauseButton({ style }) {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
   const pressed = useKeyPress({ targetKey: "p", callback: togglePauseGame });
   return (
-    <div className={`${styles["button-container"]}`}>
-      <button
-        className={`
-        ${styles["tetris-option-button"]} ${
-          styles["tetris-option-button__dark"]
-        }
-        ${pressed && styles["tetris-option-button__active"]} ${pressed &&
-          styles["tetris-option-button__dark__active"]}
-        `}
-        onClick={togglePauseGame}
-      ></button>
-      <span>Pause</span>
-    </div>
+    <OptionButton
+      style={style}
+      onClick={togglePauseGame}
+      pressed={pressed}
+      text="Pause"
+    />
   );
 }
 

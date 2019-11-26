@@ -1,27 +1,20 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { reset } from "../../redux/ducks/game-state";
-import styles from "./button.module.css";
 import useKeyPress from "../../hooks/use-key-press";
+import OptionButton from "./option-button";
 
-function StartButton() {
+function StartButton({ style }) {
   const dispatch = useDispatch();
   const startGame = () => dispatch(reset());
   const pressed = useKeyPress({ targetKey: "s", callback: startGame });
   return (
-    <div className={`${styles["button-container"]}`}>
-      <button
-        className={`
-        ${styles["tetris-option-button"]} ${
-          styles["tetris-option-button__dark"]
-        }
-        ${pressed && styles["tetris-option-button__active"]} ${pressed &&
-          styles["tetris-option-button__dark__active"]}
-        `}
-        onClick={startGame}
-      ></button>
-      <span>Start</span>
-    </div>
+    <OptionButton
+      style={style}
+      onClick={startGame}
+      pressed={pressed}
+      text="Start"
+    />
   );
 }
 
