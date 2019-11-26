@@ -12,7 +12,7 @@
   grid-template-areas:
     "left drop right . rotate"
     "left down right . rotate";
-  grid-template-columns: repeat(3, 60px);
+  grid-template-columns: repeat(4, 60px);
   grid-template-rows: repeat(2, 110px);
 }
 

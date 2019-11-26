@@ -7,7 +7,7 @@ import MainButton from "./main-button";
 function DropButton({ style }) {
   const dispatch = useDispatch();
   const dropBlock = () => dispatch(drop());
-  const pressed = useKeyPress(" ", dropBlock);
+  const pressed = useKeyPress({ targetKey: " ", callback: dropBlock });
   return (
     <MainButton
       style={style}

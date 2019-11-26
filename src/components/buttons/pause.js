@@ -7,7 +7,7 @@ import useKeyPress from "../../hooks/use-key-press";
 function PauseButton() {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
-  const pressed = useKeyPress("p", togglePauseGame);
+  const pressed = useKeyPress({ targetKey: "p", callback: togglePauseGame });
   return (
     <div className={`${styles["button-container"]}`}>
       <button

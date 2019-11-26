@@ -1,5 +1,6 @@
 import { getNewTetrimino } from "../../utils";
 import { RESET } from "./game-state";
+import { DEFAULT_SHAPE } from "../../utils/consts";
 
 export const ROTATE = "active-block/ROTATE";
 export const MOVE_RIGHT = "active-block/MOVE_RIGHT";
@@ -9,8 +10,10 @@ export const SET_NEW_Tetrimino = "active-block/SET_NEW_Tetrimino";
 export const LOCK = "active-block/LOCK";
 export const UNLOCK = "active-block/UNLOCK";
 export const DROP = "active-block/DROP";
+export const MOVE_LOCK = "active-block/MOVE_LOCK";
+export const MOVE_UNLOCK = "active-block/MOVE_UNLOCK";
 
-export default (state = getNewTetrimino(), action) => {
+export default (state = DEFAULT_SHAPE, action) => {
   const { type, payload } = action;
   switch (type) {
     case ROTATE:
@@ -29,6 +32,10 @@ export default (state = getNewTetrimino(), action) => {
       return { ...state, locked: true };
     case UNLOCK:
       return { ...state, locked: false };
+    case MOVE_LOCK:
+      return { ...state, movementLocked: true };
+    case MOVE_UNLOCK:
+      return { ...state, movementLocked: false };
     default:
       return state;
   }
@@ -66,4 +73,12 @@ export const unlock = () => ({
 
 export const drop = () => ({
   type: DROP
+});
+
+export const movementLock = () => ({
+  type: MOVE_LOCK
+});
+
+export const movementUnlock = () => ({
+  type: MOVE_UNLOCK
 });

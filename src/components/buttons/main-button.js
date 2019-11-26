@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import styles from "./button.module.css";
 
-function MainButton({ style, onClick, pressed, text }) {
+function MainButton({ style, onClick, btnRef, pressed, text }) {
   return (
     <div style={style} className={`${styles["button-container"]}`}>
       <button
@@ -12,6 +12,7 @@ function MainButton({ style, onClick, pressed, text }) {
         `}
         onClick={onClick}
         tabIndex="-1"
+        ref={btnRef}
       ></button>
       <span>{text}</span>
     </div>

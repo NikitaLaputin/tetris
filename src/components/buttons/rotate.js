@@ -7,7 +7,7 @@ import MainButton from "./main-button";
 function RotateButton({ style }) {
   const dispatch = useDispatch();
   const rotateBlock = () => dispatch(rotate());
-  const pressed = useKeyPress("ArrowUp", rotateBlock);
+  const pressed = useKeyPress({ targetKey: "ArrowUp", callback: rotateBlock });
   return (
     <MainButton
       style={style}

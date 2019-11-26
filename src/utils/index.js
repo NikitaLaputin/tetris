@@ -234,6 +234,60 @@ export const Timeout = (() => {
   };
 })();
 
+export const Interval = (() => {
+  const keys = {};
+  const keyData = {};
+  const set = (key, ms) => {
+    clear(key);
+    keys[key] = setInterval(() => {
+      key();
+      keyData[key] = {
+        start: new Date().getTime(),
+        paused: false,
+        ms,
+        wait: 0
+      };
+    }, ms);
+    keyData[key] = { start: new Date().getTime(), paused: false, ms, wait: 0 };
+  };
+
+  const clear = key => {
+    if (keys[key]) {
+      clearInterval(keys[key]);
+      delete keys[key];
+      delete keyData[key];
+    }
+  };
+
+  const paused = key => keys[key] && keyData[key] && keyData[key].paused;
+
+  const pause = key => {
+    if (!keys[key]) return;
+    if (paused(key)) return;
+    clearInterval(keys[key]);
+    const start = new Date().getTime();
+    const wait = keyData[key].ms - (start - keyData[key].start);
+
+    keyData[key] = { ...keyData[key], start, wait, paused: true };
+  };
+
+  const resume = key => {
+    if (!keys[key]) return;
+    if (!paused(key)) return;
+    setTimeout(() => {
+      key();
+      set(key, keyData[key].ms);
+    }, keyData[key].wait);
+  };
+
+  return {
+    set,
+    clear,
+    pause,
+    resume
+  };
+})();
+
 export const getShapeColor = shape =>
   colors[
     shape.reduce(

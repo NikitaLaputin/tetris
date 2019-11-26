@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { moveLeft } from "../../redux/ducks/active-block";
@@ -6,10 +6,21 @@ import MainButton from "./main-button";
 
 function LeftButton({ style }) {
   const dispatch = useDispatch();
-  const left = () => dispatch(moveLeft());
-  const pressed = useKeyPress("ArrowLeft", left, true);
+  const callback = () => dispatch(moveLeft());
+  const targetButton = useRef();
+  const pressed = useKeyPress({
+    targetKey: "ArrowLeft",
+    callback,
+    continious: true,
+    targetButton
+  });
   return (
-    <MainButton style={style} onClick={left} pressed={pressed} text="Left" />
+    <MainButton
+      style={style}
+      btnRef={targetButton}
+      pressed={pressed}
+      text="Left"
+    />
   );
 }
 

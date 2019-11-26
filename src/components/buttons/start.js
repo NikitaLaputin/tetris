@@ -7,7 +7,7 @@ import useKeyPress from "../../hooks/use-key-press";
 function StartButton() {
   const dispatch = useDispatch();
   const startGame = () => dispatch(reset());
-  const pressed = useKeyPress("s", startGame);
+  const pressed = useKeyPress({ targetKey: "s", callback: startGame });
   return (
     <div className={`${styles["button-container"]}`}>
       <button

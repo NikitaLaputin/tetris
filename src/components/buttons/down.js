@@ -1,15 +1,34 @@
-import React, { memo } from "react";
+import React, { memo, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
-import { moveDown } from "../../redux/ducks/active-block";
+import {
+  moveDown,
+  movementLock,
+  movementUnlock
+} from "../../redux/ducks/active-block";
 import MainButton from "./main-button";
 
 function DownButton({ style }) {
   const dispatch = useDispatch();
-  const down = () => dispatch(moveDown());
-  const pressed = useKeyPress("ArrowDown", down, true, 75);
+  const callback = () => dispatch(moveDown());
+  const targetButton = useRef();
+  const pressed = useKeyPress({
+    targetKey: "ArrowDown",
+    callback,
+    continious: true,
+    frequency: 75,
+    targetButton
+  });
+  useEffect(() => {
+    dispatch(pressed ? movementLock() : movementUnlock());
+  }, [dispatch, pressed]);
   return (
-    <MainButton style={style} onClick={down} pressed={pressed} text="Down" />
+    <MainButton
+      style={style}
+      pressed={pressed}
+      btnRef={targetButton}
+      text="Down"
+    />
   );
 }
 

@@ -1,76 +1,62 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect } from "react";
 import drawTetrimino from "../helpers/draw-tetrimino";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   blockSelector,
   fieldSelector,
-  speedSelector,
   gameStateSelector,
   ghostBlockSelector
 } from "../../redux/selectors";
-import useKey from "../../hooks/use-key-press";
-import { moveDown } from "../../redux/ducks/active-block";
 import drawField from "../helpers/draw-field";
-import { RESET, START, PAUSE, RESUME } from "../../redux/ducks/game-state";
-import useInterval from "../../hooks/use-interval";
 import styles from "./field.module.css";
+import { NOT_STARTED, INVISIBLE_ROWS } from "../../utils/consts";
+import drawText from "../helpers/draw-text";
 
 export default function Field() {
   const canvasWidth = 200;
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const { block, field, ghostBlock, speed, gameState } = useSelector(state => ({
+  const { block, field, ghostBlock, gameState } = useSelector(state => ({
     block: blockSelector(state),
     field: fieldSelector(state),
     ghostBlock: ghostBlockSelector(state),
-    speed: speedSelector(state),
     gameState: gameStateSelector(state)
   }));
-  const { lastAction } = gameState;
-  const dispatch = useDispatch();
-  const down = () => dispatch(moveDown());
-  const { start, pause, resume, reset } = useInterval(down, speed);
-  const pressedDown = useKey("ArrowDown");
+  const { status } = gameState;
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-    drawField({ field, ctx, side });
-    drawTetrimino({
-      block: ghostBlock,
-      ctx,
-      side,
-      ghost: true
-    });
-    drawTetrimino({
-      block,
-      ctx,
-      side
-    });
+    if (status === NOT_STARTED) {
+      const position = [
+        (field[0].length * side) / 2,
+        ((field.length - INVISIBLE_ROWS) / 2) * side
+      ];
+      drawText({
+        ctx,
+        size: 30,
+        position,
+        color: "#eaeaea",
+        text: "PRESS START"
+      });
+    } else {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
+      drawField({ field, ctx, side });
+      drawTetrimino({
+        block: ghostBlock,
+        ctx,
+        side,
+        ghost: true
+      });
+      drawTetrimino({
+        block,
+        ctx,
+        side
+      });
+    }
   }, [block, field]);
-
-  useEffect(() => {
-    if (lastAction === START) {
-      start();
-    }
-    if (lastAction === RESET) {
-      reset();
-    }
-    if (lastAction === PAUSE) {
-      pause();
-    }
-    if (lastAction === RESUME) {
-      resume();
-    }
-  }, [gameState]);
-
-  useEffect(() => {
-    if (pressedDown) pause();
-    else resume();
-  }, [pressedDown]);
 
   return (
     <div

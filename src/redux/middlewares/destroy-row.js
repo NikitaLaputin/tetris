@@ -56,12 +56,12 @@ export default store => next => action => {
       const { matrix, rows } = destroyFullRows(mergedField);
       next(destroyRow(matrix));
       if (rows > 0) {
-        next(rowsDestroyed(rows));
+        store.dispatch(rowsDestroyed(rows));
       }
       return store.dispatch(setNewTetrimino(nextBlock));
     case SET_NEW_Tetrimino:
       if (collide(store.getState().field, store.getState().nextBlock))
-        return next(gameOver());
+        return store.dispatch(gameOver());
       next(action);
       break;
     default:
