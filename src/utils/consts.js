@@ -70,3 +70,8 @@ export const DEFAULT_SHAPE = {
   shape: SHAPES.I,
   position: SHAPE_POSITION.I
 };
+
+export const PIXEL_RATIO = (function() {
+  const dpr = window.devicePixelRatio;
+  return dpr;
+})();

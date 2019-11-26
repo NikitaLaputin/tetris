@@ -16,14 +16,15 @@ import {
   NOT_STARTED,
   INVISIBLE_ROWS,
   GAME_PAUSED,
-  GAME_OVER
+  GAME_OVER,
+  PIXEL_RATIO
 } from "../../utils/consts";
 import drawText from "../helpers/draw-text";
 
 export default function Field() {
-  const canvasWidth = 200;
-  const canvasHeigth = 400;
-  const side = 20;
+  const canvasWidth = 200 * PIXEL_RATIO;
+  const canvasHeigth = 400 * PIXEL_RATIO;
+  const side = 20 * PIXEL_RATIO;
   const canvasRef = useRef(null);
   const { block, field, ghostBlock, gameState, highScore, score } = useSelector(
     state => ({
@@ -40,6 +41,8 @@ export default function Field() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+    console.log("PIXEL RATIO", PIXEL_RATIO);
+    ctx.pixelRatio = PIXEL_RATIO;
     const position = [
       (field[0].length * side) / 2,
       ((field.length - INVISIBLE_ROWS - 5) / 2) * side
@@ -57,7 +60,10 @@ export default function Field() {
                 drawText({
                   ctx,
                   size: 20,
-                  position: [position[0], position[1] + 30 * (i + 2)],
+                  position: [
+                    position[0],
+                    position[1] + 30 * PIXEL_RATIO * (i + 2)
+                  ],
                   color: "#eaeaea",
                   text: `${i + 1}: ${val}`
                 })
@@ -69,7 +75,7 @@ export default function Field() {
         drawText({
           ctx,
           size: 20,
-          position: [position[0], position[1] + 30],
+          position: [position[0], position[1] + 30 * PIXEL_RATIO],
           color: "#eaeaea",
           text: "HIGH SCORES:"
         });
@@ -130,7 +136,15 @@ export default function Field() {
       className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
       style={{ maxHeight: 400 }}
     >
-      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeigth} />
+      <canvas
+        ref={canvasRef}
+        width={canvasWidth}
+        height={canvasHeigth}
+        style={{
+          width: canvasWidth / PIXEL_RATIO,
+          height: canvasHeigth / PIXEL_RATIO
+        }}
+      />
     </div>
   );
 }

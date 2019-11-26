@@ -2,11 +2,13 @@
   padding-left: 10px;
   display: grid;
   grid-template-areas:
-    "left drop right start pause"
-    "left drop right rotate rotate"
-    "left down right rotate rotate"
-    "left down right rotate rotate";
+    "left drop right . start pause"
+    "left drop right . rotate rotate"
+    "left down right . rotate rotate"
+    "left down right . rotate rotate";
   grid-template-rows: 40px 60px 60px 60px;
+  grid-template-rows: 60px 60px 60px 60px;
+  grid-template-columns: 56px 56px 56px 43px 50px 40px;
 }
 
 .button-container {

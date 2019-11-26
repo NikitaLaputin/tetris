@@ -1,4 +1,5 @@
 import { darkenColor, lightenColor } from "../../utils";
+import { PIXEL_RATIO } from "../../utils/consts";
 
 export default function drawBlock({
   ctx,
@@ -12,8 +13,13 @@ export default function drawBlock({
   if (ghost) {
     ctx.beginPath();
     ctx.strokeStyle = "#858fa5";
-    ctx.lineWidth = 2;
-    ctx.rect(x + 2, y + 2, side - 4, side - 4);
+    ctx.lineWidth = 2 * PIXEL_RATIO;
+    ctx.rect(
+      x + 2 * PIXEL_RATIO,
+      y + 2 * PIXEL_RATIO,
+      side - 4 * PIXEL_RATIO,
+      side - 4 * PIXEL_RATIO
+    );
     ctx.stroke();
     ctx.closePath();
   } else {
@@ -28,7 +34,12 @@ export default function drawBlock({
     lingrad.addColorStop(1, colorGradEnd);
     ctx.beginPath();
     ctx.fillStyle = lingrad;
-    ctx.fillRect(x + 1, y + 1, side - 2, side - 2);
+    ctx.fillRect(
+      x + 1 * PIXEL_RATIO,
+      y + 1 * PIXEL_RATIO,
+      side - 2 * PIXEL_RATIO,
+      side - 2 * PIXEL_RATIO
+    );
     ctx.closePath();
   }
 }
