@@ -4,11 +4,13 @@ import field from "../ducks/field";
 import nextBlock from "../ducks/next-block";
 import gameState from "../ducks/game-state";
 import timer from "../ducks/timer";
+import highScore from "../ducks/high-score";
 
 export default combineReducers({
   activeBlock,
   field,
   nextBlock,
   gameState,
-  timer
+  timer,
+  highScore
 });

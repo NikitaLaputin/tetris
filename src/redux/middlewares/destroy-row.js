@@ -15,6 +15,9 @@ import {
   UNLOCK
 } from "../ducks/active-block";
 import { LOCK_DELAY, GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
+import { saveHighScore } from "../../localstorage";
+import { scoreSelector, highScoreSelector } from "../selectors";
+import { setNewHighScore } from "../ducks/high-score";
 
 export default store => next => action => {
   const { type } = action;
@@ -60,8 +63,17 @@ export default store => next => action => {
       }
       return store.dispatch(setNewTetrimino(nextBlock));
     case SET_NEW_Tetrimino:
-      if (collide(store.getState().field, store.getState().nextBlock))
+      const state = store.getState();
+      if (collide(state.field, state.nextBlock)) {
+        const score = scoreSelector(state);
+        const highScore = highScoreSelector(state);
+        if (highScore.reduce((res, val) => (res ? res : val < score), false)) {
+          next(setNewHighScore(score));
+          console.log("NEW SCORES", highScoreSelector(store.getState()));
+          saveHighScore(highScoreSelector(store.getState()));
+        }
         return store.dispatch(gameOver());
+      }
       next(action);
       break;
     default:

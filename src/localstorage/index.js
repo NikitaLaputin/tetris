@@ -2,15 +2,15 @@ export const loadHighScore = () => {
   try {
     const serializedHighScore = localStorage.getItem("highScore");
     if (serializedHighScore === null) {
-      return undefined;
+      return [0, 0, 0, 0, 0];
     }
     return JSON.parse(serializedHighScore);
   } catch (err) {
-    return undefined;
+    return [0, 0, 0, 0, 0];
   }
 };
 
-export const saveHighScore = state => {
-  const serializedHighScore = JSON.stringify(state);
+export const saveHighScore = score => {
+  const serializedHighScore = JSON.stringify(score);
   localStorage.setItem("highScore", serializedHighScore);
 };

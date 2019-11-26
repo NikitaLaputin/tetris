@@ -2,10 +2,10 @@
   padding-left: 10px;
   display: grid;
   grid-template-areas:
-    "left drop right . start pause"
-    "left drop right . rotate rotate"
-    "left down right . rotate rotate"
-    "left down right . rotate rotate";
+    "left drop right start pause"
+    "left drop right rotate rotate"
+    "left down right rotate rotate"
+    "left down right rotate rotate";
   grid-template-rows: 40px 60px 60px 60px;
 }
 

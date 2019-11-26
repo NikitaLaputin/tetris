@@ -6,7 +6,9 @@ import {
   blockSelector,
   fieldSelector,
   gameStateSelector,
-  ghostBlockSelector
+  ghostBlockSelector,
+  highScoreSelector,
+  scoreSelector
 } from "../../redux/selectors";
 import drawField from "../helpers/draw-field";
 import styles from "./field.module.css";
@@ -23,12 +25,16 @@ export default function Field() {
   const canvasHeigth = 400;
   const side = 20;
   const canvasRef = useRef(null);
-  const { block, field, ghostBlock, gameState } = useSelector(state => ({
-    block: blockSelector(state),
-    field: fieldSelector(state),
-    ghostBlock: ghostBlockSelector(state),
-    gameState: gameStateSelector(state)
-  }));
+  const { block, field, ghostBlock, gameState, highScore, score } = useSelector(
+    state => ({
+      block: blockSelector(state),
+      field: fieldSelector(state),
+      ghostBlock: ghostBlockSelector(state),
+      gameState: gameStateSelector(state),
+      highScore: highScoreSelector(state),
+      score: scoreSelector(state)
+    })
+  );
   const { status } = gameState;
 
   useEffect(() => {
@@ -36,10 +42,38 @@ export default function Field() {
     const ctx = canvas.getContext("2d");
     const position = [
       (field[0].length * side) / 2,
+      ((field.length - INVISIBLE_ROWS - 5) / 2) * side
+    ];
+    const center = [
+      (field[0].length * side) / 2,
       ((field.length - INVISIBLE_ROWS) / 2) * side
     ];
     if (status === NOT_STARTED) {
       ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
+      const highScores = highScore.reduce(
+        (res, val, i) =>
+          val
+            ? res.concat(
+                drawText({
+                  ctx,
+                  size: 20,
+                  position: [position[0], position[1] + 30 * (i + 2)],
+                  color: "#eaeaea",
+                  text: `${i + 1}: ${val}`
+                })
+              )
+            : res,
+        []
+      );
+      if (highScores.length) {
+        drawText({
+          ctx,
+          size: 20,
+          position: [position[0], position[1] + 30],
+          color: "#eaeaea",
+          text: "HIGH SCORES:"
+        });
+      }
       drawText({
         ctx,
         size: 30,
@@ -52,7 +86,7 @@ export default function Field() {
       drawText({
         ctx,
         size: 30,
-        position,
+        position: center,
         color: "#eaeaea",
         text: "PAUSED"
       });
@@ -74,13 +108,22 @@ export default function Field() {
         drawText({
           ctx,
           size: 30,
-          position,
+          position: center,
           color: "#eaeaea",
           text: "GAME OVER"
         });
+        if (highScore.includes(score)) {
+          drawText({
+            ctx,
+            size: 30,
+            position: [center[0], center[1] + 40],
+            color: "#eaeaea",
+            text: "NEW HIGH SCORE!"
+          });
+        }
       }
     }
-  }, [block, field, status]);
+  }, [block, field, status, highScore]);
 
   return (
     <div
