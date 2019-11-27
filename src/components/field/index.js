@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect } from "react";
-import drawTetrimino from "../helpers/draw-tetrimino";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   blockSelector,
@@ -10,22 +8,20 @@ import {
   highScoreSelector,
   scoreSelector
 } from "../../redux/selectors";
-import drawField from "../helpers/draw-field";
 import styles from "./field.module.css";
 import {
   NOT_STARTED,
   INVISIBLE_ROWS,
   GAME_PAUSED,
-  GAME_OVER,
-  PIXEL_RATIO
+  GAME_OVER
 } from "../../utils/consts";
 import drawText from "../helpers/draw-text";
+import useCanvas from "../../hooks/use-canvas";
+import drawHighScore from "../helpers/draw-high-score";
+import drawGameField from "../helpers/draw-game-field";
+import drawGameOver from "../helpers/draw-game-over";
 
 export default function Field() {
-  const canvasWidth = 200 * PIXEL_RATIO;
-  const canvasHeigth = 400 * PIXEL_RATIO;
-  const side = 20 * PIXEL_RATIO;
-  const canvasRef = useRef(null);
   const { block, field, ghostBlock, gameState, highScore, score } = useSelector(
     state => ({
       block: blockSelector(state),
@@ -37,114 +33,78 @@ export default function Field() {
     })
   );
   const { status } = gameState;
+  const dependencies = [block, field, status];
+  const { canvas, ctx, ratio } = useCanvas(
+    { width: 200, height: 400 },
+    dependencies
+  );
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    console.log("PIXEL RATIO", PIXEL_RATIO);
-    ctx.pixelRatio = PIXEL_RATIO;
-    const position = [
-      (field[0].length * side) / 2,
-      ((field.length - INVISIBLE_ROWS - 5) / 2) * side
-    ];
-    const center = [
-      (field[0].length * side) / 2,
-      ((field.length - INVISIBLE_ROWS) / 2) * side
-    ];
-    if (status === NOT_STARTED) {
-      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-      const highScores = highScore.reduce(
-        (res, val, i) =>
-          val
-            ? res.concat(
-                drawText({
-                  ctx,
-                  size: 20,
-                  position: [
-                    position[0],
-                    position[1] + 30 * PIXEL_RATIO * (i + 2)
-                  ],
-                  color: "#eaeaea",
-                  text: `${i + 1}: ${val}`
-                })
-              )
-            : res,
-        []
-      );
-      if (highScores.length) {
-        drawText({
-          ctx,
-          size: 20,
-          position: [position[0], position[1] + 30 * PIXEL_RATIO],
-          color: "#eaeaea",
-          text: "HIGH SCORES:"
-        });
-      }
-      drawText({
-        ctx,
-        size: 30,
-        position,
-        color: "#eaeaea",
-        text: "PRESS START"
-      });
-    } else if (status === GAME_PAUSED) {
-      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-      drawText({
-        ctx,
-        size: 30,
-        position: center,
-        color: "#eaeaea",
-        text: "PAUSED"
-      });
-    } else {
-      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-      drawField({ field, ctx, side });
-      drawTetrimino({
-        block: ghostBlock,
-        ctx,
-        side,
-        ghost: true
-      });
-      drawTetrimino({
-        block,
-        ctx,
-        side
-      });
-      if (status === GAME_OVER) {
-        drawText({
-          ctx,
-          size: 30,
-          position: center,
-          color: "#eaeaea",
-          text: "GAME OVER"
-        });
-        if (highScore.includes(score)) {
+    if (ctx) {
+      const side = 20 * ratio;
+      const color = "#eaeaea";
+      const position = [
+        (field[0].length * side) / 2,
+        ((field.length - INVISIBLE_ROWS - 5) / 2) * side
+      ];
+      const center = [
+        (field[0].length * side) / 2,
+        ((field.length - INVISIBLE_ROWS) / 2) * side
+      ];
+      switch (status) {
+        case NOT_STARTED:
+          drawHighScore({
+            highScore,
+            ctx,
+            size: 20,
+            position,
+            color,
+            ratio
+          });
+          break;
+        case GAME_PAUSED:
           drawText({
+            ratio,
             ctx,
             size: 30,
-            position: [center[0], center[1] + 40],
-            color: "#eaeaea",
-            text: "NEW HIGH SCORE!"
+            position: center,
+            color,
+            text: "PAUSED"
           });
-        }
+          break;
+        case GAME_OVER:
+          drawGameOver({
+            ctx,
+            side,
+            ratio,
+            block,
+            ghostBlock,
+            score,
+            highScore,
+            position,
+            field,
+            color
+          });
+          break;
+        default:
+          drawGameField({
+            ctx,
+            side,
+            ratio,
+            field,
+            block,
+            ghostBlock
+          });
       }
     }
-  }, [block, field, status, highScore]);
+  }, [block, field, status, highScore, ctx, ratio, ghostBlock, score]);
 
   return (
     <div
       className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
       style={{ maxHeight: 400 }}
     >
-      <canvas
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeigth}
-        style={{
-          width: canvasWidth / PIXEL_RATIO,
-          height: canvasHeigth / PIXEL_RATIO
-        }}
-      />
+      {canvas}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { darkenColor, lightenColor } from "../../utils";
-import { PIXEL_RATIO } from "../../utils/consts";
 
 export default function drawBlock({
   ctx,
@@ -7,19 +6,15 @@ export default function drawBlock({
   position,
   color,
   locked = false,
-  ghost = false
+  ghost = false,
+  ratio = 1
 }) {
   const [x, y] = position;
   if (ghost) {
     ctx.beginPath();
     ctx.strokeStyle = "#858fa5";
-    ctx.lineWidth = 2 * PIXEL_RATIO;
-    ctx.rect(
-      x + 2 * PIXEL_RATIO,
-      y + 2 * PIXEL_RATIO,
-      side - 4 * PIXEL_RATIO,
-      side - 4 * PIXEL_RATIO
-    );
+    ctx.lineWidth = 2 * ratio;
+    ctx.rect(x + 2 * ratio, y + 2 * ratio, side - 4 * ratio, side - 4 * ratio);
     ctx.stroke();
     ctx.closePath();
   } else {
@@ -35,10 +30,10 @@ export default function drawBlock({
     ctx.beginPath();
     ctx.fillStyle = lingrad;
     ctx.fillRect(
-      x + 1 * PIXEL_RATIO,
-      y + 1 * PIXEL_RATIO,
-      side - 2 * PIXEL_RATIO,
-      side - 2 * PIXEL_RATIO
+      x + 1 * ratio,
+      y + 1 * ratio,
+      side - 2 * ratio,
+      side - 2 * ratio
     );
     ctx.closePath();
   }

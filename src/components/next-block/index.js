@@ -1,43 +1,43 @@
-import React, { useRef, useEffect, memo } from "react";
+import React, { useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 import { nextBlockSelector } from "../../redux/selectors";
-import drawBlock from "../helpers/draw-tetrimino";
+import drawTetrimino from "../helpers/draw-tetrimino";
 import styles from "../field/field.module.css";
-import { PIXEL_RATIO } from "../../utils/consts";
+import useCanvas from "../../hooks/use-canvas";
 
 function NextBlock() {
   const nextBlock = useSelector(state => nextBlockSelector(state));
-  const { shape } = nextBlock;
-  const side = 20 * PIXEL_RATIO;
-  const canvasWidth = 100 * PIXEL_RATIO;
-  const canvasHeigth = 100 * PIXEL_RATIO;
-  const x = Math.floor((canvasWidth - shape[0].length * side) / 2);
-  const y = Math.floor((canvasHeigth - shape.length * side) / 2);
-  const offset = [x, y];
-  const position = [0, 0];
-  const block = { ...nextBlock, position };
-  const canvasRef = useRef();
+  const width = 100;
+  const height = 100;
+
+  const dependencies = [nextBlock];
+  const { canvas, ctx, ratio } = useCanvas({ width, height }, dependencies);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-    drawBlock({ block, ctx, side, startingRow: 0, offset });
-  }, [block, offset, canvasWidth, canvasHeigth, side]);
+    if (ctx) {
+      const { shape } = nextBlock;
+      const side = 20 * ratio;
+      const x = Math.floor((width * ratio - shape[0].length * side) / 2);
+      const y = Math.floor((height * ratio - shape.length * side) / 2);
+      const position = [0, 0];
+      const block = { ...nextBlock, position };
+      const offset = [x, y];
+      drawTetrimino({
+        block,
+        ctx,
+        side,
+        ratio,
+        offset,
+        startingRow: 0
+      });
+    }
+  }, [nextBlock, ctx, ratio]);
 
   return (
     <div
       className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
     >
       <div className={styles.text}>Next block</div>
-      <canvas
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeigth}
-        style={{
-          width: canvasWidth / PIXEL_RATIO,
-          height: canvasHeigth / PIXEL_RATIO
-        }}
-      />
+      {canvas}
     </div>
   );
 }
