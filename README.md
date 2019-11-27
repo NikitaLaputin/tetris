@@ -10,3 +10,5 @@ Spacebar - Drop
 
 S - start  
 P - pause
+
+Live demo: https://nikitalaputin.github.io/tetris/
