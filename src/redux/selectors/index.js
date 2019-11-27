@@ -11,7 +11,6 @@ export const gameStatusSelector = state => gameStateSelector(state).status;
 export const gameLastActionSelector = state =>
   gameStateSelector(state).lastAction;
 export const speedSelector = state => gameStateSelector(state).speed;
-export const timerSelector = state => state.timer;
 export const nextBlockSelector = state => state.nextBlock;
 export const ghostBlockSelector = state =>
   getGhostBlock(fieldSelector(state), blockSelector(state));

@@ -79,8 +79,7 @@ export default function Field() {
             ratio,
             block,
             ghostBlock,
-            score,
-            highScore,
+            highScore: highScore.includes(score),
             position,
             field,
             color

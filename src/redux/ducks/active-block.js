@@ -6,7 +6,7 @@ export const ROTATE = "active-block/ROTATE";
 export const MOVE_RIGHT = "active-block/MOVE_RIGHT";
 export const MOVE_LEFT = "active-block/MOVE_LEFT";
 export const MOVE_DOWN = "active-block/MOVE_DOWN";
-export const SET_NEW_Tetrimino = "active-block/SET_NEW_Tetrimino";
+export const SET_NEW_TETRIMINO = "active-block/SET_NEW_TETRIMINO";
 export const LOCK = "active-block/LOCK";
 export const UNLOCK = "active-block/UNLOCK";
 export const DROP = "active-block/DROP";
@@ -24,7 +24,7 @@ export default (state = DEFAULT_SHAPE, action) => {
       return { ...state, position: [state.position[0] + 1, state.position[1]] };
     case MOVE_DOWN:
       return { ...state, position: [state.position[0], state.position[1] + 1] };
-    case SET_NEW_Tetrimino:
+    case SET_NEW_TETRIMINO:
       return payload;
     case RESET:
       return getNewTetrimino();
@@ -59,7 +59,7 @@ export const rotate = payload => ({
 });
 
 export const setNewTetrimino = payload => ({
-  type: SET_NEW_Tetrimino,
+  type: SET_NEW_TETRIMINO,
   payload
 });
 

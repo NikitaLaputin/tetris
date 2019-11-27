@@ -12,11 +12,11 @@ import { speedSelector } from "../selectors";
 export default store => next => action => {
   const callback = () => next(moveDown());
   const { type } = action;
-  const speed = speedSelector(store.getState());
   switch (type) {
     case RESET:
-      Interval.set(callback, speed);
-      return next(action);
+      next(action);
+      Interval.set(callback, speedSelector(store.getState()));
+      break;
     case PAUSE:
       Interval.pause(callback);
       return next(action);
@@ -30,7 +30,7 @@ export default store => next => action => {
       Interval.clear(callback);
       return next(action);
     case MOVE_UNLOCK:
-      Interval.set(callback, speed);
+      Interval.set(callback, speedSelector(store.getState()));
       return next(action);
     case ROWS_DESTROYED:
       const speedBefore = speedSelector(store.getState());

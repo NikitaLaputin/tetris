@@ -4,7 +4,6 @@ export default (state = [0, 0, 0, 0, 0], action) => {
   const { type, payload } = action;
   switch (type) {
     case NEW_HIGH_SCORE:
-      console.log("SCORES", payload);
       return state
         .concat(payload)
         .sort((a, b) => b - a)

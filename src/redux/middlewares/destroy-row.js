@@ -8,7 +8,7 @@ import {
   TOGGLE_PAUSE
 } from "../ducks/game-state";
 import {
-  SET_NEW_Tetrimino,
+  SET_NEW_TETRIMINO,
   setNewTetrimino,
   unlock,
   LOCK,
@@ -62,16 +62,16 @@ export default store => next => action => {
         store.dispatch(rowsDestroyed(rows));
       }
       return store.dispatch(setNewTetrimino(nextBlock));
-    case SET_NEW_Tetrimino:
+    case SET_NEW_TETRIMINO:
       const state = store.getState();
       if (collide(state.field, state.nextBlock)) {
         const score = scoreSelector(state);
         const highScore = highScoreSelector(state);
         if (highScore.reduce((res, val) => (res ? res : val < score), false)) {
           next(setNewHighScore(score));
-          console.log("NEW SCORES", highScoreSelector(store.getState()));
           saveHighScore(highScoreSelector(store.getState()));
         }
+        next(unlock());
         return store.dispatch(gameOver());
       }
       next(action);

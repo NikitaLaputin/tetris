@@ -9,8 +9,7 @@ export default function drawGameOver({
   ghostBlock,
   color,
   position,
-  score,
-  highScore,
+  highScore = false,
   field
 }) {
   drawGameField({
@@ -21,22 +20,39 @@ export default function drawGameOver({
     ghostBlock,
     field
   });
-  drawText({
-    ratio,
-    ctx,
-    size: 30,
-    position,
-    color,
-    text: "GAME OVER"
-  });
-  if (highScore.includes(score)) {
+  if (highScore) {
+    drawText({
+      ratio,
+      ctx,
+      size: 30,
+      position,
+      color,
+      text: "GAME OVER"
+    });
     drawText({
       ratio,
       ctx,
       size: 30,
       position: [position[0], position[1] + 40 * ratio],
       color,
-      text: "NEW HIGH SCORE!"
+      text: "NEW"
+    });
+    drawText({
+      ratio,
+      ctx,
+      size: 30,
+      position: [position[0], position[1] + 80 * ratio],
+      color,
+      text: "HIGH SCORE!"
+    });
+  } else {
+    drawText({
+      ratio,
+      ctx,
+      size: 30,
+      position: [position[0], position[1] + 60 * ratio],
+      color,
+      text: "GAME OVER"
     });
   }
 }
