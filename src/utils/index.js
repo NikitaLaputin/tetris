@@ -353,3 +353,7 @@ export const getGhostBlock = (field, block) => {
   }
   return block;
 };
+
+export const isMobileDevice = (() =>
+  typeof window.orientation !== "undefined" ||
+  navigator.userAgent.indexOf("IEMobile") !== -1)();

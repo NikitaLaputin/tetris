@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { isMobileDevice } from "../utils";
 
 export default function useKey({
   targetKey,
@@ -11,6 +12,8 @@ export default function useKey({
   let delay = 200;
   let interval, timeout;
   const [pressed, setPressed] = useState(false);
+  const mouseUp = isMobileDevice ? "touchend" : "mouseup";
+  const mouseDown = isMobileDevice ? "touchstart" : "mousedown";
 
   const onDown = e => {
     const { key } = e;
@@ -19,7 +22,7 @@ export default function useKey({
       setPressed(true);
     } else if (
       targetButton &&
-      e.type === "mousedown" &&
+      e.type === mouseDown &&
       targetButton.current.contains(e.target)
     ) {
       setPressed(true);
@@ -31,7 +34,7 @@ export default function useKey({
       setPressed(false);
     } else if (
       targetButton &&
-      e.type === "mouseup" &&
+      e.type === mouseUp &&
       targetButton.current.contains(e.target)
     ) {
       setPressed(false);
@@ -42,15 +45,15 @@ export default function useKey({
     window.addEventListener("keydown", onDown);
     window.addEventListener("keyup", onUp);
     if (targetButton) {
-      window.addEventListener("mousedown", onDown);
-      window.addEventListener("mouseup", onUp);
+      window.addEventListener(mouseDown, onDown);
+      window.addEventListener(mouseUp, onUp);
     }
     return () => {
       window.removeEventListener("keydown", onDown);
       window.removeEventListener("keydup", onUp);
       if (targetButton) {
-        window.addEventListener("mousedown", onDown);
-        window.addEventListener("mouseup", onUp);
+        window.addEventListener(mouseDown, onDown);
+        window.addEventListener(mouseUp, onUp);
       }
     };
   }, [targetKey]);

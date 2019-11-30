@@ -8,14 +8,6 @@ export default function drawHighScore({
   ratio,
   size
 }) {
-  drawText({
-    ratio,
-    ctx,
-    size: 30,
-    position,
-    color,
-    text: "PRESS START"
-  });
   const highScores = highScore.reduce(
     (res, val, i) =>
       val
@@ -34,12 +26,29 @@ export default function drawHighScore({
   );
   if (highScores.length) {
     drawText({
+      ratio,
+      ctx,
+      size: 30,
+      position,
+      color,
+      text: "PRESS START"
+    });
+    drawText({
       ctx,
       size: 20,
       position: [position[0], position[1] + 30 * ratio],
       color,
       text: "HIGH SCORES:",
       ratio
+    });
+  } else {
+    drawText({
+      ratio,
+      ctx,
+      size: 30,
+      position: [position[0], position[1] + 50 * ratio],
+      color,
+      text: "PRESS START"
     });
   }
 }

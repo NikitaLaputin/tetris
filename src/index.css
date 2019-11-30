@@ -13,6 +13,8 @@ body {
   --tetris-shadow-color-d: #820184;
   --tetris-bg-color-d: #ea41ec;
   --tetris-shadow-color-d: #820184;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 code {
