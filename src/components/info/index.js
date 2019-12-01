@@ -18,6 +18,7 @@ import {
 } from "../../redux/ducks/game-state";
 import canvasStyles from "../field/field.module.css";
 import styles from "./info.module.css";
+import { timeFromMs } from "../../utils";
 
 function Info() {
   const { level, score, lines, gameState } = useSelector(state => ({
@@ -57,7 +58,7 @@ function Info() {
         <div>{`Level: ${level}`}</div>
         <div>{`Score: ${score}`}</div>
         <div>{`Lines: ${lines}`}</div>
-        <div>{`Time: ${time}`}</div>
+        <div>{`Time: ${timeFromMs(time)}`}</div>
       </div>
       <NextBlock />
     </div>

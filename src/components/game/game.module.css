@@ -1,8 +1,10 @@
 .tetris-container {
-  margin: 20px auto;
-  padding: 0px 25px 20px 0px;
+  margin: auto;
+  padding: 5px 28px 20px 3px;
   border-radius: 20px;
   width: 307px;
+  display: grid;
+  grid-row-gap: 10px;
 }
 
 .tetris-container__light {
@@ -31,4 +33,10 @@
     9px 9px 0px 0px var(--tetris-shadow-color-l),
     10px 10px 0px 0px var(--tetris-shadow-color-l);
   background-color: var(--tetris-bg-color-l);
+}
+
+@media screen and (max-height: 700px) {
+  .tetris-container {
+    padding: 5px 25px 5px 5px;
+  }
 }

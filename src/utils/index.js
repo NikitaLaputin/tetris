@@ -357,3 +357,6 @@ export const getGhostBlock = (field, block) => {
 export const isMobileDevice = (() =>
   typeof window.orientation !== "undefined" ||
   navigator.userAgent.indexOf("IEMobile") !== -1)();
+
+export const timeFromMs = ms =>
+  `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;

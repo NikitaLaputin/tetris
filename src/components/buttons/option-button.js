@@ -14,7 +14,7 @@ export default function OptionButton({ style, text, pressed, onClick }) {
         `}
         onClick={onClick}
       ></button>
-      <span>{text}</span>
+      <div>{text}</div>
     </div>
   );
 }

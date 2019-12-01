@@ -6,7 +6,6 @@
     "left drop right . rotate rotate"
     "left down right . rotate rotate"
     "left down right . rotate rotate";
-  grid-template-rows: 40px 60px 60px 60px;
   grid-template-rows: 60px 60px 60px 60px;
   grid-template-columns: 56px 56px 56px 43px 50px 40px;
 }
@@ -83,4 +82,25 @@
   --bg-color-d: #a5af08;
   box-shadow: inset 3px 3px 0px 0px var(--tetris-shadow-color-d);
   background-color: var(--bg-color-d);
+}
+
+@media screen and (max-height: 700px) {
+  .buttons-container {
+    grid-template-rows: repeat(4, 40px);
+    grid-template-columns: 64px 64px 64px 6px 60px 50px;
+  }
+  .tetris-button {
+    margin: 10px 1px 5px 5px;
+  }
+  .tetris-button:active,
+  .tetris-button__active {
+    margin: 15px -4px 0 10px;
+  }
+  .tetris-option-button {
+    margin: 10px 1px 2px 5px;
+  }
+  .tetris-option-button:active,
+  .tetris-option-button__active {
+    margin: 15px -4px -3px 10px;
+  }
 }
