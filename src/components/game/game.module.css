@@ -5,6 +5,7 @@
   width: 307px;
   display: grid;
   grid-row-gap: 10px;
+  touch-action: manipulation;
 }
 
 .tetris-container__light {
@@ -35,7 +36,7 @@
   background-color: var(--tetris-bg-color-l);
 }
 
-@media screen and (max-height: 700px) {
+@media (max-height: 700px) {
   .tetris-container {
     padding: 5px 25px 5px 5px;
   }

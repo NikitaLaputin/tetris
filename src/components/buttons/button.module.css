@@ -84,10 +84,16 @@
   background-color: var(--bg-color-d);
 }
 
-@media screen and (max-height: 700px) {
+@media (max-height: 700px) {
+  .buttons-container {
+    grid-template-rows: repeat(4, 50px);
+    grid-template-columns: 64px 64px 64px 6px 60px 50px;
+  }
+}
+
+@media (max-height: 650px) {
   .buttons-container {
     grid-template-rows: repeat(4, 40px);
-    grid-template-columns: 64px 64px 64px 6px 60px 50px;
   }
   .tetris-button {
     margin: 10px 1px 5px 5px;
