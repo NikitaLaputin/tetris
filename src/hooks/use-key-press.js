@@ -2,41 +2,40 @@
 import { useEffect, useState } from "react";
 import { isMobileDevice } from "../utils";
 
+const mouseUp = isMobileDevice ? "touchend" : "mouseup";
+const mouseDown = isMobileDevice ? "touchstart" : "mousedown";
+
+const keyClicked = (targetKey, key) =>
+  targetKey && key && key.toLowerCase() === targetKey.toLowerCase();
+
+const buttonClicked = (targetButton, e, type) =>
+  targetButton && e.type === type && targetButton.current.contains(e.target);
+
 export default function useKey({
   targetKey,
   callback,
   continious = false,
+  targetButton = false,
   frequency = 100,
-  targetButton = false
+  delay = 200
 }) {
-  let delay = 200;
   let interval, timeout;
   const [pressed, setPressed] = useState(false);
-  const mouseUp = isMobileDevice ? "touchend" : "mouseup";
-  const mouseDown = isMobileDevice ? "touchstart" : "mousedown";
 
   const onDown = e => {
     const { key } = e;
-    if (targetKey && key && key.toLowerCase() === targetKey.toLowerCase()) {
-      e.preventDefault();
-      setPressed(true);
-    } else if (
-      targetButton &&
-      e.type === mouseDown &&
-      targetButton.current.contains(e.target)
+    if (
+      keyClicked(targetKey, key) ||
+      buttonClicked(targetButton, e, mouseDown)
     ) {
+      e.preventDefault();
       setPressed(true);
     }
   };
   const onUp = e => {
     const { key } = e;
-    if (targetKey && key && key.toLowerCase() === targetKey.toLowerCase()) {
-      setPressed(false);
-    } else if (
-      targetButton &&
-      e.type === mouseUp &&
-      targetButton.current.contains(e.target)
-    ) {
+    if (keyClicked(targetKey, key) || buttonClicked(targetButton, e, mouseUp)) {
+      e.preventDefault();
       setPressed(false);
     }
   };

@@ -1,7 +1,7 @@
-import React, { memo } from "react";
+import React from "react";
 import styles from "./button.module.css";
 
-function MainButton({ style, onClick, btnRef, pressed, text }) {
+function MainButton({ style, btnRef, pressed, text }) {
   return (
     <div style={style} className={`${styles["button-container"]}`}>
       <button
@@ -10,7 +10,6 @@ function MainButton({ style, onClick, btnRef, pressed, text }) {
         ${pressed && styles["tetris-button__active"]} ${pressed &&
           styles["tetris-button__dark__active"]}
         `}
-        onClick={onClick}
         tabIndex="-1"
         ref={btnRef}
       ></button>
@@ -19,4 +18,4 @@ function MainButton({ style, onClick, btnRef, pressed, text }) {
   );
 }
 
-export default memo(MainButton);
+export default MainButton;

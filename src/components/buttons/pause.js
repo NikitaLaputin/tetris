@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { togglePause } from "../../redux/ducks/game-state";
 import useKeyPress from "../../hooks/use-key-press";
@@ -7,15 +7,20 @@ import OptionButton from "./option-button";
 function PauseButton({ style }) {
   const dispatch = useDispatch();
   const togglePauseGame = () => dispatch(togglePause());
-  const pressed = useKeyPress({ targetKey: "p", callback: togglePauseGame });
+  const targetButton = useRef();
+  const pressed = useKeyPress({
+    targetKey: "p",
+    callback: togglePauseGame,
+    targetButton
+  });
   return (
     <OptionButton
       style={style}
-      onClick={togglePauseGame}
+      btnRef={targetButton}
       pressed={pressed}
       text="Pause"
     />
   );
 }
 
-export default memo(PauseButton);
+export default PauseButton;

@@ -5,7 +5,6 @@
   width: 307px;
   display: grid;
   grid-row-gap: 10px;
-  touch-action: manipulation;
 }
 
 .tetris-container__light {

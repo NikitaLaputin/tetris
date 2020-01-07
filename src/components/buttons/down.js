@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import {
@@ -32,4 +32,4 @@ function DownButton({ style }) {
   );
 }
 
-export default memo(DownButton);
+export default DownButton;

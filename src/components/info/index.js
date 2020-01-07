@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback, memo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import {
   levelSelector,
@@ -65,4 +65,4 @@ function Info() {
   );
 }
 
-export default memo(Info);
+export default Info;

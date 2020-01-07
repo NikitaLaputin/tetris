@@ -1,4 +1,4 @@
-import React, { memo, useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { moveRight } from "../../redux/ducks/active-block";
@@ -24,4 +24,4 @@ function RightButton({ style }) {
   );
 }
 
-export default memo(RightButton);
+export default RightButton;
