@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/tetris/static/css/main.fc64501d.chunk.css",
-    "main.js": "/tetris/static/js/main.02eb84fc.chunk.js",
-    "main.js.map": "/tetris/static/js/main.02eb84fc.chunk.js.map",
+    "main.css": "/tetris/static/css/main.75db70fe.chunk.css",
+    "main.js": "/tetris/static/js/main.aa5e32d9.chunk.js",
+    "main.js.map": "/tetris/static/js/main.aa5e32d9.chunk.js.map",
     "runtime-main.js": "/tetris/static/js/runtime-main.5086e28a.js",
     "runtime-main.js.map": "/tetris/static/js/runtime-main.5086e28a.js.map",
     "static/js/2.99e21253.chunk.js": "/tetris/static/js/2.99e21253.chunk.js",
     "static/js/2.99e21253.chunk.js.map": "/tetris/static/js/2.99e21253.chunk.js.map",
     "index.html": "/tetris/index.html",
-    "precache-manifest.d92d911e248a44d2ad6e5fc36d8eae45.js": "/tetris/precache-manifest.d92d911e248a44d2ad6e5fc36d8eae45.js",
+    "precache-manifest.dfc669651d3de1f37570bf3f6ea5f2dd.js": "/tetris/precache-manifest.dfc669651d3de1f37570bf3f6ea5f2dd.js",
     "service-worker.js": "/tetris/service-worker.js",
-    "static/css/main.fc64501d.chunk.css.map": "/tetris/static/css/main.fc64501d.chunk.css.map"
+    "static/css/main.75db70fe.chunk.css.map": "/tetris/static/css/main.75db70fe.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.5086e28a.js",
     "static/js/2.99e21253.chunk.js",
-    "static/css/main.fc64501d.chunk.css",
-    "static/js/main.02eb84fc.chunk.js"
+    "static/css/main.75db70fe.chunk.css",
+    "static/js/main.aa5e32d9.chunk.js"
   ]
 }
