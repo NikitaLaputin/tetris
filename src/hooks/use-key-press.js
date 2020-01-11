@@ -5,10 +5,10 @@ import { isMobileDevice } from "../utils";
 const mouseUp = isMobileDevice ? "touchend" : "mouseup";
 const mouseDown = isMobileDevice ? "touchstart" : "mousedown";
 
-const keyClicked = (targetKey, key) =>
+const isKeyClicked = (targetKey, key) =>
   targetKey && key && key.toLowerCase() === targetKey.toLowerCase();
 
-const buttonClicked = (targetButton, e, type) =>
+const isButtonClicked = (targetButton, e, type) =>
   targetButton && e.type === type && targetButton.current.contains(e.target);
 
 export default function useKey({
@@ -25,8 +25,8 @@ export default function useKey({
   const onDown = e => {
     const { key } = e;
     if (
-      keyClicked(targetKey, key) ||
-      buttonClicked(targetButton, e, mouseDown)
+      isKeyClicked(targetKey, key) ||
+      isButtonClicked(targetButton, e, mouseDown)
     ) {
       e.preventDefault();
       setPressed(true);
@@ -34,7 +34,10 @@ export default function useKey({
   };
   const onUp = e => {
     const { key } = e;
-    if (keyClicked(targetKey, key) || buttonClicked(targetButton, e, mouseUp)) {
+    if (
+      isKeyClicked(targetKey, key) ||
+      isButtonClicked(targetButton, e, mouseUp)
+    ) {
       e.preventDefault();
       setPressed(false);
     }
