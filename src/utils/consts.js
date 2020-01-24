@@ -71,7 +71,4 @@ export const DEFAULT_SHAPE = {
   position: SHAPE_POSITION.I
 };
 
-export const PIXEL_RATIO = (function() {
-  const dpr = window.devicePixelRatio;
-  return dpr;
-})();
+export const PIXEL_RATIO = (() => window.devicePixelRatio)();

@@ -8,8 +8,7 @@ export default function drawTetrimino({
   side,
   startingRow = INVISIBLE_ROWS,
   offset = [0, 0],
-  ghost = false,
-  ratio = 1
+  ghost = false
 }) {
   if (!block) return;
   const { shape, position, locked } = block;
@@ -23,7 +22,7 @@ export default function drawTetrimino({
         x * side + ci * side + offset[0],
         y * side + (ri - startingRow) * side + offset[1]
       ];
-      drawBlock({ ctx, side, position, color, locked, ghost, ratio });
+      drawBlock({ ctx, side, position, color, locked, ghost });
     })
   );
 }

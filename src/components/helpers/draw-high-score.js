@@ -1,11 +1,11 @@
 import drawText from "./draw-text";
+import { PIXEL_RATIO } from "../../utils/consts";
 
 export default function drawHighScore({
   highScore = [],
   ctx,
   color,
   position,
-  ratio,
   size
 }) {
   const highScores = highScore.reduce(
@@ -15,10 +15,9 @@ export default function drawHighScore({
             drawText({
               ctx,
               size,
-              position: [position[0], position[1] + 30 * ratio * (i + 2)],
+              position: [position[0], position[1] + 30 * PIXEL_RATIO * (i + 2)],
               color,
-              text: `${i + 1}: ${val}`,
-              ratio
+              text: `${i + 1}: ${val}`
             })
           )
         : res,
@@ -26,7 +25,6 @@ export default function drawHighScore({
   );
   if (highScores.length) {
     drawText({
-      ratio,
       ctx,
       size: 30,
       position,
@@ -36,17 +34,15 @@ export default function drawHighScore({
     drawText({
       ctx,
       size: 20,
-      position: [position[0], position[1] + 30 * ratio],
+      position: [position[0], position[1] + 30 * PIXEL_RATIO],
       color,
-      text: "HIGH SCORES:",
-      ratio
+      text: "HIGH SCORES:"
     });
   } else {
     drawText({
-      ratio,
       ctx,
       size: 30,
-      position: [position[0], position[1] + 50 * ratio],
+      position: [position[0], position[1] + 50 * PIXEL_RATIO],
       color,
       text: "PRESS START"
     });

@@ -4,6 +4,7 @@ import { nextBlockSelector } from "../../redux/selectors";
 import drawTetrimino from "../helpers/draw-tetrimino";
 import styles from "../field/field.module.css";
 import useCanvas from "../../hooks/use-canvas";
+import { PIXEL_RATIO } from "../../utils/consts";
 
 function NextBlock() {
   const nextBlock = useSelector(state => nextBlockSelector(state));
@@ -11,13 +12,13 @@ function NextBlock() {
   const height = 100;
 
   const dependencies = [nextBlock];
-  const { canvas, ctx, ratio } = useCanvas({ width, height }, dependencies);
+  const { canvas, ctx } = useCanvas({ width, height }, dependencies);
   useEffect(() => {
     if (ctx) {
       const { shape } = nextBlock;
-      const side = 20 * ratio;
-      const x = Math.floor((width * ratio - shape[0].length * side) / 2);
-      const y = Math.floor((height * ratio - shape.length * side) / 2);
+      const side = 20 * PIXEL_RATIO;
+      const x = Math.floor((width * PIXEL_RATIO - shape[0].length * side) / 2);
+      const y = Math.floor((height * PIXEL_RATIO - shape.length * side) / 2);
       const position = [0, 0];
       const block = { ...nextBlock, position };
       const offset = [x, y];
@@ -25,12 +26,11 @@ function NextBlock() {
         block,
         ctx,
         side,
-        ratio,
         offset,
         startingRow: 0
       });
     }
-  }, [nextBlock, ctx, ratio]);
+  }, [nextBlock, ctx]);
 
   return (
     <div
