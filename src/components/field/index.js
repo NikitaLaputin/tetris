@@ -1,5 +1,6 @@
-import React, { useEffect, useState, memo, useRef } from "react";
+import React, { memo, useRef, useMemo, useCallback } from "react";
 import { useSelector } from "react-redux";
+
 import {
   blockSelector,
   fieldSelector,
@@ -8,139 +9,183 @@ import {
   highScoreSelector,
   scoreSelector
 } from "../../redux/selectors";
-import styles from "./field.module.css";
 import {
   NOT_STARTED,
   INVISIBLE_ROWS,
   GAME_PAUSED,
-  GAME_OVER
+  GAME_OVER,
+  BLOCK_SIDE,
+  PIXEL_RATIO
 } from "../../utils/consts";
 import drawText from "../helpers/draw-text";
 import useCanvas from "../../hooks/use-canvas";
 import drawHighScore from "../helpers/draw-high-score";
-import drawGameField from "../helpers/draw-game-field";
 import drawGameOver from "../helpers/draw-game-over";
 import drawField from "../helpers/draw-field";
 import drawTetrimino from "../helpers/draw-tetrimino";
-import { PIXEL_RATIO } from "../../utils/consts";
-import { mergeMatrix } from "../../utils";
+import styles from "./field.module.css";
+import { clearArea } from "../../utils";
 
 const Field = () => {
-  const { block, field, ghostBlock, gameState, highScore, score } = useSelector(
-    state => ({
-      block: blockSelector(state),
-      field: fieldSelector(state),
-      ghostBlock: ghostBlockSelector(state),
-      gameState: gameStateSelector(state),
-      highScore: highScoreSelector(state),
-      score: scoreSelector(state)
-    })
-  );
+  const block = useSelector(state => blockSelector(state));
+  const field = useSelector(state => fieldSelector(state));
+  const ghostBlock = useSelector(state => ghostBlockSelector(state));
+  const gameState = useSelector(state => gameStateSelector(state));
+  const highScore = useSelector(state => highScoreSelector(state));
+  const score = useSelector(state => scoreSelector(state));
 
   const emptyArr = useRef(null);
   emptyArr.current = [[]];
 
-  const [prevField, setPrevField] = useState(field);
-  const [prevBlock, setPrevBlock] = useState(block);
-
   const { status } = gameState;
 
-  const canvasStyle = {
-    width: 200,
-    height: 400,
-    position: "absolute",
-    borderRadius: 10
-  };
-
-  const { canvas, ctx } = useCanvas(canvasStyle, prevField);
-  const { canvas: blockCanvas, ctx: blockCtx } = useCanvas(
-    canvasStyle,
-    prevBlock
-  );
-  const { canvas: textCanvas, ctx: textCtx } = useCanvas(
-    {
-      ...canvasStyle,
-      zIndex: 2
-    },
-    emptyArr.current
+  const canvasStyle = useMemo(
+    () => ({
+      width: 200,
+      height: 400,
+      position: "absolute",
+      borderRadius: 10
+    }),
+    []
   );
 
-  useEffect(() => {
-    setPrevField(field);
-  }, [field]);
+  const fieldPosition = useMemo(() => [0, 0 - INVISIBLE_ROWS], []);
 
-  useEffect(() => {
-    setPrevBlock(block);
-  }, [block]);
+  const blockPosition = useMemo(
+    () => [block.position[0], block.position[1] - INVISIBLE_ROWS],
+    [block]
+  );
 
-  useEffect(() => {
-    if (!ctx || !textCtx) return;
-    const side = 20 * PIXEL_RATIO;
-    const color = "#eaeaea";
-    const position = [
-      (field[0].length * side) / 2,
-      ((field.length - INVISIBLE_ROWS - 5) / 2) * side
-    ];
-    const center = [
-      (field[0].length * side) / 2,
-      ((field.length - INVISIBLE_ROWS) / 2) * side
-    ];
-    switch (status) {
-      case NOT_STARTED:
-        drawHighScore({
-          highScore,
-          ctx: textCtx,
-          size: 20,
-          position,
-          color
-        });
-        break;
-      case GAME_PAUSED:
-        drawText({
-          ctx: textCtx,
-          size: 30,
-          position: center,
-          color,
-          text: "PAUSED"
-        });
-        break;
-      case GAME_OVER:
-        drawGameOver({
-          ctx: textCtx,
-          side,
-          block,
-          ghostBlock,
-          highScore: highScore.includes(score),
-          position,
+  const ghostBlockPosition = useMemo(
+    () => [ghostBlock.position[0], ghostBlock.position[1] - INVISIBLE_ROWS],
+    [ghostBlock]
+  );
+
+  const fieldCanvas = useCanvas(
+    useCallback(
+      ctx => {
+        drawField({
           field,
-          color
+          ctx
         });
-        break;
-      default:
-        drawField({ field, ctx, side });
+      },
+      [field]
+    ),
+    useCallback(
+      ctx => {
+        clearArea(ctx, field, fieldPosition);
+      },
+      [field, fieldPosition]
+    ),
+    canvasStyle
+  );
+
+  const blockCanvas = useCanvas(
+    useCallback(
+      ctx => {
+        drawTetrimino({
+          block,
+          ctx
+        });
+      },
+      [block]
+    ),
+    useCallback(
+      ctx => {
+        clearArea(ctx, block.shape, blockPosition);
+      },
+      [block, blockPosition]
+    ),
+    { ...canvasStyle, zIndex: 2 }
+  );
+
+  const ghostBlockCanvas = useCanvas(
+    useCallback(
+      ctx => {
         drawTetrimino({
           block: ghostBlock,
-          ctx: blockCtx,
-          side,
+          ctx,
           ghost: true
         });
-        drawTetrimino({
-          block,
-          ctx: blockCtx,
-          side
-        });
+      },
+      [ghostBlock]
+    ),
+    useCallback(
+      ctx => {
+        clearArea(ctx, ghostBlock.shape, ghostBlockPosition);
+      },
+      [ghostBlock, ghostBlockPosition]
+    ),
+    canvasStyle
+  );
+
+  const textCanvas = useCanvas(
+    useCallback(
+      ctx => {
+        const color = "#eaeaea";
+        const position = [
+          (field[0].length * BLOCK_SIDE) / 2,
+          ((field.length - INVISIBLE_ROWS - 5) / 2) * BLOCK_SIDE
+        ];
+        const center = [
+          (field[0].length * BLOCK_SIDE) / 2,
+          ((field.length - INVISIBLE_ROWS) / 2) * BLOCK_SIDE
+        ];
+        switch (status) {
+          case NOT_STARTED:
+            drawHighScore({
+              highScore,
+              ctx,
+              size: 20,
+              position,
+              color
+            });
+            break;
+
+          case GAME_PAUSED:
+            drawText({
+              ctx,
+              size: 30,
+              position: center,
+              color,
+              text: "PAUSED"
+            });
+            break;
+
+          case GAME_OVER:
+            drawGameOver({
+              ctx,
+              highScore: highScore.includes(score),
+              position,
+              color
+            });
+            break;
+
+          default:
+            return;
+        }
+      },
+      [field, highScore, score, status]
+    ),
+    useCallback(
+      ctx => {
+        ctx.clearRect(
+          0,
+          0,
+          canvasStyle.width * PIXEL_RATIO,
+          canvasStyle.height * PIXEL_RATIO
+        );
+      },
+      [canvasStyle.height, canvasStyle.width]
+    ),
+    {
+      ...canvasStyle,
+      background:
+        (status === NOT_STARTED || status === GAME_PAUSED) &&
+        "var(--bg-color-d)",
+      zIndex: 3
     }
-  }, [
-    block,
-    field,
-    status,
-    highScore,
-    ctx,
-    ghostBlock,
-    score,
-    textCtx,
-    blockCtx
-  ]);
+  );
 
   return (
     <div
@@ -149,7 +194,8 @@ const Field = () => {
     >
       {textCanvas}
       {blockCanvas}
-      {canvas}
+      {ghostBlockCanvas}
+      {fieldCanvas}
     </div>
   );
 };

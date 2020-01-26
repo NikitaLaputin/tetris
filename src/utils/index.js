@@ -4,7 +4,8 @@ import {
   SHAPES,
   SHAPE_POSITION,
   MAX_LEVELS,
-  colors
+  colors,
+  BLOCK_SIDE
 } from "./consts";
 
 const flipMatrix = matrix =>
@@ -360,3 +361,18 @@ export const isMobileDevice = (() =>
 
 export const timeFromMs = ms =>
   `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;
+
+export const clearArea = (ctx, area, position) => {
+  area.forEach((row, rowI) =>
+    row.forEach((cell, cellI) => {
+      if (cell) {
+        ctx.clearRect(
+          (cellI + position[0]) * BLOCK_SIDE,
+          (rowI + position[1]) * BLOCK_SIDE,
+          BLOCK_SIDE,
+          BLOCK_SIDE
+        );
+      }
+    })
+  );
+};

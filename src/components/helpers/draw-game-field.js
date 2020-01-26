@@ -6,12 +6,10 @@ export default function drawGameField({ field, ctx, side, block, ghostBlock }) {
   drawTetrimino({
     block: ghostBlock,
     ctx,
-    side,
     ghost: true
   });
   drawTetrimino({
     block,
-    ctx,
-    side
+    ctx
   });
 }

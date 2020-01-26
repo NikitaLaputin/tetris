@@ -1,11 +1,10 @@
-import { INVISIBLE_ROWS } from "../../utils/consts";
+import { INVISIBLE_ROWS, BLOCK_SIDE } from "../../utils/consts";
 import { getShapeColor } from "../../utils";
 import drawBlock from "./draw-block";
 
 export default function drawTetrimino({
   block,
   ctx,
-  side,
   startingRow = INVISIBLE_ROWS,
   offset = [0, 0],
   ghost = false
@@ -19,10 +18,10 @@ export default function drawTetrimino({
     row.forEach((col, ci) => {
       if (!col) return;
       const position = [
-        x * side + ci * side + offset[0],
-        y * side + (ri - startingRow) * side + offset[1]
+        x * BLOCK_SIDE + ci * BLOCK_SIDE + offset[0],
+        y * BLOCK_SIDE + (ri - startingRow) * BLOCK_SIDE + offset[1]
       ];
-      drawBlock({ ctx, side, position, color, locked, ghost });
+      drawBlock({ ctx, position, color, locked, ghost });
     })
   );
 }

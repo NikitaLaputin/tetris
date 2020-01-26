@@ -1,8 +1,8 @@
 import { PIXEL_RATIO } from "../../utils/consts";
 
 export default function drawText({ ctx, size, position, color, text }) {
-  ctx.fillStyle = "#0b0d10";
-  ctx.fillRect(0, 0, 200 * PIXEL_RATIO, 400 * PIXEL_RATIO);
+  // ctx.fillStyle = "#0b0d10";
+  // ctx.fillRect(0, 0, 200 * PIXEL_RATIO, 400 * PIXEL_RATIO);
   const [x, y] = position;
   ctx.textAlign = "center";
   ctx.lineWidth = 3 * PIXEL_RATIO;

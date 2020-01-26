@@ -1,35 +1,28 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { PIXEL_RATIO } from "../utils/consts";
 
-export default function useCanvas(style, clearArea) {
-  const { width, height, side } = style;
-  const canvasWidth = width * PIXEL_RATIO;
-  const canvasHeigth = height * PIXEL_RATIO;
+const useCoolCanvas = (draw, clearFunction, style) => {
+  const { width, height } = style;
+  const canvasWidth = useMemo(() => width * PIXEL_RATIO, [width]);
+  const canvasHeigth = useMemo(() => height * PIXEL_RATIO, [height]);
   const ref = useRef(null);
-  const canvasEl = ref.current;
-  const ctx = canvasEl && canvasEl.getContext("2d");
+  const ctx = ref.current && ref.current.getContext("2d");
 
   useEffect(() => {
     if (!ctx) return;
-    if (side) {
-      console.log("CLEARING");
-      clearArea.forEach((row, rowI) =>
-        row.forEach((cell, cellI) => {
-          if (cell) ctx.clearRect(rowI, cellI, side, side);
-        })
-      );
-    } else {
-      ctx.clearRect(0, 0, canvasWidth, canvasHeigth);
-      console.log("CLEARING");
-    }
-  }, [clearArea]);
+
+    draw(ctx);
+
+    return () => {
+      clearFunction(ctx);
+    };
+  }, [draw, clearFunction, ctx]);
 
   const canvas = (
     <canvas ref={ref} width={canvasWidth} height={canvasHeigth} style={style} />
   );
 
-  return {
-    canvas,
-    ctx
-  };
-}
+  return canvas;
+};
+
+export default useCoolCanvas;

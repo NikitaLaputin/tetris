@@ -72,3 +72,4 @@ export const DEFAULT_SHAPE = {
 };
 
 export const PIXEL_RATIO = (() => window.devicePixelRatio)();
+export const BLOCK_SIDE = 20 * PIXEL_RATIO;

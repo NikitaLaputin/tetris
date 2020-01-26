@@ -1,24 +1,12 @@
-import drawGameField from "./draw-game-field";
 import drawText from "./draw-text";
 import { PIXEL_RATIO } from "../../utils/consts";
 
 export default function drawGameOver({
   ctx,
-  side,
-  block,
-  ghostBlock,
   color,
   position,
-  highScore = false,
-  field
+  highScore = false
 }) {
-  drawGameField({
-    ctx,
-    side,
-    block,
-    ghostBlock,
-    field
-  });
   if (highScore) {
     drawText({
       ctx,
