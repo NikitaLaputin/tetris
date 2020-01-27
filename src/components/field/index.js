@@ -1,5 +1,5 @@
-import React, { memo, useRef, useMemo, useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { memo, useMemo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   blockSelector,
@@ -8,7 +8,7 @@ import {
   ghostBlockSelector,
   highScoreSelector,
   scoreSelector
-} from "../../redux/selectors";
+} from '../../redux/selectors';
 import {
   NOT_STARTED,
   INVISIBLE_ROWS,
@@ -16,50 +16,81 @@ import {
   GAME_OVER,
   BLOCK_SIDE,
   PIXEL_RATIO
-} from "../../utils/consts";
-import drawText from "../helpers/draw-text";
-import useCanvas from "../../hooks/use-canvas";
-import drawHighScore from "../helpers/draw-high-score";
-import drawGameOver from "../helpers/draw-game-over";
-import drawField from "../helpers/draw-field";
-import drawTetrimino from "../helpers/draw-tetrimino";
-import styles from "./field.module.css";
-import { clearArea } from "../../utils";
+} from '../../utils/consts';
+import drawText from '../helpers/draw-text';
+import useCanvas from '../../hooks/use-canvas';
+import drawHighScore from '../helpers/draw-high-score';
+import drawGameOver from '../helpers/draw-game-over';
+import drawField from '../helpers/draw-field';
+import drawTetrimino from '../helpers/draw-tetrimino';
+import styles from './field.module.css';
+import { clearArea, getDifference } from '../../utils';
+import usePrevious from '../helpers/use-previous';
 
 const Field = () => {
   const block = useSelector(state => blockSelector(state));
   const field = useSelector(state => fieldSelector(state));
   const ghostBlock = useSelector(state => ghostBlockSelector(state));
-  const gameState = useSelector(state => gameStateSelector(state));
+  const { status } = useSelector(state => gameStateSelector(state));
   const highScore = useSelector(state => highScoreSelector(state));
   const score = useSelector(state => scoreSelector(state));
-
-  const emptyArr = useRef(null);
-  emptyArr.current = [[]];
-
-  const { status } = gameState;
 
   const canvasStyle = useMemo(
     () => ({
       width: 200,
       height: 400,
-      position: "absolute",
+      position: 'absolute',
       borderRadius: 10
     }),
     []
   );
 
-  const fieldPosition = useMemo(() => [0, 0 - INVISIBLE_ROWS], []);
+  const blockShape = useMemo(() => block.shape, [block.shape]);
+
+  const ghostBlockShape = useMemo(() => ghostBlock.shape, [ghostBlock]);
+
+  const prevBlockShape = usePrevious(blockShape);
+
+  const prevGhostBlockShape = usePrevious(ghostBlockShape);
 
   const blockPosition = useMemo(
     () => [block.position[0], block.position[1] - INVISIBLE_ROWS],
-    [block]
+    [block.position]
   );
 
   const ghostBlockPosition = useMemo(
     () => [ghostBlock.position[0], ghostBlock.position[1] - INVISIBLE_ROWS],
     [ghostBlock]
   );
+
+  const prevBlockPosition = usePrevious(blockPosition);
+
+  const prevGhostBlockPosition = usePrevious(ghostBlockPosition);
+
+  const {
+    renderArea: blockRenderArea,
+    clearArea: blockClearArea
+  } = useMemo(
+    () =>
+      getDifference(
+        blockShape,
+        blockPosition,
+        prevBlockShape,
+        prevBlockPosition
+      ),
+    [blockPosition, blockShape, prevBlockPosition, prevBlockShape]
+  );
+
+  const blockToRender = useMemo(
+    () => ({
+      shape: blockRenderArea,
+      position: block.position,
+      locked: block.locked
+    }),
+    [block.locked, block.position, blockRenderArea]
+  );
+
+  const fieldPosition = useMemo(() => [0, 0 - INVISIBLE_ROWS], []);
 
   const fieldCanvas = useCanvas(
     useCallback(
@@ -84,17 +115,17 @@ const Field = () => {
     useCallback(
       ctx => {
         drawTetrimino({
-          block,
+          block: blockToRender,
           ctx
         });
       },
-      [block]
+      [blockToRender]
     ),
     useCallback(
       ctx => {
-        clearArea(ctx, block.shape, blockPosition);
+        clearArea(ctx, blockClearArea, blockPosition);
       },
-      [block, blockPosition]
+      [blockClearArea, blockPosition]
     ),
     { ...canvasStyle, zIndex: 2 }
   );
@@ -112,9 +143,9 @@ const Field = () => {
     ),
     useCallback(
       ctx => {
-        clearArea(ctx, ghostBlock.shape, ghostBlockPosition);
+        clearArea(ctx, ghostBlockShape, ghostBlockPosition);
       },
-      [ghostBlock, ghostBlockPosition]
+      [ghostBlockShape, ghostBlockPosition]
     ),
     canvasStyle
   );
@@ -122,7 +153,7 @@ const Field = () => {
   const textCanvas = useCanvas(
     useCallback(
       ctx => {
-        const color = "#eaeaea";
+        const color = '#eaeaea';
         const position = [
           (field[0].length * BLOCK_SIDE) / 2,
           ((field.length - INVISIBLE_ROWS - 5) / 2) * BLOCK_SIDE
@@ -148,7 +179,7 @@ const Field = () => {
               size: 30,
               position: center,
               color,
-              text: "PAUSED"
+              text: 'PAUSED'
             });
             break;
 
@@ -182,14 +213,14 @@ const Field = () => {
       ...canvasStyle,
       background:
         (status === NOT_STARTED || status === GAME_PAUSED) &&
-        "var(--bg-color-d)",
+        'var(--bg-color-d)',
       zIndex: 3
     }
   );
 
   return (
     <div
-      className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
+      className={`${styles['canvas-container']} ${styles['canvas-container__dark']}`}
       style={{ height: 400 }}
     >
       {textCanvas}
