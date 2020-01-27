@@ -6,7 +6,7 @@ import {
   MAX_LEVELS,
   colors,
   BLOCK_SIDE
-} from './consts';
+} from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -303,11 +303,11 @@ export const getShapeColor = shape =>
 
 export const darkenColor = (color, percent) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -316,18 +316,18 @@ export const darkenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const lightenColor = (color, percent) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -339,10 +339,10 @@ export const lightenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const getGhostBlock = (field, block) => {
   while (canMoveDown(field, block)) {
@@ -356,11 +356,11 @@ export const getGhostBlock = (field, block) => {
 };
 
 export const isMobileDevice = (() =>
-  typeof window.orientation !== 'undefined' ||
-  navigator.userAgent.indexOf('IEMobile') !== -1)();
+  typeof window.orientation !== "undefined" ||
+  navigator.userAgent.indexOf("IEMobile") !== -1)();
 
 export const timeFromMs = ms =>
-  `${Math.floor(ms / 60)}:${('0' + Math.floor(ms % 60)).slice(-2)}`;
+  `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;
 
 export const clearArea = (ctx, area, position) => {
   area.forEach((row, rowI) =>
@@ -406,23 +406,25 @@ export const getDifference = (newArea, newAreaPos, oldArea, oldAreaPos) => {
     })
   );
 
-  const clearArea = newArea.map((row, ri) =>
-    row.map((cell, ci) => {
-      if (
-        ri + offsetY < 0 ||
-        ri + offsetY >= oldArea.length ||
-        ci + offsetX < 0 ||
-        ci + offsetX >= oldArea[ri].length
-      ) {
-        return cell;
-      }
+  const clearArea = newArea
+    ? oldArea.map((row, ri) =>
+        row.map((cell, ci) => {
+          if (
+            ri - offsetY < 0 ||
+            ri - offsetY >= newArea.length ||
+            ci - offsetX < 0 ||
+            ci - offsetX >= newArea[ri].length
+          ) {
+            return cell;
+          }
 
-      return cell === oldArea[ri + offsetY][ci + offsetX] &&
-        oldArea[ri + offsetY][ci + offsetX]
-        ? 0
-        : cell;
-    })
-  );
+          return cell !== newArea[ri - offsetY][ci - offsetX] &&
+            newArea[ri - offsetY][ci - offsetX]
+            ? cell
+            : 0;
+        })
+      )
+    : oldArea.map(row => new Array(row.length).fill(0));
 
   return {
     renderArea,

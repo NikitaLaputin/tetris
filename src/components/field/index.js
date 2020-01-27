@@ -1,5 +1,5 @@
-import React, { memo, useMemo, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { memo, useMemo, useCallback } from "react";
+import { useSelector } from "react-redux";
 
 import {
   blockSelector,
@@ -8,7 +8,7 @@ import {
   ghostBlockSelector,
   highScoreSelector,
   scoreSelector
-} from '../../redux/selectors';
+} from "../../redux/selectors";
 import {
   NOT_STARTED,
   INVISIBLE_ROWS,
@@ -16,16 +16,16 @@ import {
   GAME_OVER,
   BLOCK_SIDE,
   PIXEL_RATIO
-} from '../../utils/consts';
-import drawText from '../helpers/draw-text';
-import useCanvas from '../../hooks/use-canvas';
-import drawHighScore from '../helpers/draw-high-score';
-import drawGameOver from '../helpers/draw-game-over';
-import drawField from '../helpers/draw-field';
-import drawTetrimino from '../helpers/draw-tetrimino';
-import styles from './field.module.css';
-import { clearArea, getDifference } from '../../utils';
-import usePrevious from '../helpers/use-previous';
+} from "../../utils/consts";
+import drawText from "../helpers/draw-text";
+import useCanvas from "../../hooks/use-canvas";
+import drawHighScore from "../helpers/draw-high-score";
+import drawGameOver from "../helpers/draw-game-over";
+import drawField from "../helpers/draw-field";
+import drawTetrimino from "../helpers/draw-tetrimino";
+import styles from "./field.module.css";
+import { clearArea, getDifference } from "../../utils";
+import usePrevious from "../helpers/use-previous";
 
 const Field = () => {
   const block = useSelector(state => blockSelector(state));
@@ -39,7 +39,7 @@ const Field = () => {
     () => ({
       width: 200,
       height: 400,
-      position: 'absolute',
+      position: "absolute",
       borderRadius: 10
     }),
     []
@@ -123,9 +123,9 @@ const Field = () => {
     ),
     useCallback(
       ctx => {
-        clearArea(ctx, blockClearArea, blockPosition);
+        clearArea(ctx, blockClearArea, prevBlockPosition);
       },
-      [blockClearArea, blockPosition]
+      [blockClearArea, prevBlockPosition]
     ),
     { ...canvasStyle, zIndex: 2 }
   );
@@ -153,7 +153,7 @@ const Field = () => {
   const textCanvas = useCanvas(
     useCallback(
       ctx => {
-        const color = '#eaeaea';
+        const color = "#eaeaea";
         const position = [
           (field[0].length * BLOCK_SIDE) / 2,
           ((field.length - INVISIBLE_ROWS - 5) / 2) * BLOCK_SIDE
@@ -179,7 +179,7 @@ const Field = () => {
               size: 30,
               position: center,
               color,
-              text: 'PAUSED'
+              text: "PAUSED"
             });
             break;
 
@@ -213,14 +213,14 @@ const Field = () => {
       ...canvasStyle,
       background:
         (status === NOT_STARTED || status === GAME_PAUSED) &&
-        'var(--bg-color-d)',
+        "var(--bg-color-d)",
       zIndex: 3
     }
   );
 
   return (
     <div
-      className={`${styles['canvas-container']} ${styles['canvas-container__dark']}`}
+      className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
       style={{ height: 400 }}
     >
       {textCanvas}
