@@ -1,9 +1,15 @@
-import React from "react";
-import "./App.css";
-import Game from "./components/game";
+import React from 'react';
+import Game from './components/game';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import './App.css';
 
 function App() {
-  return <Game />;
+  return (
+    <Provider store={store}>
+      <Game />
+    </Provider>
+  );
 }
 
 export default App;

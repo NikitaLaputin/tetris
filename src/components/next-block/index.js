@@ -1,11 +1,11 @@
-import React, { memo, useMemo, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { nextBlockSelector } from "../../redux/selectors";
-import drawTetrimino from "../helpers/draw-tetrimino";
-import styles from "../field/field.module.css";
-import useCanvas from "../../hooks/use-canvas";
-import { PIXEL_RATIO, BLOCK_SIDE } from "../../utils/consts";
-import { clearArea } from "../../utils";
+import React, { memo, useMemo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { nextBlockSelector } from '../../redux/selectors';
+import drawTetrimino from '../helpers/draw-tetrimino';
+import styles from '../field/field.module.css';
+import useCanvas from '../../hooks/use-canvas';
+import { PIXEL_RATIO, BLOCK_SIDE } from '../../utils/consts';
+import { clearArea } from '../../utils';
 
 const NextBlock = () => {
   const nextBlock = useSelector(state => nextBlockSelector(state));
@@ -36,21 +36,16 @@ const NextBlock = () => {
           offset,
           startingRow: 0
         });
-      },
-      [nextBlock, x, y]
-    ),
-    useCallback(
-      ctx => {
         clearArea(ctx, shape, startPosition);
       },
-      [shape, startPosition]
+      [nextBlock, shape, startPosition, x, y]
     ),
     { width, height }
   );
 
   return (
     <div
-      className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
+      className={`${styles['canvas-container']} ${styles['canvas-container__dark']}`}
     >
       <div className={styles.text}>Next block</div>
       {canvas}

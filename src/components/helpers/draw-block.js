@@ -1,5 +1,5 @@
-import { darkenColor, lightenColor } from "../../utils";
-import { PIXEL_RATIO, BLOCK_SIDE } from "../../utils/consts";
+import { darkenColor, lightenColor } from '../../utils';
+import { PIXEL_RATIO, BLOCK_SIDE, INVISIBLE_ROWS } from '../../utils/consts';
 
 export default function drawBlock({
   ctx,
@@ -9,9 +9,12 @@ export default function drawBlock({
   ghost = false
 }) {
   const [x, y] = position;
+
+  // if (y - INVISIBLE_ROWS < 0) return;
+
   if (ghost) {
     ctx.beginPath();
-    ctx.strokeStyle = "#858fa5";
+    ctx.strokeStyle = '#858fa5';
     ctx.lineWidth = 2 * PIXEL_RATIO;
     ctx.rect(
       x + 2 * PIXEL_RATIO,
