@@ -6,7 +6,7 @@ import {
   MAX_LEVELS,
   colors,
   BLOCK_SIDE
-} from './consts';
+} from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -303,11 +303,11 @@ export const getShapeColor = shape =>
 
 export const darkenColor = (color, percent) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -316,18 +316,18 @@ export const darkenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const lightenColor = (color, percent) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -339,10 +339,10 @@ export const lightenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const getGhostBlock = (field, block) => {
   while (canMoveDown(field, block)) {
@@ -356,19 +356,19 @@ export const getGhostBlock = (field, block) => {
 };
 
 export const isMobileDevice = (() =>
-  typeof window.orientation !== 'undefined' ||
-  navigator.userAgent.indexOf('IEMobile') !== -1)();
+  typeof window.orientation !== "undefined" ||
+  navigator.userAgent.indexOf("IEMobile") !== -1)();
 
 export const timeFromMs = ms =>
-  `${Math.floor(ms / 60)}:${('0' + Math.floor(ms % 60)).slice(-2)}`;
+  `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;
 
-export const clearArea = (ctx, area, position = [0, 0], offsetY = 0) => {
+export const clearArea = (ctx, area, position = [0, 0]) => {
   area.forEach((row, rowI) =>
     row.forEach((cell, cellI) => {
       if (cell) {
         ctx.clearRect(
           (cellI + position[0]) * BLOCK_SIDE,
-          (rowI + position[1] + offsetY) * BLOCK_SIDE,
+          (rowI + position[1]) * BLOCK_SIDE,
           BLOCK_SIDE,
           BLOCK_SIDE
         );
@@ -377,37 +377,22 @@ export const clearArea = (ctx, area, position = [0, 0], offsetY = 0) => {
   );
 };
 
-export const getDifference = (
-  newArea,
-  newAreaPos = [0, 0],
-  oldArea,
-  oldAreaPos = [0, 0]
-) => {
-  if (!(oldArea && oldAreaPos))
+export const getDifference = (newArea, oldArea) => {
+  if (!oldArea)
     return {
       renderArea: newArea,
       clearArea: newArea.map(row => new Array(row.length).fill(0))
     };
 
-  const [offsetX, offsetY] = [
-    newAreaPos[0] - oldAreaPos[0],
-    newAreaPos[1] - oldAreaPos[1]
-  ];
-
   const renderArea = newArea.map((row, ri) =>
     row.map((cell, ci) => {
       if (!cell) return cell;
 
-      if (
-        ri + offsetY < 0 ||
-        ri + offsetY >= oldArea.length ||
-        ci + offsetX < 0 ||
-        ci + offsetX >= oldArea[0].length
-      ) {
+      if (ri < 0 || ri >= oldArea.length || ci < 0 || ci >= oldArea[0].length) {
         return cell;
       }
 
-      return cell === oldArea[ri + offsetY][ci + offsetX] ? 0 : cell;
+      return cell === oldArea[ri][ci] ? 0 : cell;
     })
   );
 
@@ -415,15 +400,15 @@ export const getDifference = (
     ? oldArea.map((row, ri) =>
         row.map((cell, ci) => {
           if (
-            ri - offsetY < 0 ||
-            ri - offsetY >= newArea.length ||
-            ci - offsetX < 0 ||
-            ci - offsetX >= newArea[0].length
+            ri < 0 ||
+            ri >= newArea.length ||
+            ci < 0 ||
+            ci >= newArea[0].length
           ) {
             return cell;
           }
 
-          return cell !== newArea[ri - offsetY][ci - offsetX] ? cell : 0;
+          return cell !== newArea[ri][ci] ? cell : 0;
         })
       )
     : oldArea.map(row => new Array(row.length).fill(0));
