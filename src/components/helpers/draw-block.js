@@ -1,4 +1,4 @@
-import { darkenColor, lightenColor } from '../../utils';
+import { darkenColor } from '../../utils';
 import { PIXEL_RATIO, BLOCK_SIDE } from '../../utils/consts';
 
 export default function drawBlock({
@@ -29,10 +29,8 @@ export default function drawBlock({
       x + BLOCK_SIDE,
       y + BLOCK_SIDE
     );
-    const colorGradStart = locked ? lightenColor(color, 75) : color;
-    const colorGradEnd = locked
-      ? lightenColor(color, 25)
-      : darkenColor(color, 35);
+    const colorGradStart = color;
+    const colorGradEnd = darkenColor(color, 35);
     lingrad.addColorStop(0, colorGradStart);
     lingrad.addColorStop(0.5, colorGradStart);
     lingrad.addColorStop(0.5, colorGradEnd);

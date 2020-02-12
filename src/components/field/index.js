@@ -2,14 +2,13 @@ import React, { memo, useMemo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  gameStateSelector,
   highScoreSelector,
   scoreSelector,
-  activeFieldSelector
+  activeFieldSelector,
+  gameStatusSelector
 } from '../../redux/selectors';
 import {
   NOT_STARTED,
-  INVISIBLE_ROWS,
   GAME_PAUSED,
   GAME_OVER,
   BLOCK_SIDE,
@@ -27,7 +26,7 @@ import styles from './field.module.css';
 
 const Field = () => {
   const field = useSelector(state => activeFieldSelector(state));
-  const { status } = useSelector(state => gameStateSelector(state));
+  const status = useSelector(state => gameStatusSelector(state));
   const highScore = useSelector(state => highScoreSelector(state));
   const score = useSelector(state => scoreSelector(state));
 
@@ -66,16 +65,15 @@ const Field = () => {
         const color = '#eaeaea';
         const position = [
           (field[0].length * BLOCK_SIDE) / 2,
-          ((field.length - INVISIBLE_ROWS - 5) / 2) * BLOCK_SIDE
+          ((field.length - 5) / 2) * BLOCK_SIDE
         ];
         const center = [
           (field[0].length * BLOCK_SIDE) / 2,
-          ((field.length - INVISIBLE_ROWS) / 2) * BLOCK_SIDE
+          (field.length / 2) * BLOCK_SIDE
         ];
 
         switch (status) {
           case NOT_STARTED:
-            console.log('NOT STARTED');
             drawHighScore({
               highScore,
               ctx,
@@ -83,6 +81,7 @@ const Field = () => {
               position,
               color
             });
+
             break;
 
           case GAME_PAUSED:
@@ -93,6 +92,7 @@ const Field = () => {
               color,
               text: 'PAUSED'
             });
+
             break;
 
           case GAME_OVER:
@@ -102,6 +102,7 @@ const Field = () => {
               position,
               color
             });
+
             break;
 
           default:

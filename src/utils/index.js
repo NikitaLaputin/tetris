@@ -301,7 +301,7 @@ export const getShapeColor = shape =>
     )
   ];
 
-export const darkenColor = (color, percent) =>
+export const darkenColor = (color, percent = 0) =>
   color
     .split('(')
     .map((val, i) =>
@@ -321,7 +321,7 @@ export const darkenColor = (color, percent) =>
     )
     .join('(');
 
-export const lightenColor = (color, percent) =>
+export const lightenColor = (color, percent = 0) =>
   color
     .split('(')
     .map((val, i) =>

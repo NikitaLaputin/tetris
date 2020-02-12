@@ -6,15 +6,16 @@ const useCoolCanvas = (draw, style, cleanup) => {
   const canvasWidth = useMemo(() => width * PIXEL_RATIO, [width]);
   const canvasHeigth = useMemo(() => height * PIXEL_RATIO, [height]);
   const ref = useRef(null);
-  const ctx = ref.current && ref.current.getContext('2d');
 
   useEffect(() => {
+    const ctx = ref.current && ref.current.getContext('2d');
+
     if (!ctx) return;
 
     draw(ctx);
 
     return () => cleanup && cleanup(ctx);
-  }, [draw, ctx, cleanup]);
+  }, [draw, cleanup]);
 
   const canvas = (
     <canvas ref={ref} width={canvasWidth} height={canvasHeigth} style={style} />
