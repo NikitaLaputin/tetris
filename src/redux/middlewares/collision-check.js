@@ -65,8 +65,8 @@ export default store => next => action => {
 
     case ROTATE: {
       const state = store.getState();
-      const field = fieldSelector(state);
-      const block = blockSelector(state);
+      const field = state.field;
+      const block = state.block;
 
       next(rotate(rotateTetrimino(field, block)));
 

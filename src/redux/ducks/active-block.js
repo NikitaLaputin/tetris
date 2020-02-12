@@ -1,41 +1,51 @@
-import { getNewTetrimino } from "../../utils";
-import { RESET } from "./game-state";
-import { DEFAULT_SHAPE } from "../../utils/consts";
+import { getNewTetrimino } from '../../utils';
+import { RESET } from './game-state';
+import { DEFAULT_SHAPE } from '../../utils/consts';
 
-export const ROTATE = "active-block/ROTATE";
-export const MOVE_RIGHT = "active-block/MOVE_RIGHT";
-export const MOVE_LEFT = "active-block/MOVE_LEFT";
-export const MOVE_DOWN = "active-block/MOVE_DOWN";
-export const SET_NEW_TETRIMINO = "active-block/SET_NEW_TETRIMINO";
-export const LOCK = "active-block/LOCK";
-export const UNLOCK = "active-block/UNLOCK";
-export const DROP = "active-block/DROP";
-export const MOVE_LOCK = "active-block/MOVE_LOCK";
-export const MOVE_UNLOCK = "active-block/MOVE_UNLOCK";
+export const ROTATE = 'active-block/ROTATE';
+export const MOVE_RIGHT = 'active-block/MOVE_RIGHT';
+export const MOVE_LEFT = 'active-block/MOVE_LEFT';
+export const MOVE_DOWN = 'active-block/MOVE_DOWN';
+export const SET_NEW_TETRIMINO = 'active-block/SET_NEW_TETRIMINO';
+export const LOCK = 'active-block/LOCK';
+export const UNLOCK = 'active-block/UNLOCK';
+export const DROP = 'active-block/DROP';
+export const MOVE_LOCK = 'active-block/MOVE_LOCK';
+export const MOVE_UNLOCK = 'active-block/MOVE_UNLOCK';
 
 export default (state = DEFAULT_SHAPE, action) => {
   const { type, payload } = action;
   switch (type) {
     case ROTATE:
       return payload ? payload : state;
+
     case MOVE_LEFT:
       return { ...state, position: [state.position[0] - 1, state.position[1]] };
+
     case MOVE_RIGHT:
       return { ...state, position: [state.position[0] + 1, state.position[1]] };
+
     case MOVE_DOWN:
       return { ...state, position: [state.position[0], state.position[1] + 1] };
+
     case SET_NEW_TETRIMINO:
       return payload;
+
     case RESET:
       return getNewTetrimino();
+
     case LOCK:
       return { ...state, locked: true };
+
     case UNLOCK:
       return { ...state, locked: false };
+
     case MOVE_LOCK:
       return { ...state, movementLocked: true };
+
     case MOVE_UNLOCK:
       return { ...state, movementLocked: false };
+
     default:
       return state;
   }
