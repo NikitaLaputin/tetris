@@ -6,7 +6,7 @@ import {
   MAX_LEVELS,
   colors,
   BLOCK_SIDE
-} from "./consts";
+} from './consts';
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -66,7 +66,7 @@ export const canMoveDown = (field, block) => {
     for (let cell = 0; cell < shape[row].length; cell++)
       if (
         shape[row][cell] &&
-        (y + getBottomPoint(shape) >= 19 + INVISIBLE_ROWS ||
+        (y + getBottomPoint(shape) >= field.length - 1 ||
           (field[row + y + 1] && field[row + y + 1][cell + x]))
       )
         return false;
@@ -303,11 +303,11 @@ export const getShapeColor = shape =>
 
 export const darkenColor = (color, percent) =>
   color
-    .split("(")
+    .split('(')
     .map((val, i) =>
       i
         ? val
-            .split(", ")
+            .split(', ')
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -316,18 +316,18 @@ export const darkenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(", ")
+            .join(', ')
         : val
     )
-    .join("(");
+    .join('(');
 
 export const lightenColor = (color, percent) =>
   color
-    .split("(")
+    .split('(')
     .map((val, i) =>
       i
         ? val
-            .split(", ")
+            .split(', ')
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -339,10 +339,10 @@ export const lightenColor = (color, percent) =>
                   )
                 : val
             )
-            .join(", ")
+            .join(', ')
         : val
     )
-    .join("(");
+    .join('(');
 
 export const getGhostBlock = (field, block) => {
   while (canMoveDown(field, block)) {
@@ -356,11 +356,11 @@ export const getGhostBlock = (field, block) => {
 };
 
 export const isMobileDevice = (() =>
-  typeof window.orientation !== "undefined" ||
-  navigator.userAgent.indexOf("IEMobile") !== -1)();
+  typeof window.orientation !== 'undefined' ||
+  navigator.userAgent.indexOf('IEMobile') !== -1)();
 
 export const timeFromMs = ms =>
-  `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;
+  `${Math.floor(ms / 60)}:${('0' + Math.floor(ms % 60)).slice(-2)}`;
 
 export const clearArea = (ctx, area, position = [0, 0]) => {
   area.forEach((row, rowI) =>
@@ -378,11 +378,12 @@ export const clearArea = (ctx, area, position = [0, 0]) => {
 };
 
 export const getDifference = (newArea, oldArea) => {
-  if (!oldArea)
+  if (!oldArea) {
     return {
       renderArea: newArea,
       clearArea: newArea.map(row => new Array(row.length).fill(0))
     };
+  }
 
   const renderArea = newArea.map((row, ri) =>
     row.map((cell, ci) => {

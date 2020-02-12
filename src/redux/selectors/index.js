@@ -1,6 +1,6 @@
-import { getGhostBlock, mergeMatrix } from "../../utils";
-import { createSelector } from "reselect";
-import { INVISIBLE_ROWS } from "../../utils/consts";
+import { getGhostBlock, mergeMatrix } from '../../utils';
+import { createSelector } from 'reselect';
+import { INVISIBLE_ROWS } from '../../utils/consts';
 
 export const blockSelector = createSelector(
   state => state.activeBlock,
@@ -23,8 +23,11 @@ export const gameLastActionSelector = state =>
   gameStateSelector(state).lastAction;
 export const speedSelector = state => gameStateSelector(state).speed;
 export const nextBlockSelector = state => state.nextBlock;
-export const ghostBlockSelector = state =>
-  getGhostBlock(fieldSelector(state), blockSelector(state));
+export const ghostBlockSelector = createSelector(
+  fieldSelector,
+  blockSelector,
+  (field, block) => getGhostBlock(field, block)
+);
 
 export const activeFieldSelector = createSelector(
   blockSelector,

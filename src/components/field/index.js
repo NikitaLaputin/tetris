@@ -1,12 +1,12 @@
-import React, { memo, useMemo, useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { memo, useMemo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   gameStateSelector,
   highScoreSelector,
   scoreSelector,
   activeFieldSelector
-} from "../../redux/selectors";
+} from '../../redux/selectors';
 import {
   NOT_STARTED,
   INVISIBLE_ROWS,
@@ -14,16 +14,16 @@ import {
   GAME_OVER,
   BLOCK_SIDE,
   PIXEL_RATIO
-} from "../../utils/consts";
-import drawText from "../helpers/draw-text";
-import useCanvas from "../../hooks/use-canvas";
-import drawHighScore from "../helpers/draw-high-score";
-import drawGameOver from "../helpers/draw-game-over";
-import drawField from "../helpers/draw-field";
-import { clearArea } from "../../utils";
-import useRenderAreas from "../../hooks/use-render-areas";
+} from '../../utils/consts';
+import drawText from '../helpers/draw-text';
+import useCanvas from '../../hooks/use-canvas';
+import drawHighScore from '../helpers/draw-high-score';
+import drawGameOver from '../helpers/draw-game-over';
+import drawField from '../helpers/draw-field';
+import { clearArea } from '../../utils';
+import useRenderAreas from '../../hooks/use-render-areas';
 
-import styles from "./field.module.css";
+import styles from './field.module.css';
 
 const Field = () => {
   const field = useSelector(state => activeFieldSelector(state));
@@ -35,7 +35,7 @@ const Field = () => {
     () => ({
       width: 200,
       height: 400,
-      position: "absolute",
+      position: 'absolute',
       borderRadius: 10
     }),
     []
@@ -49,13 +49,11 @@ const Field = () => {
   const fieldCanvas = useCanvas(
     useCallback(
       ctx => {
+        clearArea(ctx, fieldClearArea);
         drawField({
           field: fieldRenderArea,
           ctx
         });
-        clearArea(ctx, fieldClearArea);
-        console.log("FIELD:", fieldRenderArea);
-        console.log("FIELD CLEAR:", fieldClearArea);
       },
       [fieldClearArea, fieldRenderArea]
     ),
@@ -65,7 +63,7 @@ const Field = () => {
   const textCanvas = useCanvas(
     useCallback(
       ctx => {
-        const color = "#eaeaea";
+        const color = '#eaeaea';
         const position = [
           (field[0].length * BLOCK_SIDE) / 2,
           ((field.length - INVISIBLE_ROWS - 5) / 2) * BLOCK_SIDE
@@ -74,8 +72,10 @@ const Field = () => {
           (field[0].length * BLOCK_SIDE) / 2,
           ((field.length - INVISIBLE_ROWS) / 2) * BLOCK_SIDE
         ];
+
         switch (status) {
           case NOT_STARTED:
+            console.log('NOT STARTED');
             drawHighScore({
               highScore,
               ctx,
@@ -91,7 +91,7 @@ const Field = () => {
               size: 30,
               position: center,
               color,
-              text: "PAUSED"
+              text: 'PAUSED'
             });
             break;
 
@@ -114,7 +114,7 @@ const Field = () => {
       ...canvasStyle,
       background:
         (status === NOT_STARTED || status === GAME_PAUSED) &&
-        "var(--bg-color-d)",
+        'var(--bg-color-d)',
       zIndex: 3
     },
     useCallback(
@@ -132,7 +132,7 @@ const Field = () => {
 
   return (
     <div
-      className={`${styles["canvas-container"]} ${styles["canvas-container__dark"]}`}
+      className={`${styles['canvas-container']} ${styles['canvas-container__dark']}`}
       style={{ height: 400 }}
     >
       {textCanvas}

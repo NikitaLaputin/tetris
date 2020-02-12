@@ -1,5 +1,5 @@
 import { darkenColor, lightenColor } from '../../utils';
-import { PIXEL_RATIO, BLOCK_SIDE, INVISIBLE_ROWS } from '../../utils/consts';
+import { PIXEL_RATIO, BLOCK_SIDE } from '../../utils/consts';
 
 export default function drawBlock({
   ctx,
@@ -9,8 +9,6 @@ export default function drawBlock({
   ghost = false
 }) {
   const [x, y] = position;
-
-  // if (y - INVISIBLE_ROWS < 0) return;
 
   if (ghost) {
     ctx.beginPath();

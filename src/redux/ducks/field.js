@@ -1,8 +1,8 @@
-import { mergeMatrix } from "../../utils";
-import { RESET } from "./game-state";
+import { mergeMatrix } from '../../utils';
+import { RESET } from './game-state';
 
-export const MERGE = "MERGE";
-export const DESTROY_ROW = "DESTROY_ROW";
+export const MERGE = 'MERGE';
+export const DESTROY_ROW = 'DESTROY_ROW';
 const defaultState = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32,14 +32,19 @@ const defaultState = [
 
 export default (state = defaultState, action) => {
   const { type, payload } = action;
+
   switch (type) {
     case MERGE:
       const { shape, position } = payload;
+
       return mergeMatrix(state, shape, position);
+
     case DESTROY_ROW:
       return payload;
+
     case RESET:
       return defaultState;
+
     default:
       return state;
   }

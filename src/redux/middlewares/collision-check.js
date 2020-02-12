@@ -3,7 +3,7 @@ import {
   canMoveRight,
   rotateTetrimino,
   getGhostBlock
-} from "../../utils";
+} from '../../utils';
 import {
   MOVE_DOWN,
   MOVE_LEFT,
@@ -11,40 +11,68 @@ import {
   ROTATE,
   rotate,
   DROP
-} from "../ducks/active-block";
-import { mergeField } from "../ducks/field";
+} from '../ducks/active-block';
+import { mergeField } from '../ducks/field';
+import { fieldSelector, blockSelector } from '../selectors';
 
 export default store => next => action => {
   const { type } = action;
-  const getBlock = () => store.getState().activeBlock;
-  const getField = () => store.getState().field;
-  let block, locked;
+
   switch (type) {
-    case MOVE_LEFT:
-      const isMovingLeft = canMoveLeft(getField(), getBlock());
+    case MOVE_LEFT: {
+      const state = store.getState();
+      const field = fieldSelector(state);
+      const block = blockSelector(state);
+      const isMovingLeft = canMoveLeft(field, block);
+
       if (isMovingLeft) {
         next(action);
       }
+
       break;
-    case MOVE_RIGHT:
-      const isMovingRight = canMoveRight(getField(), getBlock());
+    }
+
+    case MOVE_RIGHT: {
+      const state = store.getState();
+      const field = fieldSelector(state);
+      const block = blockSelector(state);
+      const isMovingRight = canMoveRight(field, block);
+
       if (isMovingRight) {
         next(action);
       }
+
       break;
-    case MOVE_DOWN:
-      block = getBlock();
-      locked = block.locked;
+    }
+
+    case MOVE_DOWN: {
+      const state = store.getState();
+      const block = blockSelector(state);
+      const { locked } = block;
+
       if (locked) return;
+
       return next(action);
-    case DROP:
-      block = getBlock();
-      const field = getField();
-      const ghostBlock = getGhostBlock(field, block);
-      return next(mergeField(ghostBlock));
-    case ROTATE:
-      next(rotate(rotateTetrimino(getField(), getBlock())));
+    }
+
+    case DROP: {
+      const state = store.getState();
+      const { field, activeBlock } = state;
+      const { position } = getGhostBlock(field, activeBlock);
+
+      return next(mergeField({ shape: activeBlock.shape, position }));
+    }
+
+    case ROTATE: {
+      const state = store.getState();
+      const field = fieldSelector(state);
+      const block = blockSelector(state);
+
+      next(rotate(rotateTetrimino(field, block)));
+
       break;
+    }
+
     default:
       return next(action);
   }
