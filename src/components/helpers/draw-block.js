@@ -1,5 +1,5 @@
-import { darkenColor } from '../../utils';
-import { PIXEL_RATIO, BLOCK_SIDE } from '../../utils/consts';
+import { darkenColor } from "../../utils";
+import { PIXEL_RATIO, BLOCK_SIDE } from "../../utils/consts";
 
 export default function drawBlock({
   ctx,
@@ -12,7 +12,7 @@ export default function drawBlock({
 
   if (ghost) {
     ctx.beginPath();
-    ctx.strokeStyle = '#858fa5';
+    ctx.strokeStyle = "#858fa5";
     ctx.lineWidth = 2 * PIXEL_RATIO;
     ctx.rect(
       x + 2 * PIXEL_RATIO,
@@ -21,7 +21,6 @@ export default function drawBlock({
       BLOCK_SIDE - 4 * PIXEL_RATIO
     );
     ctx.stroke();
-    ctx.closePath();
   } else {
     const lingrad = ctx.createLinearGradient(
       x,

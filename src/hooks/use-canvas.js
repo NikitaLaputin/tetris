@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useMemo } from 'react';
-import { PIXEL_RATIO } from '../utils/consts';
+import React, { useRef, useEffect, useMemo } from "react";
+import { PIXEL_RATIO } from "../utils/consts";
 
 const useCoolCanvas = (draw, style, cleanup) => {
   const { width, height } = style;
@@ -8,13 +8,13 @@ const useCoolCanvas = (draw, style, cleanup) => {
   const ref = useRef(null);
 
   useEffect(() => {
-    const ctx = ref.current && ref.current.getContext('2d');
+    const ctx = ref.current && ref.current.getContext("2d");
 
     if (!ctx) return;
 
-    draw(ctx);
+    window.requestAnimationFrame(() => draw(ctx));
 
-    return () => cleanup && cleanup(ctx);
+    return () => cleanup && window.requestAnimationFrame(() => cleanup(ctx));
   }, [draw, cleanup]);
 
   const canvas = (
