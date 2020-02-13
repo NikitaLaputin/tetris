@@ -1,10 +1,12 @@
 import React from "react";
-import styles from "./game.module.css";
+import { useDispatch } from "react-redux";
+
 import Display from "../display";
 import Buttons from "../buttons";
 import useTabChange from "../../hooks/use-tab-change";
-import { useDispatch } from "react-redux";
 import { pause } from "../../redux/ducks/game-state";
+
+import styles from "./game.module.css";
 
 export default function Game() {
   const dispatch = useDispatch();
