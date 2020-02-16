@@ -1,23 +1,23 @@
-import { MERGE, destroyRow, mergeField } from '../ducks/field';
-import { destroyFullRows, collide, canMoveDown, Timeout } from '../../utils';
+import { MERGE, destroyRow, mergeField } from "../ducks/field";
+import { destroyFullRows, collide, canMoveDown, Timeout } from "../../utils";
 import {
   rowsDestroyed,
   gameOver,
   PAUSE,
   RESUME,
   TOGGLE_PAUSE
-} from '../ducks/game-state';
+} from "../ducks/game-state";
 import {
   SET_NEW_TETRIMINO,
   setNewTetrimino,
   unlock,
   LOCK,
   UNLOCK
-} from '../ducks/active-block';
-import { LOCK_DELAY, GAME_PAUSED, IN_PROGRESS } from '../../utils/consts';
-import { saveHighScore } from '../../localstorage';
-import { scoreSelector, highScoreSelector, fieldSelector } from '../selectors';
-import { setNewHighScore } from '../ducks/high-score';
+} from "../ducks/active-block";
+import { LOCK_DELAY, GAME_PAUSED, IN_PROGRESS } from "../../utils/consts";
+import { saveHighScore } from "../../localstorage";
+import { scoreSelector, highScoreSelector } from "../selectors";
+import { setNewHighScore } from "../ducks/high-score";
 
 export default store => next => action => {
   const { type } = action;
@@ -61,7 +61,7 @@ export default store => next => action => {
 
     case MERGE:
       const { payload } = action;
-      const field = fieldSelector(store.getState());
+      const { field } = store.getState();
       const isMovingDown = canMoveDown(field, payload);
 
       if (isMovingDown) {
@@ -81,10 +81,11 @@ export default store => next => action => {
 
       return store.dispatch(setNewTetrimino(nextBlock));
 
-    case SET_NEW_TETRIMINO:
+    case SET_NEW_TETRIMINO: {
       const state = store.getState();
+      const { field, nextBlock } = state;
 
-      if (collide(state.field, state.nextBlock)) {
+      if (collide(field, nextBlock)) {
         const score = scoreSelector(state);
         const highScore = highScoreSelector(state);
 
@@ -101,7 +102,7 @@ export default store => next => action => {
       next(action);
 
       break;
-
+    }
     default:
       return next(action);
   }

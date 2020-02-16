@@ -29,5 +29,3 @@ const store = createStore(
 );
 
 export default store;
-
-window.store = store;

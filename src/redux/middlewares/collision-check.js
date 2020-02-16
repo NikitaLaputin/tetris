@@ -3,7 +3,7 @@ import {
   canMoveRight,
   rotateTetrimino,
   getGhostBlock
-} from '../../utils';
+} from "../../utils";
 import {
   MOVE_DOWN,
   MOVE_LEFT,
@@ -11,9 +11,9 @@ import {
   ROTATE,
   rotate,
   DROP
-} from '../ducks/active-block';
-import { mergeField } from '../ducks/field';
-import { fieldSelector, blockSelector } from '../selectors';
+} from "../ducks/active-block";
+import { mergeField } from "../ducks/field";
+import { fieldSelector, blockSelector } from "../selectors";
 
 export default store => next => action => {
   const { type } = action;
@@ -59,8 +59,9 @@ export default store => next => action => {
       const state = store.getState();
       const { field, activeBlock } = state;
       const { position } = getGhostBlock(field, activeBlock);
+      const block = { shape: activeBlock.shape, position };
 
-      return next(mergeField({ shape: activeBlock.shape, position }));
+      return next(mergeField(block));
     }
 
     case ROTATE: {
