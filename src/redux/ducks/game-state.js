@@ -21,7 +21,7 @@ const defaultState = {
   level: 1,
   score: 0,
   lines: 0,
-  speed: 100
+  speed: 1000
 };
 
 export default (state = defaultState, action) => {

@@ -189,7 +189,7 @@ export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
 
 export const calcSpeed = level =>
   Math.round(Math.pow(0.8 - (level - 1) * 0.007, level - 1) * 1000 * 100000) /
-  1000000;
+  100000;
 
 export const Timeout = (() => {
   const keys = {};

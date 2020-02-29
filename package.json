@@ -1,7 +1,7 @@
 {
   "homepage": "http://nikitalaputin.github.io/tetris",
   "name": "tetris",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "dependencies": {
     "react": "^16.10.2",
