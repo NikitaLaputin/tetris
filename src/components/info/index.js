@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import { useSelector } from "react-redux";
 import {
   levelSelector,
@@ -20,7 +20,7 @@ import canvasStyles from "../field/field.module.css";
 import styles from "./info.module.css";
 import { timeFromMs } from "../../utils";
 
-function Info() {
+const Info = () => {
   const { level, score, lines, gameState } = useSelector(state => ({
     level: levelSelector(state),
     score: scoreSelector(state),
@@ -63,6 +63,6 @@ function Info() {
       <NextBlock />
     </div>
   );
-}
+};
 
-export default Info;
+export default memo(Info);

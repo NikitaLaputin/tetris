@@ -6,7 +6,7 @@ import {
   MAX_LEVELS,
   colors,
   BLOCK_SIDE
-} from './consts';
+} from "./consts";
 
 const flipMatrix = matrix =>
   matrix[0].map((_, index) => matrix.map(row => row[index]));
@@ -189,7 +189,7 @@ export const calcLevel = lines => Math.min(Math.ceil(lines / 10), MAX_LEVELS);
 
 export const calcSpeed = level =>
   Math.round(Math.pow(0.8 - (level - 1) * 0.007, level - 1) * 1000 * 100000) /
-  100000;
+  1000000;
 
 export const Timeout = (() => {
   const keys = {};
@@ -303,11 +303,11 @@ export const getShapeColor = shape =>
 
 export const darkenColor = (color, percent = 0) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -316,18 +316,18 @@ export const darkenColor = (color, percent = 0) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const lightenColor = (color, percent = 0) =>
   color
-    .split('(')
+    .split("(")
     .map((val, i) =>
       i
         ? val
-            .split(', ')
+            .split(", ")
             .map((val, i, arr) =>
               i < arr.length - 1
                 ? Math.max(
@@ -339,10 +339,10 @@ export const lightenColor = (color, percent = 0) =>
                   )
                 : val
             )
-            .join(', ')
+            .join(", ")
         : val
     )
-    .join('(');
+    .join("(");
 
 export const getGhostBlock = (field, block) => {
   while (canMoveDown(field, block)) {
@@ -356,11 +356,11 @@ export const getGhostBlock = (field, block) => {
 };
 
 export const isMobileDevice = (() =>
-  typeof window.orientation !== 'undefined' ||
-  navigator.userAgent.indexOf('IEMobile') !== -1)();
+  typeof window.orientation !== "undefined" ||
+  navigator.userAgent.indexOf("IEMobile") !== -1)();
 
 export const timeFromMs = ms =>
-  `${Math.floor(ms / 60)}:${('0' + Math.floor(ms % 60)).slice(-2)}`;
+  `${Math.floor(ms / 60)}:${("0" + Math.floor(ms % 60)).slice(-2)}`;
 
 export const clearArea = (ctx, area, position = [0, 0]) => {
   area.forEach((row, rowI) =>

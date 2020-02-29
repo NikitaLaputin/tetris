@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { drop } from "../../redux/ducks/active-block";
@@ -13,6 +13,7 @@ function DropButton({ style }) {
     callback: dropBlock,
     targetButton
   });
+
   return (
     <MainButton
       style={style}
@@ -23,4 +24,4 @@ function DropButton({ style }) {
   );
 }
 
-export default DropButton;
+export default memo(DropButton);

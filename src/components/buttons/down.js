@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import {
@@ -19,9 +19,11 @@ function DownButton({ style }) {
     frequency: 75,
     targetButton
   });
+
   useEffect(() => {
     dispatch(pressed ? movementLock() : movementUnlock());
   }, [dispatch, pressed]);
+
   return (
     <MainButton
       style={style}
@@ -32,4 +34,4 @@ function DownButton({ style }) {
   );
 }
 
-export default DownButton;
+export default memo(DownButton);

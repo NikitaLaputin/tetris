@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { moveLeft } from "../../redux/ducks/active-block";
 import MainButton from "./main-button";
 
-function LeftButton({ style }) {
+const LeftButton = ({ style }) => {
   const dispatch = useDispatch();
   const callback = () => dispatch(moveLeft());
   const targetButton = useRef();
@@ -14,6 +14,7 @@ function LeftButton({ style }) {
     continious: true,
     targetButton
   });
+
   return (
     <MainButton
       style={style}
@@ -22,6 +23,6 @@ function LeftButton({ style }) {
       text="Left"
     />
   );
-}
+};
 
-export default LeftButton;
+export default memo(LeftButton);

@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { moveRight } from "../../redux/ducks/active-block";
 import MainButton from "./main-button";
 
-function RightButton({ style }) {
+const RightButton = ({ style }) => {
   const dispatch = useDispatch();
   const callback = () => dispatch(moveRight());
   const targetButton = useRef();
@@ -14,6 +14,7 @@ function RightButton({ style }) {
     continious: true,
     targetButton
   });
+
   return (
     <MainButton
       style={style}
@@ -22,6 +23,6 @@ function RightButton({ style }) {
       text="Right"
     />
   );
-}
+};
 
-export default RightButton;
+export default memo(RightButton);

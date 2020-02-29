@@ -3,8 +3,6 @@ import { version } from "../../../package.json";
 
 import styles from "./styles.module.css";
 
-const Version = () => {
-  return <div className={styles.version}>v{version}</div>;
-};
+const Version = () => <div className={styles.version}>v{version}</div>;
 
 export default memo(Version);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const now = () => new Date().getTime();
 
@@ -12,26 +12,29 @@ export default function useInterval(callback, ms) {
     savedCallback.current = callback;
   }, [callback]);
 
-  const start = () => {
+  const start = useCallback(() => {
     setStartTime(now());
     setPaused(false);
-  };
-  const pause = () => {
+  }, []);
+
+  const pause = useCallback(() => {
     setPaused(true);
     setRemaining(ms - (now() - startTime));
     setStartTime(now());
-  };
-  const resume = () => {
+  }, [ms, startTime]);
+
+  const resume = useCallback(() => {
     if (paused) {
       setPaused(false);
       setStartTime(now());
     }
-  };
-  const reset = () => {
+  }, [paused]);
+
+  const reset = useCallback(() => {
     setPaused(false);
     setRemaining(ms);
     setStartTime(now());
-  };
+  }, [ms]);
 
   useEffect(() => {
     const interval = setInterval(
@@ -42,9 +45,11 @@ export default function useInterval(callback, ms) {
       },
       remaining ? remaining : ms
     );
+
     if (paused) {
       clearInterval(interval);
     }
+
     return () => {
       clearInterval(interval);
     };

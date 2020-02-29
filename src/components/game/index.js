@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 
 import Display from "../display";
@@ -8,7 +8,7 @@ import { pause } from "../../redux/ducks/game-state";
 
 import styles from "./game.module.css";
 
-export default function Game() {
+const Game = () => {
   const dispatch = useDispatch();
   const callback = () => dispatch(pause());
   useTabChange(callback);
@@ -20,4 +20,6 @@ export default function Game() {
       <Buttons />
     </div>
   );
-}
+};
+
+export default memo(Game);

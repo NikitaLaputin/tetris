@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import { useDispatch } from "react-redux";
 import useKeyPress from "../../hooks/use-key-press";
 import { rotate } from "../../redux/ducks/active-block";
 import MainButton from "./main-button";
 
-function RotateButton({ style }) {
+const RotateButton = ({ style }) => {
   const dispatch = useDispatch();
   const rotateBlock = () => dispatch(rotate());
   const targetButton = useRef();
@@ -13,6 +13,7 @@ function RotateButton({ style }) {
     callback: rotateBlock,
     targetButton
   });
+
   return (
     <MainButton
       style={style}
@@ -21,6 +22,6 @@ function RotateButton({ style }) {
       text="Rotate"
     />
   );
-}
+};
 
-export default RotateButton;
+export default memo(RotateButton);

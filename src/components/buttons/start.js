@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, memo } from "react";
 import { useDispatch } from "react-redux";
 import { reset } from "../../redux/ducks/game-state";
 import useKeyPress from "../../hooks/use-key-press";
 import OptionButton from "./option-button";
 
-function StartButton({ style }) {
+const StartButton = ({ style }) => {
   const dispatch = useDispatch();
   const startGame = () => dispatch(reset());
   const targetButton = useRef();
@@ -13,6 +13,7 @@ function StartButton({ style }) {
     callback: startGame,
     targetButton
   });
+
   return (
     <OptionButton
       style={style}
@@ -21,6 +22,6 @@ function StartButton({ style }) {
       text="Start"
     />
   );
-}
+};
 
-export default StartButton;
+export default memo(StartButton);
