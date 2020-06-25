@@ -7,7 +7,7 @@
     "left down right . rotate rotate"
     "left down right . rotate rotate";
   grid-template-rows: 60px 60px 60px 60px;
-  grid-template-columns: 56px 56px 56px 43px 50px 40px;
+  grid-template-columns: 66px 66px 66px 20px 50px 40px;
 }
 
 .button-container {
@@ -28,8 +28,8 @@
 
 .tetris-button {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border: none;
   margin: 10px 1px 10px 5px;
 }
